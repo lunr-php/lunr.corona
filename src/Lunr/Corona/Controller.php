@@ -79,10 +79,12 @@ abstract class Controller
             $this->response->set_error_message($this->request->call, $message);
         }
 
-        if ($info !== NULL)
+        if ($info === NULL)
         {
-            $this->response->set_error_info($this->request->call, $info);
+            return;
         }
+
+        $this->response->set_error_info($this->request->call, $info);
     }
 
 }

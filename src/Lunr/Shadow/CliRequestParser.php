@@ -96,18 +96,22 @@ class CliRequestParser implements RequestParserInterface
 
         foreach ([ 'action', 'x' ] as $key)
         {
-            if (array_key_exists($key, $this->ast))
+            if (!array_key_exists($key, $this->ast))
             {
-                $request['action'] = $this->ast[$key][0];
+                continue;
             }
+
+            $request['action'] = $this->ast[$key][0];
         }
 
         foreach ([ 'device_useragent', 'device-useragent' ] as $key)
         {
-            if (array_key_exists($key, $this->ast))
+            if (!array_key_exists($key, $this->ast))
             {
-                $request['device_useragent'] = $this->ast[$key][0];
+                continue;
             }
+
+            $request['device_useragent'] = $this->ast[$key][0];
         }
 
         if (array_key_exists('useragent', $this->ast))
@@ -117,13 +121,15 @@ class CliRequestParser implements RequestParserInterface
 
         foreach ([ 'controller', 'method', 'c', 'm' ] as $key)
         {
-            if (array_key_exists($key, $this->ast))
+            if (!array_key_exists($key, $this->ast))
             {
-                $index = ($key === 'controller') || ($key === 'c') ? 'controller' : 'method';
-
-                $request[$index] = trim($this->ast[$key][0], '/');
-                unset($this->ast[$key]);
+                continue;
             }
+
+            $index = ($key === 'controller') || ($key === 'c') ? 'controller' : 'method';
+
+            $request[$index] = trim($this->ast[$key][0], '/');
+            unset($this->ast[$key]);
         }
 
         if (isset($request['controller'], $request['method']) === TRUE)
@@ -137,36 +143,40 @@ class CliRequestParser implements RequestParserInterface
 
         foreach ([ 'params', 'param', 'p' ] as $key)
         {
-            if (array_key_exists($key, $this->ast))
+            if (!array_key_exists($key, $this->ast))
             {
-                $request['params'] = array_map(function ($val) { return trim($val, '/'); }, $this->ast[$key]);
-                unset($this->ast[$key]);
+                continue;
             }
+
+            $request['params'] = array_map(function ($val) { return trim($val, '/'); }, $this->ast[$key]);
+            unset($this->ast[$key]);
         }
 
         $request['verbosity'] = LogLevel::WARNING;
 
         foreach ([ 'verbose', 'v' ] as $key)
         {
-            if (array_key_exists($key, $this->ast))
+            if (!array_key_exists($key, $this->ast))
             {
-                $count = count($this->ast[$key]);
-
-                if ($count <= 1)
-                {
-                    $request['verbosity'] = LogLevel::NOTICE;
-                }
-                elseif ($count == 2)
-                {
-                    $request['verbosity'] = LogLevel::INFO;
-                }
-                else
-                {
-                    $request['verbosity'] = LogLevel::DEBUG;
-                }
-
-                unset($this->ast[$key]);
+                continue;
             }
+
+            $count = count($this->ast[$key]);
+
+            if ($count <= 1)
+            {
+                $request['verbosity'] = LogLevel::NOTICE;
+            }
+            elseif ($count == 2)
+            {
+                $request['verbosity'] = LogLevel::INFO;
+            }
+            else
+            {
+                $request['verbosity'] = LogLevel::DEBUG;
+            }
+
+            unset($this->ast[$key]);
         }
 
         return $request;
