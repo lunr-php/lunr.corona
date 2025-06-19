@@ -121,7 +121,8 @@ class FrontController
         {
             return '';
         }
-        elseif (($blacklist === FALSE) && !in_array($this->request->controller, $list))
+
+        if (($blacklist === FALSE) && !in_array($this->request->controller, $list))
         {
             return '';
         }
@@ -200,17 +201,17 @@ class FrontController
         {
             $key = $this->request->$id;
 
-            if (array_key_exists($key, $this->routes))
+            if (!array_key_exists($key, $this->routes))
             {
-                if ($this->routes[$key] === NULL)
-                {
-                    return '';
-                }
-                else
-                {
-                    return $this->lookup(...$this->routes[$key]);
-                }
+                continue;
             }
+
+            if ($this->routes[$key] === NULL)
+            {
+                return '';
+            }
+
+            return $this->lookup(...$this->routes[$key]);
         }
 
         return $this->lookup();

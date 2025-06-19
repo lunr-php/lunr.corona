@@ -51,10 +51,12 @@ abstract class View
         $this->response      = $response;
         $this->configuration = $configuration;
 
-        if (!headers_sent())
+        if (headers_sent())
         {
-            header('X-Request-ID: ' . $request->get(TracingInfoValue::TraceID));
+            return;
         }
+
+        header('X-Request-ID: ' . $request->get(TracingInfoValue::TraceID));
     }
 
     /**
@@ -144,10 +146,8 @@ abstract class View
         {
             return FALSE;
         }
-        else
-        {
-            return TRUE;
-        }
+
+        return TRUE;
     }
 
 }

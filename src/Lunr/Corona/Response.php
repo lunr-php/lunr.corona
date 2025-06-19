@@ -160,10 +160,12 @@ class Response
      */
     public function set_return_code($identifier, $value)
     {
-        if (is_int($value) === TRUE)
+        if (is_int($value) !== TRUE)
         {
-            $this->returnCode[$identifier] = $value;
+            return;
         }
+
+        $this->returnCode[$identifier] = $value;
     }
 
     /**
@@ -179,10 +181,8 @@ class Response
         {
             return $this->data;
         }
-        else
-        {
-            return isset($this->data[$key]) ? $this->data[$key] : NULL;
-        }
+
+        return isset($this->data[$key]) ? $this->data[$key] : NULL;
     }
 
     /**

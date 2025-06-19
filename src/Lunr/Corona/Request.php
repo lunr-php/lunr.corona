@@ -165,15 +165,11 @@ class Request implements TracingControllerInterface, TracingInfoInterface
             {
                 return $this->mock[0][$name];
             }
-            else
-            {
-                return $this->request[$name];
-            }
+
+            return $this->request[$name];
         }
-        else
-        {
-            return NULL;
-        }
+
+        return NULL;
     }
 
     /**

@@ -75,15 +75,19 @@ class WebRequestParserParseRequestTest extends WebRequestParserTestCase
 
         $_SERVER['SCRIPT_FILENAME'] = '/full/path/to/index.php';
 
-        if ($useragent === TRUE)
+        if ($useragent !== TRUE)
         {
-            $_SERVER['HTTP_USER_AGENT'] = 'UserAgent';
-
-            if ($key != '')
-            {
-                $_SERVER[$key] = 'Device UserAgent';
-            }
+            return;
         }
+
+        $_SERVER['HTTP_USER_AGENT'] = 'UserAgent';
+
+        if ($key == '')
+        {
+            return;
+        }
+
+        $_SERVER[$key] = 'Device UserAgent';
     }
 
     /**

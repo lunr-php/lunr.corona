@@ -104,10 +104,12 @@ class RequestResultHandler
         }
 
         // default to 200 if no result was set
-        if ($this->response->get_return_code() === NULL)
+        if ($this->response->get_return_code() !== NULL)
         {
-            $this->set_result(HttpCode::OK);
+            return;
         }
+
+        $this->set_result(HttpCode::OK);
     }
 
     /**
@@ -128,10 +130,12 @@ class RequestResultHandler
             $this->response->set_error_message($this->request->call, $message);
         }
 
-        if ($info !== NULL)
+        if ($info === NULL)
         {
-            $this->response->set_error_info($this->request->call, $info);
+            return;
         }
+
+        $this->response->set_error_info($this->request->call, $info);
     }
 
 }
