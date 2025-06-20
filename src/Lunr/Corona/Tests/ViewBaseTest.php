@@ -35,14 +35,6 @@ class ViewBaseTest extends ViewTestCase
     }
 
     /**
-     * Test that the configuration class is set correctly.
-     */
-    public function testConfigurationSetCorrectly(): void
-    {
-        $this->assertPropertySame('configuration', $this->configuration);
-    }
-
-    /**
      * Test that the request ID header is set.
      *
      * @requires extension xdebug

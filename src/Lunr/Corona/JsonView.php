@@ -10,7 +10,6 @@
 
 namespace Lunr\Corona;
 
-use Lunr\Core\Configuration;
 use Lunr\Corona\Parsers\Sapi\SapiValue;
 use stdClass;
 use Throwable;
@@ -24,13 +23,12 @@ class JsonView extends View
     /**
      * Constructor.
      *
-     * @param Request       $request       Shared instance of the Request class
-     * @param Response      $response      Shared instance of the Response class
-     * @param Configuration $configuration Shared instance of the Configuration class
+     * @param Request  $request  Shared instance of the Request class
+     * @param Response $response Shared instance of the Response class
      */
-    public function __construct($request, $response, $configuration)
+    public function __construct($request, $response)
     {
-        parent::__construct($request, $response, $configuration);
+        parent::__construct($request, $response);
     }
 
     /**

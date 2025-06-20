@@ -40,32 +40,6 @@ class ViewHelpersTest extends ViewTestCase
     }
 
     /**
-     * Tests the statics method of the View class.
-     *
-     * @param string $base    Basepath value
-     * @param string $statics Path to statics
-     * @param string $path    Path to append to the statics path
-     * @param string $result  Expected combined result
-     *
-     * @dataProvider staticsProvider
-     * @covers       Lunr\Corona\View::statics
-     */
-    public function testStatics($base, $statics, $path, $result): void
-    {
-        $this->request->expects($this->once())
-                      ->method('__get')
-                      ->willReturn($base);
-
-        $this->subConfiguration->expects($this->once())
-                               ->method('offsetGet')
-                               ->willReturn($statics);
-
-        $method = $this->getReflectionMethod('statics');
-
-        $this->assertEquals($result, $method->invokeArgs($this->class, [ $path ]));
-    }
-
-    /**
      * Test that is_fatal_error() returns TRUE if last error is fatal.
      *
      * @param array $error Mocked error information

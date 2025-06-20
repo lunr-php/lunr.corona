@@ -10,7 +10,6 @@
 
 namespace Lunr\Corona\Tests;
 
-use Lunr\Core\Configuration;
 use Lunr\Corona\Parsers\TracingInfo\TracingInfoValue;
 use Lunr\Corona\Request;
 use Lunr\Corona\Response;
@@ -23,7 +22,7 @@ use PHPUnit\Framework\MockObject\Stub;
  * This class tests the setup of the view class,
  * as well as the helper methods.
  *
- * @covers     Lunr\Corona\View
+ * @covers Lunr\Corona\View
  */
 abstract class ViewTestCase extends LunrBaseTestCase
 {
@@ -41,18 +40,6 @@ abstract class ViewTestCase extends LunrBaseTestCase
     protected $response;
 
     /**
-     * Mock instance of the configuration class.
-     * @var Configuration
-     */
-    protected $configuration;
-
-    /**
-     * Mock instance of the sub configuration class.
-     * @var Configuration
-     */
-    protected $subConfiguration;
-
-    /**
      * Instance of the tested class.
      * @var View&MockObject&Stub
      */
@@ -65,18 +52,6 @@ abstract class ViewTestCase extends LunrBaseTestCase
      */
     public function setUp(): void
     {
-        $this->subConfiguration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
-
-        $this->configuration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
-
-        $map = [
-            [ 'path', $this->subConfiguration ],
-        ];
-
-        $this->configuration->expects($this->any())
-                      ->method('offsetGet')
-                      ->willReturnMap($map);
-
         $this->request = $this->getMockBuilder('Lunr\Corona\Request')
                               ->disableOriginalConstructor()
                               ->getMock();
@@ -93,7 +68,7 @@ abstract class ViewTestCase extends LunrBaseTestCase
 
         $this->class = $this->getMockBuilder('Lunr\Corona\View')
                             ->setConstructorArgs(
-                               [ $this->request, $this->response, $this->configuration ]
+                               [ $this->request, $this->response ]
                              )
                            ->getMockForAbstractClass();
 
@@ -105,7 +80,6 @@ abstract class ViewTestCase extends LunrBaseTestCase
      */
     public function tearDown(): void
     {
-        unset($this->configuration);
         unset($this->request);
         unset($this->response);
         unset($this->class);
@@ -123,21 +97,6 @@ abstract class ViewTestCase extends LunrBaseTestCase
         $values   = [];
         $values[] = [ 'http://www.example.org/', 'method/param', 'http://www.example.org/method/param' ];
         $values[] = [ 'http://www.example.org/test/', 'method/param', 'http://www.example.org/test/method/param' ];
-        return $values;
-    }
-
-    /**
-     * Unit Test Data Provider for statics values.
-     *
-     * @return array $values Set of test data.
-     */
-    public static function staticsProvider(): array
-    {
-        $values   = [];
-        $values[] = [ '/', 'statics', 'image/test.jpg', '/statics/image/test.jpg' ];
-        $values[] = [ '/', '/statics', 'image/test.jpg', '/statics/image/test.jpg' ];
-        $values[] = [ '/test/', 'statics', 'image/test.jpg', '/test/statics/image/test.jpg' ];
-        $values[] = [ '/test/', '/statics', 'image/test.jpg', '/test/statics/image/test.jpg' ];
         return $values;
     }
 

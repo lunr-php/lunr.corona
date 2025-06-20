@@ -35,14 +35,6 @@ class JsonViewBaseTest extends JsonViewTestCase
     }
 
     /**
-     * Test that the Configuration class is passed correctly.
-     */
-    public function testConfigurationIsPassedCorrectly(): void
-    {
-        $this->assertPropertySame('configuration', $this->configuration);
-    }
-
-    /**
      * Test that prepare_data() does not modify the data.
      *
      * @covers Lunr\Corona\JsonView::prepare_data

@@ -10,7 +10,6 @@
 
 namespace Lunr\Corona;
 
-use Lunr\Core\Configuration;
 use Lunr\Corona\Parsers\TracingInfo\TracingInfoValue;
 use Throwable;
 
@@ -33,23 +32,15 @@ abstract class View
     protected $response;
 
     /**
-     * Shared instance of the Configuration class
-     * @var Configuration
-     */
-    protected $configuration;
-
-    /**
      * Constructor.
      *
-     * @param Request       $request       Shared instance of the Request class
-     * @param Response      $response      Shared instance of the Response class
-     * @param Configuration $configuration Shared instance of the Configuration class
+     * @param Request  $request  Shared instance of the Request class
+     * @param Response $response Shared instance of the Response class
      */
-    public function __construct($request, $response, $configuration)
+    public function __construct($request, $response)
     {
-        $this->request       = $request;
-        $this->response      = $response;
-        $this->configuration = $configuration;
+        $this->request  = $request;
+        $this->response = $response;
 
         if (headers_sent())
         {
@@ -66,7 +57,6 @@ abstract class View
     {
         unset($this->request);
         unset($this->response);
-        unset($this->configuration);
     }
 
     /**
@@ -102,35 +92,6 @@ abstract class View
     protected function base_url($path = '')
     {
         return $this->request->base_url . $path;
-    }
-
-    /**
-     * Return path to statics or attach given path to it.
-     *
-     * @param string $path Path that should be attached to the statics path
-     *                     (optional)
-     *
-     * @return string $return path to statics (+ the given path, if given)
-     */
-    protected function statics($path = '')
-    {
-        $output  = '';
-        $base    = '/' . trim($this->request->base_path, '/');
-        $statics = '/' . trim($this->configuration['path']['statics'], '/');
-        $path    = '/' . trim($path, '/');
-
-        if ($base != '/')
-        {
-            $output .= $base;
-        }
-
-        if ($statics != '/')
-        {
-            $output .= $statics;
-        }
-
-        $output .= $path;
-        return $output;
     }
 
     /**

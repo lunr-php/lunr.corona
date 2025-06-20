@@ -19,6 +19,32 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
 {
 
     /**
+     * Tests the statics method of the View class.
+     *
+     * @param string $base    Basepath value
+     * @param string $statics Path to statics
+     * @param string $path    Path to append to the statics path
+     * @param string $result  Expected combined result
+     *
+     * @dataProvider staticsProvider
+     * @covers       Lunr\Corona\HTMLView::statics
+     */
+    public function testStatics($base, $statics, $path, $result): void
+    {
+        $this->request->expects($this->once())
+                      ->method('__get')
+                      ->willReturn($base);
+
+        $this->subConfiguration->expects($this->once())
+                               ->method('offsetGet')
+                               ->willReturn($statics);
+
+        $method = $this->getReflectionMethod('statics');
+
+        $this->assertEquals($result, $method->invokeArgs($this->class, [ $path ]));
+    }
+
+    /**
      * Test generating stylesheet include links for no stylesheets.
      *
      * @covers Lunr\Corona\HTMLView::include_stylesheets

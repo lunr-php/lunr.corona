@@ -19,6 +19,12 @@ abstract class HTMLView extends View
 {
 
     /**
+     * Shared instance of the Configuration class
+     * @var Configuration
+     */
+    protected $configuration;
+
+    /**
      * List of javascript files to include.
      * @var array
      */
@@ -39,10 +45,11 @@ abstract class HTMLView extends View
      */
     public function __construct($request, $response, $configuration)
     {
-        parent::__construct($request, $response, $configuration);
+        parent::__construct($request, $response);
 
-        $this->javascript  = [];
-        $this->stylesheets = [];
+        $this->configuration = $configuration;
+        $this->javascript    = [];
+        $this->stylesheets   = [];
     }
 
     /**
@@ -52,8 +59,38 @@ abstract class HTMLView extends View
     {
         parent::__destruct();
 
+        unset($this->configuration);
         unset($this->javascript);
         unset($this->stylesheets);
+    }
+
+    /**
+     * Return path to statics or attach given path to it.
+     *
+     * @param string $path Path that should be attached to the statics path
+     *                     (optional)
+     *
+     * @return string $return path to statics (+ the given path, if given)
+     */
+    protected function statics($path = '')
+    {
+        $output  = '';
+        $base    = '/' . trim($this->request->base_path, '/');
+        $statics = '/' . trim($this->configuration['path']['statics'], '/');
+        $path    = '/' . trim($path, '/');
+
+        if ($base != '/')
+        {
+            $output .= $base;
+        }
+
+        if ($statics != '/')
+        {
+            $output .= $statics;
+        }
+
+        $output .= $path;
+        return $output;
     }
 
     /**

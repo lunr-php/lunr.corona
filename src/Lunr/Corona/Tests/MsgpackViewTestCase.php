@@ -10,7 +10,6 @@
 
 namespace Lunr\Corona\Tests;
 
-use Lunr\Core\Configuration;
 use Lunr\Corona\MsgpackView;
 use Lunr\Corona\Request;
 use Lunr\Corona\Response;
@@ -20,7 +19,7 @@ use Lunr\Halo\LunrBaseTestCase;
  * This class contains common setup routines, providers
  * and shared attributes for testing the MsgpackView class.
  *
- * @covers     Lunr\Corona\MsgpackView
+ * @covers Lunr\Corona\MsgpackView
  */
 abstract class MsgpackViewTestCase extends LunrBaseTestCase
 {
@@ -38,12 +37,6 @@ abstract class MsgpackViewTestCase extends LunrBaseTestCase
     protected $response;
 
     /**
-     * Mock instance of the Configuration class.
-     * @var Configuration
-     */
-    protected $configuration;
-
-    /**
      * Instance of the tested class.
      * @var MsgpackView
      */
@@ -54,14 +47,13 @@ abstract class MsgpackViewTestCase extends LunrBaseTestCase
      */
     public function setUp(): void
     {
-        $this->response      = $this->getMockBuilder('Lunr\Corona\Response')->getMock();
-        $this->configuration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
+        $this->response = $this->getMockBuilder('Lunr\Corona\Response')->getMock();
 
         $this->request = $this->getMockBuilder('Lunr\Corona\Request')
                               ->disableOriginalConstructor()
                               ->getMock();
 
-        $this->class = new MsgpackView($this->request, $this->response, $this->configuration);
+        $this->class = new MsgpackView($this->request, $this->response);
 
         parent::baseSetUp($this->class);
     }
@@ -73,7 +65,6 @@ abstract class MsgpackViewTestCase extends LunrBaseTestCase
     {
         unset($this->request);
         unset($this->response);
-        unset($this->configuration);
         unset($this->class);
 
         parent::tearDown();

@@ -22,7 +22,7 @@ use PHPUnit\Framework\MockObject\Stub;
  * This class tests the setup of the view class,
  * as well as the helper methods.
  *
- * @covers     Lunr\Corona\HTMLView
+ * @covers Lunr\Corona\HTMLView
  */
 abstract class HTMLViewTestCase extends LunrBaseTestCase
 {
@@ -46,6 +46,12 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
     protected $configuration;
 
     /**
+     * Mock instance of the sub configuration class.
+     * @var Configuration
+     */
+    protected $subConfiguration;
+
+    /**
      * Instance of the tested class.
      * @var HTMLView&MockObject&Stub
      */
@@ -58,7 +64,17 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
      */
     public function setUp(): void
     {
+        $this->subConfiguration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
+
         $this->configuration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
+
+        $map = [
+            [ 'path', $this->subConfiguration ],
+        ];
+
+        $this->configuration->expects($this->any())
+                      ->method('offsetGet')
+                      ->willReturnMap($map);
 
         $this->request = $this->getMockBuilder('Lunr\Corona\Request')
                               ->disableOriginalConstructor()
@@ -79,6 +95,7 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
     public function tearDown(): void
     {
         unset($this->configuration);
+        unset($this->subConfiguration);
         unset($this->request);
         unset($this->response);
         unset($this->class);
@@ -97,6 +114,21 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
         $values[] = [ 'row', 0, '', 'row_even' ];
         $values[] = [ 'row', 1, '', 'row_odd' ];
         $values[] = [ 'row', 0, 'custom', 'row_custom' ];
+        return $values;
+    }
+
+    /**
+     * Unit Test Data Provider for statics values.
+     *
+     * @return array $values Set of test data.
+     */
+    public static function staticsProvider(): array
+    {
+        $values   = [];
+        $values[] = [ '/', 'statics', 'image/test.jpg', '/statics/image/test.jpg' ];
+        $values[] = [ '/', '/statics', 'image/test.jpg', '/statics/image/test.jpg' ];
+        $values[] = [ '/test/', 'statics', 'image/test.jpg', '/test/statics/image/test.jpg' ];
+        $values[] = [ '/test/', '/statics', 'image/test.jpg', '/test/statics/image/test.jpg' ];
         return $values;
     }
 
