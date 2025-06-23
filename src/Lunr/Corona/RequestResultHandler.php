@@ -5,13 +5,18 @@
  *
  * SPDX-FileCopyrightText: Copyright 2018 M2mobi B.V., Amsterdam, The Netherlands
  * SPDX-FileCopyrightText: Copyright 2022 Move Agency Group B.V., Zwolle, The Netherlands
+ * SPDX-FileCopyrightText: Copyright 2025 Framna Netherlands B.V., Zwolle, The Netherlands
  * SPDX-License-Identifier: MIT
  */
 
 namespace Lunr\Corona;
 
+use BackedEnum;
+use Lunr\Corona\Exceptions\ClientDataHttpException;
 use Lunr\Corona\Exceptions\HttpException;
+use Lunr\Ticks\EventLogging\EventLoggerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -39,6 +44,24 @@ class RequestResultHandler
     protected $logger;
 
     /**
+     * Shared instance of an EventLogger class
+     * @var EventLoggerInterface
+     */
+    protected readonly EventLoggerInterface $eventLogger;
+
+    /**
+     * List of result codes to store analytics for, mapped to the measurement name they should be stored in.
+     * @var array<int, string>
+     */
+    protected array $codeMap;
+
+    /**
+     * List of request values to add to analytics as tags.
+     * @var array<string, BackedEnum&RequestValueInterface>
+     */
+    protected array $tagMap;
+
+    /**
      * Constructor.
      *
      * @param Request         $request  Instance of the Request class.
@@ -50,6 +73,8 @@ class RequestResultHandler
         $this->request  = $request;
         $this->response = $response;
         $this->logger   = $logger;
+        $this->codeMap  = [];
+        $this->tagMap   = [];
     }
 
     /**
@@ -60,6 +85,8 @@ class RequestResultHandler
         unset($this->request);
         unset($this->response);
         unset($this->logger);
+        unset($this->codeMap);
+        unset($this->tagMap);
     }
 
     /**
@@ -73,6 +100,27 @@ class RequestResultHandler
     public function __call($name, $arguments)
     {
         // no-op
+    }
+
+    /**
+     * Enable request result analytics.
+     *
+     * @param EventLoggerInterface                            $eventLogger Instance of an event logger
+     * @param array<int, string>                              $codeMap     List of result codes to store analytics for,
+     *                                                                     mapped to the measurement name they should be stored in
+     * @param array<string, BackedEnum&RequestValueInterface> $tagMap      List of request values to add to analytics as tags.
+     *
+     * @return void
+     */
+    public function enableAnalytics(
+        EventLoggerInterface $eventLogger,
+        array $codeMap,
+        array $tagMap,
+    ): void
+    {
+        $this->eventLogger = $eventLogger;
+        $this->codeMap     = $codeMap;
+        $this->tagMap      = $tagMap;
     }
 
     /**
@@ -91,9 +139,7 @@ class RequestResultHandler
         }
         catch (HttpException $e)
         {
-            $method = 'log_http_' . $e->getCode();
-
-            $this->$method($e);
+            $this->logRequestResult($e);
 
             $this->set_result($e->getCode(), $e->getMessage(), $e->getAppCode());
         }
@@ -138,7 +184,65 @@ class RequestResultHandler
         $this->response->set_error_info($this->request->call, $info);
     }
 
-}
+    /**
+     * Log request results.
+     *
+     * @param HttpException $exception HTTP exception
+     *
+     * @return void
+     */
+    protected function logRequestResult(HttpException $exception): void
+    {
+        $code = $exception->getCode();
 
+        if (!isset($this->codeMap[$code]))
+        {
+            return;
+        }
+
+        $fields = [
+            'message' => $exception->getMessage(),
+        ];
+
+        $tags = [];
+
+        foreach ($this->tagMap as $name => $key)
+        {
+            $tags[$name] = $this->request->get($key);
+        }
+
+        if ($exception instanceof ClientDataHttpException)
+        {
+            if ($exception->isDataAvailable())
+            {
+                $tags['inputKey']     = $exception->getDataKey();
+                $fields['inputValue'] = $exception->getDataValue();
+            }
+
+            if ($exception->isReportAvailable())
+            {
+                $fields['report'] = $exception->getReport();
+            }
+        }
+
+        $event = $this->eventLogger->newEvent($this->codeMap[$code]);
+
+        $event->recordTimestamp();
+        $event->setTraceId($this->request->getTraceId() ?? throw new RuntimeException('Trace ID not available!'));
+        $event->setSpanId($this->request->getSpanId() ?? throw new RuntimeException('Span ID not available!'));
+
+        $parentSpanID = $this->request->getParentSpanId();
+
+        if ($parentSpanID != NULL)
+        {
+            $event->setParentSpanId($parentSpanID);
+        }
+
+        $event->addTags(array_merge($this->request->getSpanSpecificTags(), $tags));
+        $event->addFields($fields);
+        $event->record();
+    }
+
+}
 
 ?>

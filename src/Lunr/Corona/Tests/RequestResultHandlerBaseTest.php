@@ -10,6 +10,8 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Corona\HttpCode;
+use Lunr\Corona\Parsers\Client\ClientValue;
 use Lunr\Halo\PropertyTraits\PsrLoggerTestTrait;
 
 /**
@@ -39,6 +41,22 @@ class RequestResultHandlerBaseTest extends RequestResultHandlerTestCase
     }
 
     /**
+     * Test that the code map was initialized correctly.
+     */
+    public function testCodeMapInitializedCorrectly(): void
+    {
+        $this->assertPropertySame('codeMap', []);
+    }
+
+    /**
+     * Test that the tag map was initialized correctly.
+     */
+    public function testTagMapInitializedCorrectly(): void
+    {
+        $this->assertPropertySame('tagMap', []);
+    }
+
+    /**
      * Test that __call() returns NULL.
      *
      * @covers Lunr\Corona\RequestResultHandler::__call
@@ -46,6 +64,23 @@ class RequestResultHandlerBaseTest extends RequestResultHandlerTestCase
     public function testCallIsVoid(): void
     {
         $this->assertNull($this->class->log_http_100());
+    }
+
+    /**
+     * Test enableAnalytics().
+     *
+     * @covers Lunr\Corona\RequestResultHandler::enableAnalytics
+     */
+    public function testEnableAnalytics(): void
+    {
+        $codeMap = [ HttpCode::BAD_REQUEST => 'bad_requests_log' ];
+        $tagMap  = [ 'client' => ClientValue::Client ];
+
+        $this->class->enableAnalytics($this->eventLogger, $codeMap, $tagMap);
+
+        $this->assertPropertySame('eventLogger', $this->eventLogger);
+        $this->assertPropertySame('codeMap', $codeMap);
+        $this->assertPropertySame('tagMap', $tagMap);
     }
 
 }

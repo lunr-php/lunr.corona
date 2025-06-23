@@ -14,6 +14,9 @@ use Lunr\Corona\Request;
 use Lunr\Corona\RequestResultHandler;
 use Lunr\Corona\Response;
 use Lunr\Halo\LunrBaseTestCase;
+use Lunr\Ticks\EventLogging\EventInterface;
+use Lunr\Ticks\EventLogging\EventLoggerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,6 +47,18 @@ abstract class RequestResultHandlerTestCase extends LunrBaseTestCase
     protected $logger;
 
     /**
+     * Mock Instance of an event logger.
+     * @var EventLoggerInterface&MockObject
+     */
+    protected EventLoggerInterface&MockObject $eventLogger;
+
+    /**
+     * Mock Instance of an analytics event.
+     * @var EventInterface&MockObject
+     */
+    protected EventInterface&MockObject $event;
+
+    /**
      * Instance of the tested class.
      * @var RequestResultHandler
      */
@@ -65,6 +80,12 @@ abstract class RequestResultHandlerTestCase extends LunrBaseTestCase
         $this->logger = $this->getMockBuilder('Psr\Log\LoggerInterface')
                              ->getMock();
 
+        $this->eventLogger = $this->getMockBuilder(EventLoggerInterface::class)
+                                  ->getMock();
+
+        $this->event = $this->getMockBuilder(EventInterface::class)
+                            ->getMock();
+
         $this->class = new RequestResultHandler($this->request, $this->response, $this->logger);
 
         parent::baseSetUp($this->class);
@@ -79,6 +100,8 @@ abstract class RequestResultHandlerTestCase extends LunrBaseTestCase
         unset($this->request);
         unset($this->response);
         unset($this->logger);
+        unset($this->eventLogger);
+        unset($this->event);
 
         parent::tearDown();
     }
