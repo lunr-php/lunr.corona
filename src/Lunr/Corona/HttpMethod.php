@@ -5,15 +5,18 @@
  *
  * SPDX-FileCopyrightText: Copyright 2017 M2mobi B.V., Amsterdam, The Netherlands
  * SPDX-FileCopyrightText: Copyright 2022 Move Agency Group B.V., Zwolle, The Netherlands
+ * SPDX-FileCopyrightText: Copyright 2025 Framna Netherlands B.V., Zwolle, The Netherlands
  * SPDX-License-Identifier: MIT
  */
 
 namespace Lunr\Corona;
 
+use BackedEnum;
+
 /**
  * HTTP methods.
  */
-class HttpMethod
+enum HttpMethod: string implements ParsedEnumValueInterface
 {
 
     /**
@@ -27,6 +30,7 @@ class HttpMethod
      * @var string
      */
     public const GET = 'GET';
+    case Get         = 'GET';
 
     /**
      * HEAD method.
@@ -39,6 +43,7 @@ class HttpMethod
      * @var string
      */
     public const HEAD = 'HEAD';
+    case Head         = 'HEAD';
 
     /**
      * POST method.
@@ -51,6 +56,7 @@ class HttpMethod
      * @var string
      */
     public const POST = 'POST';
+    case Post         = 'POST';
 
     /**
      * PUT method.
@@ -63,6 +69,7 @@ class HttpMethod
      * @var string
      */
     public const PUT = 'PUT';
+    case Put         = 'PUT';
 
     /**
      * DELETE method.
@@ -75,6 +82,7 @@ class HttpMethod
      * @var string
      */
     public const DELETE = 'DELETE';
+    case Delete         = 'DELETE';
 
     /**
      * CONNECT method.
@@ -87,6 +95,7 @@ class HttpMethod
      * @var string
      */
     public const CONNECT = 'CONNECT';
+    case Connect         = 'CONNECT';
 
     /**
      * OPTIONS method.
@@ -99,6 +108,7 @@ class HttpMethod
      * @var string
      */
     public const OPTIONS = 'OPTIONS';
+    case Options         = 'OPTIONS';
 
     /**
      * TRACE method.
@@ -111,6 +121,7 @@ class HttpMethod
      * @var string
      */
     public const TRACE = 'TRACE';
+    case Trace         = 'TRACE';
 
     /**
      * PATCH method.
@@ -123,6 +134,19 @@ class HttpMethod
      * @var string
      */
     public const PATCH = 'PATCH';
+    case Patch         = 'PATCH';
+
+    /**
+     * Map scalar to an enum instance.
+     *
+     * @param int|string|null $value The parsed request method value
+     *
+     * @return BackedEnum|null The requested value
+     */
+    public static function tryFromRequestValue(int|string|null $value): ?BackedEnum
+    {
+        return $value === NULL ? NULL : self::tryFrom(strtoupper($value));
+    }
 
 }
 
