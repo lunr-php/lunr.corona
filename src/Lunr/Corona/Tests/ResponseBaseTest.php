@@ -13,7 +13,7 @@ namespace Lunr\Corona\Tests;
 /**
  * This class contains test methods for the Response class.
  *
- * @covers     Lunr\Corona\Response
+ * @covers Lunr\Corona\Response
  */
 class ResponseBaseTest extends ResponseTestCase
 {
@@ -27,27 +27,27 @@ class ResponseBaseTest extends ResponseTestCase
     }
 
     /**
-     * Test that there is no error message set by default.
+     * Test that there is no result message set by default.
      */
     public function testErrorMessageEmptyByDefault(): void
     {
-        $this->assertArrayEmpty($this->getReflectionPropertyValue('errmsg'));
+        $this->assertArrayEmpty($this->getReflectionPropertyValue('resultMessage'));
     }
 
     /**
-     * Test that there is no error information set by default.
+     * Test that there is no result information code set by default.
      */
     public function testErrorInfoEmptyByDefault(): void
     {
-        $this->assertArrayEmpty($this->getReflectionPropertyValue('errinfo'));
+        $this->assertArrayEmpty($this->getReflectionPropertyValue('resultInfoCode'));
     }
 
     /**
-     * Test that the default return code is empty by default.
+     * Test that the default result code is empty by default.
      */
     public function testReturnCodeIsEmptyByDefault(): void
     {
-        $this->assertArrayEmpty($this->getReflectionPropertyValue('returnCode'));
+        $this->assertArrayEmpty($this->getReflectionPropertyValue('resultCode'));
     }
 
     /**

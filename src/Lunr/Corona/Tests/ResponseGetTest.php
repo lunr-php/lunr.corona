@@ -13,7 +13,7 @@ namespace Lunr\Corona\Tests;
 /**
  * This class contains test methods for the Response class.
  *
- * @covers     Lunr\Corona\Response
+ * @covers Lunr\Corona\Response
  */
 class ResponseGetTest extends ResponseTestCase
 {
@@ -48,9 +48,47 @@ class ResponseGetTest extends ResponseTestCase
     /**
      * Test getting existing response data.
      *
-     * @covers Lunr\Corona\Response::get_response_data
+     * @covers Lunr\Corona\Response::getResponseData
      */
     public function testGetResponseDataWithExistingKey(): void
+    {
+        $data = [ 'key' => 'value' ];
+
+        $this->setReflectionPropertyValue('data', $data);
+
+        $this->assertEquals('value', $this->class->getResponseData('key'));
+    }
+
+    /**
+     * Test getting non-existing response data.
+     *
+     * @covers Lunr\Corona\Response::getResponseData
+     */
+    public function testGetResponseDataWithNonExistingKey(): void
+    {
+        $this->assertNull($this->class->getResponseData('non-existing'));
+    }
+
+    /**
+     * Test getting all the response data.
+     *
+     * @covers Lunr\Corona\Response::getResponseData
+     */
+    public function testGetResponseDataWithoutKey(): void
+    {
+        $data = [ 'key1' => 'value1', 'key2' => 'value2' ];
+
+        $this->setReflectionPropertyValue('data', $data);
+
+        $this->assertEquals($data, $this->class->getResponseData());
+    }
+
+    /**
+     * Test getting existing response data.
+     *
+     * @covers Lunr\Corona\Response::get_response_data
+     */
+    public function testDeprecatedGetResponseDataWithExistingKey(): void
     {
         $data = [ 'key' => 'value' ];
 
@@ -64,7 +102,7 @@ class ResponseGetTest extends ResponseTestCase
      *
      * @covers Lunr\Corona\Response::get_response_data
      */
-    public function testGetResponseDataWithNonExistingKey(): void
+    public function testDeprecatedGetResponseDataWithNonExistingKey(): void
     {
         $this->assertNull($this->class->get_response_data('non-existing'));
     }
@@ -74,13 +112,37 @@ class ResponseGetTest extends ResponseTestCase
      *
      * @covers Lunr\Corona\Response::get_response_data
      */
-    public function testGetResponseDataWithoutKey(): void
+    public function testDeprecatedGetResponseDataWithoutKey(): void
     {
         $data = [ 'key1' => 'value1', 'key2' => 'value2' ];
 
         $this->setReflectionPropertyValue('data', $data);
 
         $this->assertEquals($data, $this->class->get_response_data());
+    }
+
+    /**
+     * Test getting existing result message.
+     *
+     * @covers Lunr\Corona\Response::getResultMessage
+     */
+    public function testGetExistingResultMessage(): void
+    {
+        $data = [ 'controller/method' => 'error message' ];
+
+        $this->setReflectionPropertyValue('resultMessage', $data);
+
+        $this->assertEquals('error message', $this->class->getResultMessage('controller/method'));
+    }
+
+    /**
+     * Test getting non-existing result message.
+     *
+     * @covers Lunr\Corona\Response::getResultMessage
+     */
+    public function testGetNonExistentResultMessage(): void
+    {
+        $this->assertNull($this->class->getResultMessage('controller/method'));
     }
 
     /**
@@ -92,7 +154,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $data = [ 'controller/method' => 'error message' ];
 
-        $this->setReflectionPropertyValue('errmsg', $data);
+        $this->setReflectionPropertyValue('resultMessage', $data);
 
         $this->assertEquals('error message', $this->class->get_error_message('controller/method'));
     }
@@ -108,17 +170,41 @@ class ResponseGetTest extends ResponseTestCase
     }
 
     /**
+     * Test getting existing result information code.
+     *
+     * @covers Lunr\Corona\Response::getResultInfoCode
+     */
+    public function testGetExistingResultInfoCode(): void
+    {
+        $data = [ 'controller/method' => 5010 ];
+
+        $this->setReflectionPropertyValue('resultInfoCode', $data);
+
+        $this->assertEquals(5010, $this->class->getResultInfoCode('controller/method'));
+    }
+
+    /**
+     * Test getting non-existing result information code.
+     *
+     * @covers Lunr\Corona\Response::getResultInfoCode
+     */
+    public function testGetNonExistentResultInfoCode(): void
+    {
+        $this->assertNull($this->class->getResultInfoCode('controller/method'));
+    }
+
+    /**
      * Test getting existing error information.
      *
      * @covers Lunr\Corona\Response::get_error_info
      */
     public function testGetExistingErrorInfo(): void
     {
-        $data = [ 'controller/method' => 'error info' ];
+        $data = [ 'controller/method' => 5010 ];
 
-        $this->setReflectionPropertyValue('errinfo', $data);
+        $this->setReflectionPropertyValue('resultInfoCode', $data);
 
-        $this->assertEquals('error info', $this->class->get_error_info('controller/method'));
+        $this->assertEquals(5010, $this->class->get_error_info('controller/method'));
     }
 
     /**
@@ -132,13 +218,75 @@ class ResponseGetTest extends ResponseTestCase
     }
 
     /**
+     * Test getting result code without identifier with no code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetResultCodeWithoutIdentifierWithEmptyCodes(): void
+    {
+        $this->setReflectionPropertyValue('resultCode', []);
+
+        $this->assertNull($this->class->getResultCode());
+    }
+
+    /**
+     * Test getting result code with no code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetResultCodeWithEmptyCodes(): void
+    {
+        $this->setReflectionPropertyValue('resultCode', []);
+
+        $this->assertNull($this->class->getResultCode('controller/method'));
+    }
+
+    /**
+     * Test getting existing result code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetExistingResultCode(): void
+    {
+        $data = [ 'controller/method' => 200 ];
+
+        $this->setReflectionPropertyValue('resultCode', $data);
+
+        $this->assertSame(200, $this->class->getResultCode('controller/method'));
+    }
+
+    /**
+     * Test getting non-existing result code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetNonExistentResultCode(): void
+    {
+        $this->assertNull($this->class->getResultCode('controller/method'));
+    }
+
+    /**
+     * Test getting result code with highest error code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetResultCodeWithoutIdentifier(): void
+    {
+        $data = [ 'controller/method' => 200, 'ID' => 300, 'ID3' => 500 ];
+
+        $this->setReflectionPropertyValue('resultCode', $data);
+
+        $this->assertSame(500, $this->class->getResultCode());
+    }
+
+    /**
      * Test getting return code without identifier with no code.
      *
      * @covers Lunr\Corona\Response::get_return_code
      */
     public function testGetReturnCodeWithoutIdentifierWithEmptyCodes(): void
     {
-        $this->setReflectionPropertyValue('returnCode', []);
+        $this->setReflectionPropertyValue('resultCode', []);
 
         $this->assertNull($this->class->get_return_code());
     }
@@ -150,7 +298,7 @@ class ResponseGetTest extends ResponseTestCase
      */
     public function testGetReturnCodeWithEmptyCodes(): void
     {
-        $this->setReflectionPropertyValue('returnCode', []);
+        $this->setReflectionPropertyValue('resultCode', []);
 
         $this->assertNull($this->class->get_return_code('controller/method'));
     }
@@ -164,7 +312,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $data = [ 'controller/method' => 200 ];
 
-        $this->setReflectionPropertyValue('returnCode', $data);
+        $this->setReflectionPropertyValue('resultCode', $data);
 
         $this->assertSame(200, $this->class->get_return_code('controller/method'));
     }
@@ -188,9 +336,61 @@ class ResponseGetTest extends ResponseTestCase
     {
         $data = [ 'controller/method' => 200, 'ID' => 300, 'ID3' => 500 ];
 
-        $this->setReflectionPropertyValue('returnCode', $data);
+        $this->setReflectionPropertyValue('resultCode', $data);
 
         $this->assertSame(500, $this->class->get_return_code());
+    }
+
+    /**
+     * Test getting identifier of the highest result code with no code.
+     *
+     * @covers Lunr\Corona\Response::getResultCodeIdentifiers
+     */
+    public function testGetMaximumResultCodeIdentifiersWithEmptyCodes(): void
+    {
+        $this->setReflectionPropertyValue('resultCode', []);
+
+        $this->assertArrayEmpty($this->class->getResultCodeIdentifiers());
+    }
+
+    /**
+     * Test getting all result code identifiers with no code.
+     *
+     * @covers Lunr\Corona\Response::getResultCodeIdentifiers
+     */
+    public function testGetResultCodeIdentifiersWithEmptyCodes(): void
+    {
+        $this->setReflectionPropertyValue('resultCode', []);
+
+        $this->assertArrayEmpty($this->class->getResultCodeIdentifiers(TRUE));
+    }
+
+    /**
+     * Test getting identifier of the highest result code.
+     *
+     * @covers Lunr\Corona\Response::getResultCodeIdentifiers
+     */
+    public function testGetMaximumResultCodeIdentifier(): void
+    {
+        $data = [ 'controller/method' => 200, 'ID' => 300, 'ID3' => 500 ];
+
+        $this->setReflectionPropertyValue('resultCode', $data);
+
+        $this->assertEquals('ID3', $this->class->getResultCodeIdentifiers(TRUE));
+    }
+
+    /**
+     * Test getting all result code identifiers.
+     *
+     * @covers Lunr\Corona\Response::getResultCodeIdentifiers
+     */
+    public function testGetAllResultCodeIdentifiers(): void
+    {
+        $data = [ 'controller/method' => 200, 'ID' => 300, 'ID3' => 500 ];
+
+        $this->setReflectionPropertyValue('resultCode', $data);
+
+        $this->assertSame([ 'controller/method', 'ID', 'ID3' ], $this->class->getResultCodeIdentifiers());
     }
 
     /**
@@ -200,7 +400,7 @@ class ResponseGetTest extends ResponseTestCase
      */
     public function testGetMaximumReturnCodeIdentifiersWithEmptyCodes(): void
     {
-        $this->setReflectionPropertyValue('returnCode', []);
+        $this->setReflectionPropertyValue('resultCode', []);
 
         $this->assertArrayEmpty($this->class->get_return_code_identifiers());
     }
@@ -212,7 +412,7 @@ class ResponseGetTest extends ResponseTestCase
      */
     public function testGetReturnCodeIdentifiersWithEmptyCodes(): void
     {
-        $this->setReflectionPropertyValue('returnCode', []);
+        $this->setReflectionPropertyValue('resultCode', []);
 
         $this->assertArrayEmpty($this->class->get_return_code_identifiers(TRUE));
     }
@@ -226,7 +426,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $data = [ 'controller/method' => 200, 'ID' => 300, 'ID3' => 500 ];
 
-        $this->setReflectionPropertyValue('returnCode', $data);
+        $this->setReflectionPropertyValue('resultCode', $data);
 
         $this->assertEquals('ID3', $this->class->get_return_code_identifiers(TRUE));
     }
@@ -240,7 +440,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $data = [ 'controller/method' => 200, 'ID' => 300, 'ID3' => 500 ];
 
-        $this->setReflectionPropertyValue('returnCode', $data);
+        $this->setReflectionPropertyValue('resultCode', $data);
 
         $this->assertSame([ 'controller/method', 'ID', 'ID3' ], $this->class->get_return_code_identifiers());
     }

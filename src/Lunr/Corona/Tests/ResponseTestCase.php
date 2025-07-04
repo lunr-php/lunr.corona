@@ -16,7 +16,7 @@ use Lunr\Halo\LunrBaseTestCase;
 /**
  * This class contains test methods for the Response class.
  *
- * @covers     Lunr\Corona\Response
+ * @covers Lunr\Corona\Response
  */
 abstract class ResponseTestCase extends LunrBaseTestCase
 {
@@ -48,25 +48,9 @@ abstract class ResponseTestCase extends LunrBaseTestCase
     }
 
     /**
-     * Unit test data provider for invalid return codes.
-     *
-     * @return array $codes Array of invalid return codes.
-     */
-    public static function invalidReturnCodeProvider(): array
-    {
-        $codes   = [];
-        $codes[] = [ '502' ];
-        $codes[] = [ 4.5 ];
-        $codes[] = [ TRUE ];
-        $codes[] = [ [] ];
-
-        return $codes;
-    }
-
-    /**
      * Unit test data provider for attributes accessible over __get.
      *
-     * @return array $attrs Array of attribute names and their default values.
+     * @return array<string[]> $attrs Array of attribute names and their default values.
      */
     public static function validResponseAttributesProvider(): array
     {
@@ -79,15 +63,15 @@ abstract class ResponseTestCase extends LunrBaseTestCase
     /**
      * Unit test data provider for attributes inaccessible over __get.
      *
-     * @return array $attrs Array of attribute names.
+     * @return array<string[]> $attrs Array of attribute names.
      */
     public static function invalidResponseAttributesProvider(): array
     {
         $attrs   = [];
         $attrs[] = [ 'data' ];
-        $attrs[] = [ 'errmsg' ];
-        $attrs[] = [ 'errinfo' ];
-        $attrs[] = [ 'returnCode' ];
+        $attrs[] = [ 'resultMessage' ];
+        $attrs[] = [ 'resultInfoCode' ];
+        $attrs[] = [ 'resultCode' ];
 
         return $attrs;
     }

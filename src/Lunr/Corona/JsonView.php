@@ -69,7 +69,7 @@ class JsonView extends View
         $json['data']   = $this->prepare_data($this->response->get_response_data());
         $json['status'] = [];
 
-        $json['status']['code']    = !is_numeric($info) || is_float($info + 1) ? $code : $info;
+        $json['status']['code']    = $info ?? $code;
         $json['status']['message'] = is_null($msg) ? '' : $msg;
 
         if ($json['data'] === [])

@@ -155,11 +155,11 @@ class ControllerResultTest extends ControllerTestCase
 
         $this->response->expects($this->once())
                        ->method('set_error_info')
-                       ->with('controller/method', 'errinfo');
+                       ->with('controller/method', 5010);
 
         $method = $this->getReflectionMethod('set_result');
 
-        $method->invokeArgs($this->class, [ HttpCode::NOT_IMPLEMENTED, NULL, 'errinfo' ]);
+        $method->invokeArgs($this->class, [ HttpCode::NOT_IMPLEMENTED, NULL, 5010 ]);
     }
 
 }

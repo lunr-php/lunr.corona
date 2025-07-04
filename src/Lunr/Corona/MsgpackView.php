@@ -68,7 +68,7 @@ class MsgpackView extends View
         $msgpack['data']   = $this->prepare_data($this->response->get_response_data());
         $msgpack['status'] = [];
 
-        $msgpack['status']['code']    = !is_numeric($info) || is_float($info + 1) ? $code : $info;
+        $msgpack['status']['code']    = $info ?? $code;
         $msgpack['status']['message'] = is_null($msg) ? '' : $msg;
 
         if ($msgpack['data'] === [])

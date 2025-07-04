@@ -13,7 +13,7 @@ namespace Lunr\Corona\Tests;
 /**
  * This class contains test methods for the Response class.
  *
- * @covers     Lunr\Corona\Response
+ * @covers Lunr\Corona\Response
  */
 class ResponseSetTest extends ResponseTestCase
 {
@@ -48,9 +48,24 @@ class ResponseSetTest extends ResponseTestCase
     /**
      * Test adding response data.
      *
-     * @covers Lunr\Corona\Response::add_response_data
+     * @covers Lunr\Corona\Response::addResponseData
      */
     public function testAddResponseData(): void
+    {
+        $this->class->addResponseData('key', 'value');
+
+        $value = $this->getReflectionPropertyValue('data');
+
+        $this->assertArrayHasKey('key', $value);
+        $this->assertEquals('value', $value['key']);
+    }
+
+    /**
+     * Test adding response data.
+     *
+     * @covers Lunr\Corona\Response::add_response_data
+     */
+    public function testDeprecatedAddResponseData(): void
     {
         $this->class->add_response_data('key', 'value');
 
@@ -58,6 +73,21 @@ class ResponseSetTest extends ResponseTestCase
 
         $this->assertArrayHasKey('key', $value);
         $this->assertEquals('value', $value['key']);
+    }
+
+    /**
+     * Test setting a result message.
+     *
+     * @covers Lunr\Corona\Response::setResultMessage
+     */
+    public function testSetResultMessage(): void
+    {
+        $this->class->setResultMessage('ID', 'Message');
+
+        $value = $this->getReflectionPropertyValue('resultMessage');
+
+        $this->assertArrayHasKey('ID', $value);
+        $this->assertEquals('Message', $value['ID']);
     }
 
     /**
@@ -69,10 +99,25 @@ class ResponseSetTest extends ResponseTestCase
     {
         $this->class->set_error_message('ID', 'Message');
 
-        $value = $this->getReflectionPropertyValue('errmsg');
+        $value = $this->getReflectionPropertyValue('resultMessage');
 
         $this->assertArrayHasKey('ID', $value);
         $this->assertEquals('Message', $value['ID']);
+    }
+
+    /**
+     * Test setting a result information code.
+     *
+     * @covers Lunr\Corona\Response::setResultInfoCode
+     */
+    public function testSetResultInformationCode(): void
+    {
+        $this->class->setResultInfoCode('ID', 5010);
+
+        $value = $this->getReflectionPropertyValue('resultInfoCode');
+
+        $this->assertArrayHasKey('ID', $value);
+        $this->assertEquals(5010, $value['ID']);
     }
 
     /**
@@ -82,12 +127,27 @@ class ResponseSetTest extends ResponseTestCase
      */
     public function testSetErrorInformation(): void
     {
-        $this->class->set_error_info('ID', 'Info');
+        $this->class->set_error_info('ID', 5010);
 
-        $value = $this->getReflectionPropertyValue('errinfo');
+        $value = $this->getReflectionPropertyValue('resultInfoCode');
 
         $this->assertArrayHasKey('ID', $value);
-        $this->assertEquals('Info', $value['ID']);
+        $this->assertEquals(5010, $value['ID']);
+    }
+
+    /**
+     * Test setting a valid result code.
+     *
+     * @covers Lunr\Corona\Response::setResultCode
+     */
+    public function testSetValidResultCode(): void
+    {
+        $this->class->setResultCode('ID', 503);
+
+        $value = $this->getReflectionPropertyValue('resultCode');
+
+        $this->assertArrayHasKey('ID', $value);
+        $this->assertSame(503, $value['ID']);
     }
 
     /**
@@ -99,25 +159,10 @@ class ResponseSetTest extends ResponseTestCase
     {
         $this->class->set_return_code('ID', 503);
 
-        $value = $this->getReflectionPropertyValue('returnCode');
+        $value = $this->getReflectionPropertyValue('resultCode');
 
         $this->assertArrayHasKey('ID', $value);
         $this->assertSame(503, $value['ID']);
-    }
-
-    /**
-     * Test setting a valid return code.
-     *
-     * @param mixed $code Invalid return code value.
-     *
-     * @dataProvider invalidReturnCodeProvider
-     * @covers       Lunr\Corona\Response::set_return_code
-     */
-    public function testSetInvalidReturnCode($code): void
-    {
-        $this->class->set_return_code('ID', $code);
-
-        $this->assertArrayEmpty($this->getReflectionPropertyValue('returnCode'));
     }
 
 }
