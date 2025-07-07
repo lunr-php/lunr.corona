@@ -9,6 +9,8 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Corona\Authorization\AuthorizationType;
+
 /**
  * This class contains common setup routines, providers
  * and shared attributes for testing the RequestGuard class.
@@ -24,6 +26,22 @@ class RequestGuardBaseTest extends RequestGuardTestCase
     public function testRequestSetCorrectly(): void
     {
         $this->assertPropertySame('request', $this->request);
+    }
+
+    /**
+     * Test registerAuthorizer().
+     *
+     * @covers Lunr\Corona\RequestGuard::registerAuthorizer
+     */
+    public function testRegisterAuthorizer(): void
+    {
+        $this->authorizer->expects($this->once())
+                         ->method('getAuthorizationType')
+                         ->willReturn(AuthorizationType::Client);
+
+        $this->class->registerAuthorizer($this->authorizer);
+
+        $this->assertPropertyEquals('authorizers', [ AuthorizationType::Client->value => $this->authorizer ]);
     }
 
 }
