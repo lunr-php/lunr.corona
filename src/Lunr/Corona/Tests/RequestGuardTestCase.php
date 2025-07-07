@@ -9,6 +9,7 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Corona\Authorization\AuthorizerInterface;
 use Lunr\Corona\Request;
 use Lunr\Corona\RequestGuard;
 use Lunr\Halo\LunrBaseTestCase;
@@ -30,6 +31,12 @@ abstract class RequestGuardTestCase extends LunrBaseTestCase
     protected Request&MockObject $request;
 
     /**
+     * Mock instance of an Authorizer class.
+     * @var AuthorizerInterface&MockObject
+     */
+    protected AuthorizerInterface&MockObject $authorizer;
+
+    /**
      * Instance of the tested class.
      * @var RequestGuard
      */
@@ -44,6 +51,9 @@ abstract class RequestGuardTestCase extends LunrBaseTestCase
                               ->disableOriginalConstructor()
                               ->getMock();
 
+        $this->authorizer = $this->getMockBuilder(AuthorizerInterface::class)
+                                 ->getMock();
+
         $this->class = new RequestGuard($this->request);
 
         parent::baseSetUp($this->class);
@@ -55,6 +65,7 @@ abstract class RequestGuardTestCase extends LunrBaseTestCase
     public function tearDown(): void
     {
         unset($this->request);
+        unset($this->authorizer);
         unset($this->class);
 
         parent::tearDown();
