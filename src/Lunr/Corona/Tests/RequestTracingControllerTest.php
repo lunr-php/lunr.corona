@@ -256,6 +256,70 @@ class RequestTracingControllerTest extends RequestTestCase
         $this->assertPropertyEquals('mock', $mock);
     }
 
+    /**
+     * Test that getNewSpanId() returns a hex-only ID.
+     *
+     * @covers Lunr\Corona\Request::getNewSpanId
+     */
+    public function testGetNewHexOnlySpanId()
+    {
+        $this->mockFunction('uuid_create', fn() => '200c5938-cbe1-4b58-ad36-022ab5c6bcc6');
+
+        $value = $this->class->getNewSpanId();
+
+        $this->assertEquals('200c5938cbe14b58ad36022ab5c6bcc6', $value);
+
+        $this->unmockFunction('uuid_create');
+    }
+
+    /**
+     * Test that getNewSpanId() returns a canonical ID.
+     *
+     * @covers Lunr\Corona\Request::getNewSpanId
+     */
+    public function testGetNewCanonicalSpanId()
+    {
+        $parser = $this->getMockBuilder(RequestParserInterface::class)->getMock();
+
+        $parser->expects($this->once())
+               ->method('parse_request')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_post')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_get')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_cookie')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_server')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_files')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_command_line_arguments')
+               ->willReturn([]);
+
+        $class = new Request($parser, uuidAsHexString: FALSE);
+
+        $this->mockFunction('uuid_create', fn() => '200c5938-cbe1-4b58-ad36-022ab5c6bcc6');
+
+        $value = $class->getNewSpanId();
+
+        $this->assertEquals('200c5938-cbe1-4b58-ad36-022ab5c6bcc6', $value);
+
+        $this->unmockFunction('uuid_create');
+    }
+
 }
 
 ?>

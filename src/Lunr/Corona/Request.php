@@ -203,6 +203,23 @@ class Request implements TracingControllerInterface, TracingInfoInterface
     }
 
     /**
+     * Get a new ID that can be used as a span ID.
+     *
+     * @return string New span ID
+     */
+    public function getNewSpanId(): string
+    {
+        $uuid = uuid_create();
+
+        if ($this->uuidAsHexString)
+        {
+            $uuid = str_replace('-', '', $uuid);
+        }
+
+        return $uuid;
+    }
+
+    /**
      * Get tags that are specific to the current span.
      *
      * @return Tags Indexed metadata about the current span
@@ -289,12 +306,7 @@ class Request implements TracingControllerInterface, TracingInfoInterface
         $requestValues = [];
 
         $requestValues[TracingInfoValue::ParentSpanID->value] = $this->get(TracingInfoValue::SpanID);
-        $requestValues[TracingInfoValue::SpanID->value]       = uuid_create();
-
-        if ($this->uuidAsHexString)
-        {
-            $requestValues[TracingInfoValue::SpanID->value] = str_replace('-', '', $requestValues[TracingInfoValue::SpanID->value]);
-        }
+        $requestValues[TracingInfoValue::SpanID->value]       = $this->getNewSpanId();
 
         if (!empty($this->mock))
         {
