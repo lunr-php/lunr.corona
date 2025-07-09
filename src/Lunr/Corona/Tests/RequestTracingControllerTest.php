@@ -320,6 +320,60 @@ class RequestTracingControllerTest extends RequestTestCase
         $this->unmockFunction('uuid_create');
     }
 
+    /**
+     * Test that isValidSpanId() checks correctly when class is set to hex only.
+     *
+     * @covers Lunr\Corona\Request::isValidSpanId
+     */
+    public function testIsValidSpanIdWhenHexOnly()
+    {
+        $this->assertTrue($this->class->isValidSpanId('200c5938cbe14b58ad36022ab5c6bcc6'));
+        $this->assertFalse($this->class->isValidSpanId('200c5938-cbe1-4b58-ad36-022ab5c6bcc6'));
+    }
+
+    /**
+     * Test that isValidSpanId() checks correctly when class is set to canonical.
+     *
+     * @covers Lunr\Corona\Request::isValidSpanId
+     */
+    public function testIsValidSpanIdWhenCanonical()
+    {
+        $parser = $this->getMockBuilder(RequestParserInterface::class)->getMock();
+
+        $parser->expects($this->once())
+               ->method('parse_request')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_post')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_get')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_cookie')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_server')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_files')
+               ->willReturn([]);
+
+        $parser->expects($this->once())
+               ->method('parse_command_line_arguments')
+               ->willReturn([]);
+
+        $class = new Request($parser, uuidAsHexString: FALSE);
+
+        $this->assertFalse($class->isValidSpanId('200c5938cbe14b58ad36022ab5c6bcc6'));
+        $this->assertTrue($class->isValidSpanId('200c5938-cbe1-4b58-ad36-022ab5c6bcc6'));
+    }
+
 }
 
 ?>

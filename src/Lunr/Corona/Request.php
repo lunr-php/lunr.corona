@@ -220,6 +220,27 @@ class Request implements TracingControllerInterface, TracingInfoInterface
     }
 
     /**
+     * Check whether a given string is valid for use as a span ID.
+     *
+     * @param string $id String to verify
+     *
+     * @return bool Whether the string is valid for use as a span ID or not
+     */
+    public function isValidSpanId(string $id): bool
+    {
+        if ($this->uuidAsHexString)
+        {
+            $regex = '/^[a-f0-9]{32}$/i';
+        }
+        else
+        {
+            $regex = '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i';
+        }
+
+        return (bool) preg_match($regex, $id);
+    }
+
+    /**
      * Get tags that are specific to the current span.
      *
      * @return Tags Indexed metadata about the current span
