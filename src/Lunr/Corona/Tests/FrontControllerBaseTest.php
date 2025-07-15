@@ -35,11 +35,31 @@ class FrontControllerBaseTest extends FrontControllerTestCase
     }
 
     /**
+     * Test that registerLookupPath() registers the passed path
+     *
+     * @covers Lunr\Corona\FrontController::registerLookupPath
+     */
+    public function testRegisterLookupPath(): void
+    {
+        $property = $this->getReflectionProperty('paths');
+
+        $this->assertArrayEmpty($property->getValue($this->class));
+
+        $this->class->registerLookupPath('test', '/path/to/tests/');
+
+        $paths = $property->getValue($this->class);
+
+        $this->assertArrayNotEmpty($paths);
+        $this->assertArrayHasKey('test', $paths);
+        $this->assertEquals('/path/to/tests/', $paths['test']);
+    }
+
+    /**
      * Test that register_lookup_path() registers the passed path
      *
      * @covers Lunr\Corona\FrontController::register_lookup_path
      */
-    public function testRegisterLookupPath(): void
+    public function testDeprecatedRegisterLookupPath(): void
     {
         $property = $this->getReflectionProperty('paths');
 
@@ -55,11 +75,51 @@ class FrontControllerBaseTest extends FrontControllerTestCase
     }
 
     /**
+     * Test that addRoutingRule() adds a static routing rule
+     *
+     * @covers Lunr\Corona\FrontController::addRoutingRule
+     */
+    public function testAddRoutingRuleWithoutRoute(): void
+    {
+        $property = $this->getReflectionProperty('routes');
+
+        $this->assertArrayEmpty($property->getValue($this->class));
+
+        $this->class->addRoutingRule('foo/bar');
+
+        $routes = $property->getValue($this->class);
+
+        $this->assertArrayNotEmpty($routes);
+        $this->assertArrayHasKey('foo/bar', $routes);
+        $this->assertArrayEmpty($routes['foo/bar']);
+    }
+
+    /**
+     * Test that addRoutingRule() adds a static routing rule
+     *
+     * @covers Lunr\Corona\FrontController::addRoutingRule
+     */
+    public function testAddRoutingRuleWithRoute(): void
+    {
+        $property = $this->getReflectionProperty('routes');
+
+        $this->assertArrayEmpty($property->getValue($this->class));
+
+        $this->class->addRoutingRule('foo/bar', [ 'baz' ]);
+
+        $routes = $property->getValue($this->class);
+
+        $this->assertArrayNotEmpty($routes);
+        $this->assertArrayHasKey('foo/bar', $routes);
+        $this->assertEquals([ 'baz' ], $routes['foo/bar']);
+    }
+
+    /**
      * Test that add_routing_rule() adds a static routing rule
      *
      * @covers Lunr\Corona\FrontController::add_routing_rule
      */
-    public function testAddRoutingRuleWithoutRoute(): void
+    public function testDeprecatedAddRoutingRuleWithoutRoute(): void
     {
         $property = $this->getReflectionProperty('routes');
 
@@ -79,7 +139,7 @@ class FrontControllerBaseTest extends FrontControllerTestCase
      *
      * @covers Lunr\Corona\FrontController::add_routing_rule
      */
-    public function testAddRoutingRuleWithRoute(): void
+    public function testDeprecatedAddRoutingRuleWithRoute(): void
     {
         $property = $this->getReflectionProperty('routes');
 
