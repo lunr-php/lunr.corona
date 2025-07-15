@@ -57,16 +57,6 @@ class RequestResultHandlerBaseTest extends RequestResultHandlerTestCase
     }
 
     /**
-     * Test that __call() returns NULL.
-     *
-     * @covers Lunr\Corona\RequestResultHandler::__call
-     */
-    public function testCallIsVoid(): void
-    {
-        $this->assertNull($this->class->log_http_100());
-    }
-
-    /**
      * Test enableAnalytics().
      *
      * @covers Lunr\Corona\RequestResultHandler::enableAnalytics

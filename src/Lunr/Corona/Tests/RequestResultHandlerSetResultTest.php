@@ -23,7 +23,7 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     /**
      * Test setting a result return code with error enums set.
      *
-     * @covers Lunr\Corona\RequestResultHandler::set_result
+     * @covers Lunr\Corona\RequestResultHandler::setResult
      */
     public function testSetResultReturnCode(): void
     {
@@ -33,10 +33,10 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->once())
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
 
-        $method = $this->getReflectionMethod('set_result');
+        $method = $this->getReflectionMethod('setResult');
 
         $method->invokeArgs($this->class, [ HttpCode::NOT_IMPLEMENTED ]);
     }
@@ -44,7 +44,7 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     /**
      * Test setting a result without error message.
      *
-     * @covers Lunr\Corona\RequestResultHandler::set_result
+     * @covers Lunr\Corona\RequestResultHandler::setResult
      */
     public function testSetResultErrorMessageNull(): void
     {
@@ -54,13 +54,13 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->once())
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->never())
-                       ->method('set_error_message');
+                       ->method('setResultMessage');
 
-        $method = $this->getReflectionMethod('set_result');
+        $method = $this->getReflectionMethod('setResult');
 
         $method->invokeArgs($this->class, [ HttpCode::NOT_IMPLEMENTED ]);
     }
@@ -68,7 +68,7 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     /**
      * Test setting a result error message.
      *
-     * @covers Lunr\Corona\RequestResultHandler::set_result
+     * @covers Lunr\Corona\RequestResultHandler::setResult
      */
     public function testSetResultErrorMessage(): void
     {
@@ -78,14 +78,14 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->once())
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->once())
-                       ->method('set_error_message')
+                       ->method('setResultMessage')
                        ->with('controller/method', 'errmsg');
 
-        $method = $this->getReflectionMethod('set_result');
+        $method = $this->getReflectionMethod('setResult');
 
         $method->invokeArgs($this->class, [ HttpCode::NOT_IMPLEMENTED, 'errmsg' ]);
     }
@@ -93,7 +93,7 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     /**
      * Test setting a result without error information.
      *
-     * @covers Lunr\Corona\RequestResultHandler::set_result
+     * @covers Lunr\Corona\RequestResultHandler::setResult
      */
     public function testSetResultErrorInfoNull(): void
     {
@@ -103,13 +103,13 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->once())
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->never())
-                       ->method('set_error_info');
+                       ->method('setResultInfoCode');
 
-        $method = $this->getReflectionMethod('set_result');
+        $method = $this->getReflectionMethod('setResult');
 
         $method->invokeArgs($this->class, [ HttpCode::NOT_IMPLEMENTED ]);
     }
@@ -117,7 +117,7 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     /**
      * Test setting result error information.
      *
-     * @covers Lunr\Corona\RequestResultHandler::set_result
+     * @covers Lunr\Corona\RequestResultHandler::setResult
      */
     public function testSetResultErrorInfoNotNull(): void
     {
@@ -127,14 +127,14 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->once())
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->once())
-                       ->method('set_error_info')
+                       ->method('setResultInfoCode')
                        ->with('controller/method', 9999);
 
-        $method = $this->getReflectionMethod('set_result');
+        $method = $this->getReflectionMethod('setResult');
 
         $method->invokeArgs($this->class, [ HttpCode::NOT_IMPLEMENTED, NULL, 9999 ]);
     }

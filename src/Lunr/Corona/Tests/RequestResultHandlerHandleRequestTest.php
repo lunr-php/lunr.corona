@@ -23,9 +23,9 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 {
 
     /**
-     * Test that handle_request works correctly with an already instantiated controller.
+     * Test that handleRequest() works correctly with an already instantiated controller.
      *
-     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     * @covers Lunr\Corona\RequestResultHandler::handleRequest
      */
     public function testHandleRequestWithInstantiatedController(): void
     {
@@ -39,24 +39,24 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
+                       ->method('getResultCode')
                        ->willReturn(NULL);
 
         $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', 200);
 
         $controller->expects($this->once())
                    ->method('foo')
                    ->with(1, 2);
 
-        $this->class->handle_request([ $controller, 'foo' ], [ 1, 2 ]);
+        $this->class->handleRequest([ $controller, 'foo' ], [ 1, 2 ]);
     }
 
     /**
-     * Test that handle_request works correctly with a controller name as string.
+     * Test that handleRequest() works correctly with a controller name as string.
      *
-     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     * @covers Lunr\Corona\RequestResultHandler::handleRequest
      */
     public function testHandleRequestWithControllerAsString(): void
     {
@@ -68,99 +68,20 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
+                       ->method('getResultCode')
                        ->willReturn(NULL);
 
         $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', 200);
 
-        $this->class->handle_request([ $controller, 'bar' ], [ 1, 2 ]);
+        $this->class->handleRequest([ $controller, 'bar' ], [ 1, 2 ]);
     }
 
     /**
-     * Test that handle_request behaves well with a non-existent controller.
+     * Test handleRequest() with an HttpException.
      *
-     * @covers Lunr\Corona\RequestResultHandler::handle_request
-     */
-    public function testHandleRequestWithNonExistentController(): void
-    {
-        $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
-
-        $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
-                       ->with('controller/method', 500);
-
-        $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
-                       ->willReturn(500);
-
-        if (PHP_VERSION_ID > 80000)
-        {
-            $message  = 'call_user_func_array(): Argument #1 ($callback) must be a valid callback, ';
-            $message .= 'class "String" not found';
-        }
-        else
-        {
-            $message  = 'call_user_func_array() expects parameter 1 to be a valid callback, ';
-            $message .= "class 'String' not found";
-        }
-
-        $this->response->expects($this->once())
-                       ->method('set_error_message')
-                       ->with('controller/method', $message);
-
-        $this->class->handle_request([ 'String', 'bar' ], []);
-    }
-
-    /**
-     * Test that handle_request behaves well with invalid controller values.
-     *
-     * @param mixed $value Invalid controller name.
-     *
-     * @dataProvider invalidControllerNameProvider
-     * @covers       Lunr\Corona\RequestResultHandler::handle_request
-     */
-    public function testHandleRequestWithInvalidControllerValues($value): void
-    {
-        $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
-
-        $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
-                       ->with('controller/method', 500);
-
-        $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
-                       ->willReturn(500);
-
-        if (PHP_VERSION_ID > 80000)
-        {
-            $message  = 'call_user_func_array(): Argument #1 ($callback) must be a valid callback, ';
-            $message .= 'first array member is not a valid class name or object';
-        }
-        else
-        {
-            $message  = 'call_user_func_array() expects parameter 1 to be a valid callback, ';
-            $message .= 'first array member is not a valid class name or object';
-        }
-
-        $this->response->expects($this->once())
-                       ->method('set_error_message')
-                       ->with('controller/method', $message);
-
-        $this->class->handle_request([ $value, 'bar' ], []);
-    }
-
-    /**
-     * Test handle_request() with an HttpException.
-     *
-     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     * @covers Lunr\Corona\RequestResultHandler::handleRequest
      */
     public function testHandleRequestWithHttpException(): void
     {
@@ -178,26 +99,26 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', 400);
 
         $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
+                       ->method('getResultCode')
                        ->willReturn(400);
 
         $message = 'Bad Request!';
 
         $this->response->expects($this->once())
-                       ->method('set_error_message')
+                       ->method('setResultMessage')
                        ->with('controller/method', $message);
 
-        $this->class->handle_request([ $controller, 'foo' ], []);
+        $this->class->handleRequest([ $controller, 'foo' ], []);
     }
 
     /**
-     * Test handle_request() with an Exception.
+     * Test handleRequest() with an Exception.
      *
-     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     * @covers Lunr\Corona\RequestResultHandler::handleRequest
      */
     public function testHandleRequestWithException(): void
     {
@@ -217,30 +138,30 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', 500);
 
         $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
+                       ->method('getResultCode')
                        ->willReturn(500);
 
         $message = 'Error!';
 
         $this->response->expects($this->once())
-                       ->method('set_error_message')
+                       ->method('setResultMessage')
                        ->with('controller/method', $message);
 
         $this->logger->expects($this->once())
                      ->method('error')
                      ->with($message, [ 'exception' => $exception ]);
 
-        $this->class->handle_request([ $controller, 'foo' ], []);
+        $this->class->handleRequest([ $controller, 'foo' ], []);
     }
 
     /**
-     * Test handle_request() with an Error.
+     * Test handleRequest() with an Error.
      *
-     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     * @covers Lunr\Corona\RequestResultHandler::handleRequest
      */
     public function testHandleRequestWithError(): void
     {
@@ -260,30 +181,30 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', 500);
 
         $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
+                       ->method('getResultCode')
                        ->willReturn(500);
 
         $message = 'Fatal Error!';
 
         $this->response->expects($this->once())
-                       ->method('set_error_message')
+                       ->method('setResultMessage')
                        ->with('controller/method', $message);
 
         $this->logger->expects($this->once())
                      ->method('error')
                      ->with($message, [ 'exception' => $exception ]);
 
-        $this->class->handle_request([ $controller, 'foo' ], []);
+        $this->class->handleRequest([ $controller, 'foo' ], []);
     }
 
     /**
-     * Test handle_request() when the request was successful.
+     * Test handleRequest() when the request was successful.
      *
-     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     * @covers Lunr\Corona\RequestResultHandler::handleRequest
      */
     public function testHandleRequestWithSuccess(): void
     {
@@ -300,15 +221,227 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('get_return_code')
+                       ->method('getResultCode')
                        ->willReturn(NULL);
 
         $this->response->expects($this->exactly(1))
-                       ->method('set_return_code')
+                       ->method('setResultCode')
                        ->with('controller/method', 200);
 
         $this->response->expects($this->never())
-                       ->method('set_error_message');
+                       ->method('setResultMessage');
+
+        $this->class->handleRequest([ $controller, 'foo' ], []);
+    }
+
+    /**
+     * Test that handleRequest works correctly with an already instantiated controller.
+     *
+     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     */
+    public function testDeprecatedHandleRequestWithInstantiatedController(): void
+    {
+        $controller = $this->getMockBuilder('Lunr\Corona\Tests\MockController')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $this->request->expects($this->exactly(1))
+                      ->method('__get')
+                      ->with('call')
+                      ->willReturn('controller/method');
+
+        $this->response->expects($this->exactly(1))
+                       ->method('getResultCode')
+                       ->willReturn(NULL);
+
+        $this->response->expects($this->exactly(1))
+                       ->method('setResultCode')
+                       ->with('controller/method', 200);
+
+        $controller->expects($this->once())
+                   ->method('foo')
+                   ->with(1, 2);
+
+        $this->class->handle_request([ $controller, 'foo' ], [ 1, 2 ]);
+    }
+
+    /**
+     * Test that handle_request works correctly with a controller name as string.
+     *
+     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     */
+    public function testDeprecatedHandleRequestWithControllerAsString(): void
+    {
+        $controller = 'Lunr\Corona\Tests\MockController';
+
+        $this->request->expects($this->exactly(1))
+                      ->method('__get')
+                      ->with('call')
+                      ->willReturn('controller/method');
+
+        $this->response->expects($this->exactly(1))
+                       ->method('getResultCode')
+                       ->willReturn(NULL);
+
+        $this->response->expects($this->exactly(1))
+                       ->method('setResultCode')
+                       ->with('controller/method', 200);
+
+        $this->class->handle_request([ $controller, 'bar' ], [ 1, 2 ]);
+    }
+
+    /**
+     * Test handle_request() with an HttpException.
+     *
+     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     */
+    public function testDeprecatedHandleRequestWithHttpException(): void
+    {
+        $controller = $this->getMockBuilder('Lunr\Corona\Tests\MockController')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $controller->expects($this->once())
+                   ->method('foo')
+                   ->will($this->throwException(new BadRequestException('Bad Request!')));
+
+        $this->request->expects($this->exactly(3))
+                      ->method('__get')
+                      ->with('call')
+                      ->willReturn('controller/method');
+
+        $this->response->expects($this->exactly(1))
+                       ->method('setResultCode')
+                       ->with('controller/method', 400);
+
+        $this->response->expects($this->exactly(1))
+                       ->method('getResultCode')
+                       ->willReturn(400);
+
+        $message = 'Bad Request!';
+
+        $this->response->expects($this->once())
+                       ->method('setResultMessage')
+                       ->with('controller/method', $message);
+
+        $this->class->handle_request([ $controller, 'foo' ], []);
+    }
+
+    /**
+     * Test handle_request() with an Exception.
+     *
+     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     */
+    public function testDeprecatedHandleRequestWithException(): void
+    {
+        $exception = new Exception('Error!');
+
+        $controller = $this->getMockBuilder('Lunr\Corona\Tests\MockController')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $controller->expects($this->once())
+                   ->method('foo')
+                   ->will($this->throwException($exception));
+
+        $this->request->expects($this->exactly(2))
+                      ->method('__get')
+                      ->with('call')
+                      ->willReturn('controller/method');
+
+        $this->response->expects($this->exactly(1))
+                       ->method('setResultCode')
+                       ->with('controller/method', 500);
+
+        $this->response->expects($this->exactly(1))
+                       ->method('getResultCode')
+                       ->willReturn(500);
+
+        $message = 'Error!';
+
+        $this->response->expects($this->once())
+                       ->method('setResultMessage')
+                       ->with('controller/method', $message);
+
+        $this->logger->expects($this->once())
+                     ->method('error')
+                     ->with($message, [ 'exception' => $exception ]);
+
+        $this->class->handle_request([ $controller, 'foo' ], []);
+    }
+
+    /**
+     * Test handle_request() with an Error.
+     *
+     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     */
+    public function testDeprecatedHandleRequestWithError(): void
+    {
+        $exception = new Error('Fatal Error!');
+
+        $controller = $this->getMockBuilder('Lunr\Corona\Tests\MockController')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $controller->expects($this->once())
+                   ->method('foo')
+                   ->will($this->throwException($exception));
+
+        $this->request->expects($this->exactly(2))
+                      ->method('__get')
+                      ->with('call')
+                      ->willReturn('controller/method');
+
+        $this->response->expects($this->exactly(1))
+                       ->method('setResultCode')
+                       ->with('controller/method', 500);
+
+        $this->response->expects($this->exactly(1))
+                       ->method('getResultCode')
+                       ->willReturn(500);
+
+        $message = 'Fatal Error!';
+
+        $this->response->expects($this->once())
+                       ->method('setResultMessage')
+                       ->with('controller/method', $message);
+
+        $this->logger->expects($this->once())
+                     ->method('error')
+                     ->with($message, [ 'exception' => $exception ]);
+
+        $this->class->handle_request([ $controller, 'foo' ], []);
+    }
+
+    /**
+     * Test handle_request() when the request was successful.
+     *
+     * @covers Lunr\Corona\RequestResultHandler::handle_request
+     */
+    public function testDeprecatedHandleRequestWithSuccess(): void
+    {
+        $controller = $this->getMockBuilder('Lunr\Corona\Tests\MockController')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $controller->expects($this->once())
+                   ->method('foo');
+
+        $this->request->expects($this->exactly(1))
+                      ->method('__get')
+                      ->with('call')
+                      ->willReturn('controller/method');
+
+        $this->response->expects($this->exactly(1))
+                       ->method('getResultCode')
+                       ->willReturn(NULL);
+
+        $this->response->expects($this->exactly(1))
+                       ->method('setResultCode')
+                       ->with('controller/method', 200);
+
+        $this->response->expects($this->never())
+                       ->method('setResultMessage');
 
         $this->class->handle_request([ $controller, 'foo' ], []);
     }

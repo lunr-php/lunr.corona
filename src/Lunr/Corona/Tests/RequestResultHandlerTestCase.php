@@ -30,21 +30,21 @@ abstract class RequestResultHandlerTestCase extends LunrBaseTestCase
 
     /**
      * Mock instance of the Request class.
-     * @var Request
+     * @var Request&MockObject
      */
-    protected $request;
+    protected Request&MockObject $request;
 
     /**
      * Mock instance of the Response class.
-     * @var Response
+     * @var Response&MockObject
      */
-    protected $response;
+    protected Response&MockObject $response;
 
     /**
      * Mock instance of a Logger class.
-     * @var LoggerInterface
+     * @var LoggerInterface&MockObject
      */
-    protected $logger;
+    protected LoggerInterface&MockObject $logger;
 
     /**
      * Mock Instance of an event logger.
@@ -69,15 +69,15 @@ abstract class RequestResultHandlerTestCase extends LunrBaseTestCase
      */
     public function setUp(): void
     {
-        $this->request = $this->getMockBuilder('Lunr\Corona\Request')
+        $this->request = $this->getMockBuilder(Request::class)
                               ->disableOriginalConstructor()
                               ->getMock();
 
-        $this->response = $this->getMockBuilder('Lunr\Corona\Response')
+        $this->response = $this->getMockBuilder(Response::class)
                                ->disableOriginalConstructor()
                                ->getMock();
 
-        $this->logger = $this->getMockBuilder('Psr\Log\LoggerInterface')
+        $this->logger = $this->getMockBuilder(LoggerInterface::class)
                              ->getMock();
 
         $this->eventLogger = $this->getMockBuilder(EventLoggerInterface::class)
@@ -104,22 +104,6 @@ abstract class RequestResultHandlerTestCase extends LunrBaseTestCase
         unset($this->event);
 
         parent::tearDown();
-    }
-
-    /**
-     * Unit test data provider for invalid controller names.
-     *
-     * @return array $names Array of invalid names
-     */
-    public static function invalidControllerNameProvider(): array
-    {
-        $names   = [];
-        $names[] = [ NULL ];
-        $names[] = [ FALSE ];
-        $names[] = [ 1 ];
-        $names[] = [ 1.1 ];
-
-        return $names;
     }
 
 }

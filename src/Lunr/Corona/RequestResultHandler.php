@@ -29,19 +29,19 @@ class RequestResultHandler
      * Shared instance of the Request class.
      * @var Request
      */
-    protected $request;
+    protected readonly Request $request;
 
     /**
      * Shared instance of the Response class.
      * @var Response
      */
-    protected $response;
+    protected readonly Response $response;
 
     /**
      * Shared instance of a Logger class.
      * @var LoggerInterface
      */
-    protected $logger;
+    protected readonly LoggerInterface $logger;
 
     /**
      * Shared instance of an EventLogger class
@@ -68,7 +68,7 @@ class RequestResultHandler
      * @param Response        $response Instance of the Response class.
      * @param LoggerInterface $logger   Instance of a Logger class.
      */
-    public function __construct($request, $response, $logger)
+    public function __construct(Request $request, Response $response, LoggerInterface $logger)
     {
         $this->request  = $request;
         $this->response = $response;
@@ -82,24 +82,8 @@ class RequestResultHandler
      */
     public function __destruct()
     {
-        unset($this->request);
-        unset($this->response);
-        unset($this->logger);
         unset($this->codeMap);
         unset($this->tagMap);
-    }
-
-    /**
-     * Handle unimplemented calls.
-     *
-     * @param string $name      Method name
-     * @param array  $arguments Method arguments
-     *
-     * @return void
-     */
-    public function __call($name, $arguments)
-    {
-        // no-op
     }
 
     /**
@@ -126,12 +110,27 @@ class RequestResultHandler
     /**
      * Handle a request.
      *
-     * @param callable $callable Request handler to call
-     * @param array    $params   Request parameters to pass to the callable
+     * @deprecated Use handleRequest() instead
+     *
+     * @param callable                 $callable Request handler to call
+     * @param array<int|string, mixed> $params   Request parameters to pass to the callable
      *
      * @return void
      */
-    public function handle_request($callable, $params)
+    public function handle_request(callable $callable, array $params)
+    {
+        $this->handleRequest($callable, $params);
+    }
+
+    /**
+     * Handle a request.
+     *
+     * @param callable                 $callable Request handler to call
+     * @param array<int|string, mixed> $params   Request parameters to pass to the callable
+     *
+     * @return void
+     */
+    public function handleRequest(callable $callable, array $params): void
     {
         try
         {
@@ -141,39 +140,39 @@ class RequestResultHandler
         {
             $this->logRequestResult($e);
 
-            $this->set_result($e->getCode(), $e->getMessage(), $e->getAppCode());
+            $this->setResult($e->getCode(), $e->getMessage(), $e->getAppCode());
         }
         catch (Throwable $e)
         {
             $this->logger->error($e->getMessage(), [ 'exception' => $e ]);
-            $this->set_result(HttpCode::INTERNAL_SERVER_ERROR, $e->getMessage());
+            $this->setResult(HttpCode::INTERNAL_SERVER_ERROR, $e->getMessage());
         }
 
         // default to 200 if no result was set
-        if ($this->response->get_return_code() !== NULL)
+        if ($this->response->getResultCode() !== NULL)
         {
             return;
         }
 
-        $this->set_result(HttpCode::OK);
+        $this->setResult(HttpCode::OK);
     }
 
     /**
      * Store result of the call in the response object.
      *
-     * @param int    $code    Return Code
-     * @param string $message Error Message
-     * @param mixed  $info    Additional error information
+     * @param int         $code    Return Code
+     * @param string|null $message Error Message
+     * @param int|null    $info    Additional error information
      *
      * @return void
      */
-    private function set_result($code, $message = NULL, $info = NULL)
+    private function setResult(int $code, ?string $message = NULL, ?int $info = NULL): void
     {
-        $this->response->set_return_code($this->request->call, $code);
+        $this->response->setResultCode($this->request->call, $code);
 
         if ($message !== NULL)
         {
-            $this->response->set_error_message($this->request->call, $message);
+            $this->response->setResultMessage($this->request->call, $message);
         }
 
         if ($info === NULL)
@@ -181,7 +180,7 @@ class RequestResultHandler
             return;
         }
 
-        $this->response->set_error_info($this->request->call, $info);
+        $this->response->setResultInfoCode($this->request->call, $info);
     }
 
     /**
@@ -208,7 +207,9 @@ class RequestResultHandler
 
         foreach ($this->tagMap as $name => $key)
         {
-            $tags[$name] = $this->request->get($key);
+            $value = $this->request->get($key);
+
+            $tags[$name] = is_bool($value) ? $value : (string) $value;
         }
 
         if ($exception instanceof ClientDataHttpException)
