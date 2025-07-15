@@ -13,7 +13,7 @@ namespace Lunr\Corona\Tests;
 /**
  * This class contains tests for dispatching controllers with the FrontController class.
  *
- * @covers     Lunr\Corona\FrontController
+ * @covers Lunr\Corona\FrontController
  */
 class FrontControllerDispatchTest extends FrontControllerTestCase
 {
@@ -25,7 +25,7 @@ class FrontControllerDispatchTest extends FrontControllerTestCase
      */
     public function testDispatchWithInstantiatedController(): void
     {
-        $controller = $this->getMockBuilder('Lunr\Corona\Tests\MockController')
+        $controller = $this->getMockBuilder(MockController::class)
                            ->disableOriginalConstructor()
                            ->getMock();
 
@@ -44,71 +44,25 @@ class FrontControllerDispatchTest extends FrontControllerTestCase
     }
 
     /**
-     * Test that dispatch works correctly with a controller name as string.
+     * Test that dispatch ignores uncallable controller/method combination.
      *
      * @covers Lunr\Corona\FrontController::dispatch
      */
-    public function testDispatchWithControllerAsString(): void
+    public function testDispatchWithUncallableControllerMethodCombination(): void
     {
-        $controller = 'Lunr\Corona\Tests\MockController';
+        $object = $this->getMockBuilder(Model::class)
+                       ->disableOriginalConstructor()
+                       ->getMock();
 
-        $this->handler->expects($this->once())
-                      ->method('handle_request')
-                      ->with([ $controller, 'bar' ], [ 1, 2 ]);
+        $this->handler->expects($this->never())
+                      ->method('handle_request');
 
-        $this->request->expects($this->exactly(2))
+        $this->request->expects($this->once())
                       ->method('__get')
-                      ->willReturnMap([
-                          [ 'method', 'bar' ],
-                          [ 'params', [ 1, 2 ]],
-                      ]);
+                      ->with('method')
+                      ->willReturn('baz');
 
-        $this->class->dispatch($controller);
-    }
-
-    /**
-     * Test that dispatch behaves well with a non-existent controller.
-     *
-     * @covers Lunr\Corona\FrontController::dispatch
-     */
-    public function testDispatchWithNonExistentController(): void
-    {
-        $this->handler->expects($this->once())
-                      ->method('handle_request')
-                      ->with([ 'String', 'bar' ], [ 1, 2 ]);
-
-        $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->willReturnMap([
-                          [ 'method', 'bar' ],
-                          [ 'params', [ 1, 2 ]],
-                      ]);
-
-        $this->class->dispatch('String');
-    }
-
-    /**
-     * Test that dispatch behaves well with invalid controller values.
-     *
-     * @param mixed $value Invalid controller name.
-     *
-     * @dataProvider invalidControllerNameProvider
-     * @covers       Lunr\Corona\FrontController::dispatch
-     */
-    public function testDispatchWithInvalidControllerValues($value): void
-    {
-        $this->handler->expects($this->once())
-                      ->method('handle_request')
-                      ->with([ $value, 'bar' ], [ 1, 2 ]);
-
-        $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->willReturnMap([
-                          [ 'method', 'bar' ],
-                          [ 'params', [ 1, 2 ]],
-                      ]);
-
-        $this->class->dispatch($value);
+        $this->class->dispatch($object);
     }
 
 }

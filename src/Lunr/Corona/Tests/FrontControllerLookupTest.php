@@ -29,7 +29,7 @@ class FrontControllerLookupTest extends FrontControllerTestCase
 
         $value = $this->class->lookup();
 
-        $this->assertEquals('', $value);
+        $this->assertNull($value);
     }
 
     /**
@@ -43,7 +43,7 @@ class FrontControllerLookupTest extends FrontControllerTestCase
 
         $value = $this->class->lookup('test');
 
-        $this->assertEquals('', $value);
+        $this->assertNull($value);
     }
 
     /**
@@ -111,7 +111,7 @@ class FrontControllerLookupTest extends FrontControllerTestCase
 
         $value = $this->class->lookup('prod');
 
-        $this->assertEquals('', $value);
+        $this->assertNull($value);
     }
 
     /**
@@ -157,7 +157,7 @@ class FrontControllerLookupTest extends FrontControllerTestCase
 
         $value = $this->class->lookup('test');
 
-        $this->assertEquals('', $value);
+        $this->assertNull($value);
     }
 
 }

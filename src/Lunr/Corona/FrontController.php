@@ -26,25 +26,25 @@ class FrontController
      * Shared instance of the Request class.
      * @var Request
      */
-    protected $request;
+    protected readonly Request $request;
 
     /**
      * Shared instance of the RequestResultHandler class.
      * @var RequestResultHandler
      */
-    protected $handler;
+    protected readonly RequestResultHandler $handler;
 
     /**
      * Registered lookup paths.
-     * @var array
+     * @var array<string, string>
      */
-    protected $paths;
+    protected array $paths;
 
     /**
      * Registered routing rules.
-     * @var array
+     * @var array<string, string[]|null>
      */
-    protected $routes;
+    protected array $routes;
 
     /**
      * Constructor.
@@ -52,7 +52,7 @@ class FrontController
      * @param Request              $request Instance of the Request class.
      * @param RequestResultHandler $handler Instance of the RequestResultHandler class.
      */
-    public function __construct($request, $handler)
+    public function __construct(Request $request, RequestResultHandler $handler)
     {
         $this->request = $request;
         $this->handler = $handler;
@@ -66,10 +66,23 @@ class FrontController
      */
     public function __destruct()
     {
-        unset($this->request);
-        unset($this->handler);
         unset($this->paths);
         unset($this->routes);
+    }
+
+    /**
+     * Register a path for controller lookup
+     *
+     * @deprecated Use registerLookupPath() instead
+     *
+     * @param string $identifier Path identifier
+     * @param string $path       Path specification
+     *
+     * @return void
+     */
+    public function register_lookup_path(string $identifier, string $path): void
+    {
+        $this->registerLookupPath($identifier, $path);
     }
 
     /**
@@ -80,7 +93,7 @@ class FrontController
      *
      * @return void
      */
-    public function register_lookup_path($identifier, $path)
+    public function registerLookupPath(string $identifier, string $path): void
     {
         $this->paths[$identifier] = $path;
     }
@@ -88,13 +101,29 @@ class FrontController
     /**
      * Add a static routing rule for specific calls.
      *
-     * @param string $call  Request call identifier (either call or controller name)
-     * @param mixed  $route Routing rule. Use NULL for blacklisting, an empty array for whitelisting
-     *                      or an array of path identifiers to limit the lookup search to those paths.
+     * @deprecated Use addRoutingRule() instead
+     *
+     * @param string        $call  Request call identifier (either call or controller name)
+     * @param string[]|null $route Routing rule. Use NULL for blacklisting, an empty array for whitelisting
+     *                             or an array of path identifiers to limit the lookup search to those paths.
      *
      * @return void
      */
-    public function add_routing_rule($call, $route = [])
+    public function add_routing_rule(string $call, ?array $route = []): void
+    {
+        $this->addRoutingRule($call, $route);
+    }
+
+    /**
+     * Add a static routing rule for specific calls.
+     *
+     * @param string        $call  Request call identifier (either call or controller name)
+     * @param string[]|null $route Routing rule. Use NULL for blacklisting, an empty array for whitelisting
+     *                             or an array of path identifiers to limit the lookup search to those paths.
+     *
+     * @return void
+     */
+    public function addRoutingRule(string $call, ?array $route = []): void
     {
         $this->routes[$call] = $route;
     }
@@ -102,34 +131,50 @@ class FrontController
     /**
      * Get the controller responsible for the request.
      *
-     * @param string $src       Project subfolder to look for controllers in.
-     * @param array  $list      List of controller names
-     * @param bool   $blacklist Whether to use the controller list as blacklist or whitelist
+     * @deprecated Use getController() instead
      *
-     * @return string $controller Fully qualified name of the responsible controller.
+     * @param string   $src       Project subfolder to look for controllers in.
+     * @param string[] $list      List of controller names
+     * @param bool     $blacklist Whether to use the controller list as blacklist or whitelist
+     *
+     * @return string|null Fully qualified name of the responsible controller.
      */
-    public function get_controller(string $src, array $list = [], bool $blacklist = TRUE): string
+    public function get_controller(string $src, array $list = [], bool $blacklist = TRUE): ?string
+    {
+        return $this->getController($src, $list, $blacklist);
+    }
+
+    /**
+     * Get the controller responsible for the request.
+     *
+     * @param string   $src         Project subfolder to look for controllers in.
+     * @param string[] $list        List of controller names
+     * @param bool     $isBlacklist Whether to use the controller list as blacklist or whitelist
+     *
+     * @return string|null Fully qualified name of the responsible controller, or NULL if not found
+     */
+    public function getController(string $src, array $list = [], bool $isBlacklist = TRUE): ?string
     {
         $name = $this->request->controller . 'controller';
 
         if ($name == 'controller')
         {
-            return '';
+            return NULL;
         }
 
-        if (($blacklist === TRUE) && in_array($this->request->controller, $list))
+        if (($isBlacklist === TRUE) && in_array($this->request->controller, $list))
         {
-            return '';
+            return NULL;
         }
 
-        if (($blacklist === FALSE) && !in_array($this->request->controller, $list))
+        if (($isBlacklist === FALSE) && !in_array($this->request->controller, $list))
         {
-            return '';
+            return NULL;
         }
 
         if (!preg_match('/^[a-zA-Z0-9\-_]*$/', $name))
         {
-            return '';
+            return NULL;
         }
 
         $name = str_replace('-', '', $name);
@@ -142,7 +187,7 @@ class FrontController
 
         if (empty($matches) === TRUE)
         {
-            return '';
+            return NULL;
         }
 
         if (count($matches) > 1)
@@ -161,27 +206,27 @@ class FrontController
      *
      * @param string ...$paths Identifiers for the paths to use for the lookup
      *
-     * @return string $controller Fully qualified name of the responsible controller.
+     * @return string|null Fully qualified name of the responsible controller, or NULL if not found.
      */
-    public function lookup(...$paths)
+    public function lookup(string ...$paths): ?string
     {
         if (empty($this->paths))
         {
-            return '';
+            return NULL;
         }
 
         $paths = empty($paths) ? array_keys($this->paths) : $paths;
 
-        $controller = '';
+        $controller = NULL;
 
         foreach ($paths as $id)
         {
             if (array_key_exists($id, $this->paths))
             {
-                $controller = $this->get_controller($this->paths[$id]);
+                $controller = $this->getController($this->paths[$id]);
             }
 
-            if ($controller != '')
+            if ($controller != NULL)
             {
                 break;
             }
@@ -193,9 +238,9 @@ class FrontController
     /**
      * Find the controller name for the request made.
      *
-     * @return string $controller Fully qualified name of the responsible controller.
+     * @return string|null Fully qualified name of the responsible controller, or NULL if not found.
      */
-    public function route()
+    public function route(): ?string
     {
         foreach ([ 'call', 'controller' ] as $id)
         {
@@ -208,7 +253,7 @@ class FrontController
 
             if ($this->routes[$key] === NULL)
             {
-                return '';
+                return NULL;
             }
 
             return $this->lookup(...$this->routes[$key]);
@@ -220,13 +265,20 @@ class FrontController
     /**
      * Dispatch to the found controller.
      *
-     * @param Controller $controller Instance of the responsible Controller class.
+     * @param object $controller Instance of the responsible Controller class.
      *
      * @return void
      */
-    public function dispatch($controller)
+    public function dispatch(object $controller): void
     {
-        $this->handler->handle_request([ $controller, $this->request->method ], $this->request->params);
+        $callable = [ $controller, $this->request->method ];
+
+        if (!is_callable($callable))
+        {
+            return;
+        }
+
+        $this->handler->handle_request($callable, $this->request->params);
     }
 
 }
