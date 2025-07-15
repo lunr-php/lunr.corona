@@ -82,9 +82,13 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
 
         $this->response = $this->getMockBuilder('Lunr\Corona\Response')->getMock();
 
+        $this->mockFunction('headers_sent', fn() => TRUE);
+
         $this->class = $this->getMockBuilder('Lunr\Corona\HTMLView')
                            ->setConstructorArgs([ $this->request, $this->response, $this->configuration ])
                            ->getMockForAbstractClass();
+
+        $this->unmockFunction('headers_sent');
 
         parent::baseSetUp($this->class);
     }

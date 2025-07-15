@@ -53,7 +53,11 @@ abstract class MsgpackViewTestCase extends LunrBaseTestCase
                               ->disableOriginalConstructor()
                               ->getMock();
 
+        $this->mockFunction('headers_sent', fn() => TRUE);
+
         $this->class = new MsgpackView($this->request, $this->response);
+
+        $this->unmockFunction('headers_sent');
 
         parent::baseSetUp($this->class);
     }

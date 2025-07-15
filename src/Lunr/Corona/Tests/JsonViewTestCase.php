@@ -53,7 +53,11 @@ abstract class JsonViewTestCase extends LunrBaseTestCase
                               ->disableOriginalConstructor()
                               ->getMock();
 
+        $this->mockFunction('headers_sent', fn() => TRUE);
+
         $this->class = new JsonView($this->request, $this->response);
+
+        $this->unmockFunction('headers_sent');
 
         parent::baseSetUp($this->class);
     }

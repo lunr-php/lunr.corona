@@ -10,13 +10,11 @@
 
 namespace Lunr\Corona\Tests;
 
-use Lunr\Corona\Parsers\TracingInfo\TracingInfoValue;
 use Lunr\Corona\Request;
 use Lunr\Corona\Response;
 use Lunr\Corona\View;
 use Lunr\Halo\LunrBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * This class tests the setup of the view class,
@@ -29,21 +27,21 @@ abstract class ViewTestCase extends LunrBaseTestCase
 
     /**
      * Mock instance of the request class.
-     * @var Request
+     * @var Request&MockObject
      */
-    protected $request;
+    protected Request&MockObject $request;
 
     /**
      * Mock instance of the response class.
-     * @var Response
+     * @var Response&MockObject
      */
-    protected $response;
+    protected Response&MockObject $response;
 
     /**
      * Instance of the tested class.
-     * @var View&MockObject&Stub
+     * @var View&MockObject
      */
-    protected View&MockObject&Stub $class;
+    protected View&MockObject $class;
 
     /**
      * TestCase Constructor.
@@ -52,25 +50,22 @@ abstract class ViewTestCase extends LunrBaseTestCase
      */
     public function setUp(): void
     {
-        $this->request = $this->getMockBuilder('Lunr\Corona\Request')
+        $this->request = $this->getMockBuilder(Request::class)
                               ->disableOriginalConstructor()
                               ->getMock();
 
-        $this->response = $this->getMockBuilder('Lunr\Corona\Response')->getMock();
+        $this->response = $this->getMockBuilder(Response::class)
+                               ->getMock();
 
-        if (!headers_sent())
-        {
-            $this->request->expects($this->once())
-                          ->method('get')
-                          ->with(TracingInfoValue::TraceID)
-                          ->willReturn('962161b27a0141f384c63834ad001adf');
-        }
+        $this->mockFunction('headers_sent', fn() => TRUE);
 
-        $this->class = $this->getMockBuilder('Lunr\Corona\View')
+        $this->class = $this->getMockBuilder(View::class)
                             ->setConstructorArgs(
                                [ $this->request, $this->response ]
                              )
                            ->getMockForAbstractClass();
+
+        $this->unmockFunction('headers_sent');
 
         parent::baseSetUp($this->class);
     }

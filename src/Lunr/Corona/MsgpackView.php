@@ -55,7 +55,7 @@ class MsgpackView extends View
      *
      * @return void
      */
-    public function print_page()
+    public function printPage(): void
     {
         $identifier = $this->response->get_return_code_identifiers(TRUE);
 
@@ -89,11 +89,11 @@ class MsgpackView extends View
      *
      * @return void
      */
-    public function print_fatal_error()
+    public function printFatalError(): void
     {
         $error = error_get_last();
 
-        if ($this->is_fatal_error($error) === FALSE)
+        if ($this->isFatalError($error) === FALSE)
         {
             return;
         }
@@ -121,7 +121,7 @@ class MsgpackView extends View
      *
      * @return void
      */
-    public function print_exception($e)
+    public function printException(Throwable $e): void
     {
         $msgpack = [];
 

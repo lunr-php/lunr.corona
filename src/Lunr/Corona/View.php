@@ -15,6 +15,13 @@ use Throwable;
 
 /**
  * View class used by the Website
+ *
+ * @phpstan-type LastError array{
+ *     type: int,
+ *     message: string,
+ *     file: string,
+ *     line: int,
+ * }
  */
 abstract class View
 {
@@ -23,13 +30,13 @@ abstract class View
      * Shared instance of the Request class
      * @var Request
      */
-    protected $request;
+    protected readonly Request $request;
 
     /**
      * Shared instance of the Response class
      * @var Response
      */
-    protected $response;
+    protected readonly Response $response;
 
     /**
      * Constructor.
@@ -37,7 +44,7 @@ abstract class View
      * @param Request  $request  Shared instance of the Request class
      * @param Response $response Shared instance of the Response class
      */
-    public function __construct($request, $response)
+    public function __construct(Request $request, Response $response)
     {
         $this->request  = $request;
         $this->response = $response;
@@ -55,8 +62,19 @@ abstract class View
      */
     public function __destruct()
     {
-        unset($this->request);
-        unset($this->response);
+        // no-op
+    }
+
+    /**
+     * Build the actual display and print it.
+     *
+     * @deprecated Use printPage() instead
+     *
+     * @return void
+     */
+    public function print_page(): void
+    {
+        $this->printPage();
     }
 
     /**
@@ -64,14 +82,40 @@ abstract class View
      *
      * @return void
      */
-    abstract public function print_page();
+    abstract public function printPage(): void;
+
+    /**
+     * Build display for Fatal Error output.
+     *
+     * @deprecated Use printFatalError() instead
+     *
+     * @return void
+     */
+    public function print_fatal_error(): void
+    {
+        $this->printFatalError();
+    }
 
     /**
      * Build display for Fatal Error output.
      *
      * @return void
      */
-    abstract public function print_fatal_error();
+    abstract public function printFatalError(): void;
+
+    /**
+     * Build display for uncaught exception output.
+     *
+     * @deprecated Use printException() instead
+     *
+     * @param Throwable $e Uncaught exception
+     *
+     * @return void
+     */
+    public function print_exception(Throwable $e): void
+    {
+        $this->printException($e);
+    }
 
     /**
      * Build display for uncaught exception output.
@@ -80,16 +124,16 @@ abstract class View
      *
      * @return void
      */
-    abstract public function print_exception($e);
+    abstract public function printException(Throwable $e): void;
 
     /**
      * Return base_url or attach given path to base_url.
      *
      * @param string $path Path that should be attached to base_url (optional)
      *
-     * @return string $return base_url (+ the given path, if given)
+     * @return string base_url (+ the given path, if given)
      */
-    protected function base_url($path = '')
+    protected function baseUrl(string $path = ''): string
     {
         return $this->request->base_url . $path;
     }
@@ -97,11 +141,11 @@ abstract class View
     /**
      * Check whether the last error was fatal or not.
      *
-     * @param array|null $error Value returned from error_get_last()
+     * @param LastError|null $error Value returned from error_get_last()
      *
-     * @return bool $return TRUE if error was fatal, FALSE otherwise
+     * @return bool TRUE if error was fatal, FALSE otherwise
      */
-    protected function is_fatal_error($error)
+    protected function isFatalError(?array $error): bool
     {
         if (($error === NULL) || !in_array($error['type'], [ E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR ]))
         {

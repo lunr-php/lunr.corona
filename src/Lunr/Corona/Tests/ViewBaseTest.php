@@ -10,10 +10,13 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Corona\Parsers\TracingInfo\TracingInfoValue;
+use Lunr\Corona\View;
+
 /**
  * Base tests for the view class.
  *
- * @covers     Lunr\Corona\View
+ * @covers Lunr\Corona\View
  */
 class ViewBaseTest extends ViewTestCase
 {
@@ -42,6 +45,20 @@ class ViewBaseTest extends ViewTestCase
      */
     public function testRequestIdHeaderIsSet(): void
     {
+        if (!headers_sent())
+        {
+            $this->request->expects($this->once())
+                          ->method('get')
+                          ->with(TracingInfoValue::TraceID)
+                          ->willReturn('962161b27a0141f384c63834ad001adf');
+        }
+
+        $class = $this->getMockBuilder(View::class)
+                      ->setConstructorArgs(
+                        [ $this->request, $this->response ]
+                      )
+                      ->getMockForAbstractClass();
+
         $headers = xdebug_get_headers();
 
         $this->assertIsArray($headers);
@@ -50,6 +67,18 @@ class ViewBaseTest extends ViewTestCase
         $value = strpos($headers[0], 'X-Xdebug-Profile-Filename') !== FALSE ? $headers[1] : $headers[0];
 
         $this->assertEquals('X-Request-ID: 962161b27a0141f384c63834ad001adf', $value);
+    }
+
+    /**
+     * Test that the request ID header is not set.
+     */
+    public function testRequestIdHeaderIsNotSet(): void
+    {
+        $headers = xdebug_get_headers();
+
+        $this->assertIsArray($headers);
+
+        $this->assertArrayEmpty($headers);
     }
 
 }
