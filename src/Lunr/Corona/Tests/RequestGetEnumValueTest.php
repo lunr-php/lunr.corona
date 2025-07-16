@@ -58,6 +58,24 @@ class RequestGetEnumValueTest extends RequestTestCase
     }
 
     /**
+     * Check that getAsEnum() returns mocked enum values.
+     *
+     * @covers Lunr\Corona\Request::getAsEnum
+     */
+    public function testGetAsEnumWithMockedEnumValue(): void
+    {
+        $mock = [
+            'foo' => MockRequestValueEnum::Bar,
+        ];
+
+        $this->setReflectionPropertyValue('mock', [ $mock ]);
+
+        $value = $this->class->getAsEnum(MockRequestValue::Foo);
+
+        $this->assertEquals(MockRequestValueEnum::Bar, $value);
+    }
+
+    /**
      * Check that getAsEnum() returns uncached values.
      *
      * @covers Lunr\Corona\Request::getAsEnum

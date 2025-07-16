@@ -12,6 +12,7 @@ namespace Lunr\Corona\Tests;
 use Lunr\Corona\Parsers\TracingInfo\TracingInfoValue;
 use Lunr\Corona\RequestValueParserInterface;
 use Lunr\Corona\Tests\Helpers\MockRequestValue;
+use Lunr\Corona\Tests\Helpers\MockRequestValueEnum;
 use RuntimeException;
 
 /**
@@ -61,6 +62,29 @@ class RequestGetValueTest extends RequestTestCase
         $value = $this->class->get(MockRequestValue::Foo);
 
         $this->assertEquals('baz', $value);
+    }
+
+    /**
+     * Check that get() returns mocked enum values.
+     *
+     * @covers Lunr\Corona\Request::get
+     */
+    public function testGetWithMockedEnumValue(): void
+    {
+        $cache = [
+            'foo' => 'baz',
+        ];
+
+        $mock = [
+            'foo' => MockRequestValueEnum::Bar,
+        ];
+
+        $this->setReflectionPropertyValue('request', $cache);
+        $this->setReflectionPropertyValue('mock', [ $mock ]);
+
+        $value = $this->class->get(MockRequestValue::Foo);
+
+        $this->assertEquals('bar', $value);
     }
 
     /**

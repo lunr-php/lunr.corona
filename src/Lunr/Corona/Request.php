@@ -265,7 +265,15 @@ class Request implements TracingControllerInterface, TracingInfoInterface
     {
         if (!empty($this->mock) && array_key_exists($key->value, $this->mock[0]))
         {
-            return $this->mock[0][$key->value];
+            if (is_scalar($this->mock[0][$key->value]) || is_null($this->mock[0][$key->value]))
+            {
+                return $this->mock[0][$key->value];
+            }
+
+            if ($this->mock[0][$key->value] instanceof BackedEnum)
+            {
+                return $this->mock[0][$key->value]->value;
+            }
         }
 
         if (array_key_exists($key->value, $this->request))
@@ -292,6 +300,13 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      */
     public function getAsEnum(BackedEnum&RequestEnumValueInterface $key): ?BackedEnum
     {
+        if (!empty($this->mock) && array_key_exists($key->value, $this->mock[0])
+            && $this->mock[0][$key->value] instanceof BackedEnum && $this->mock[0][$key->value] instanceof ParsedEnumValueInterface
+        )
+        {
+            return $this->mock[0][$key->value];
+        }
+
         if (!isset($this->parsers[$key::class]))
         {
             throw new RuntimeException('No parser registered for requested value ("' . $key->value . '")!');
