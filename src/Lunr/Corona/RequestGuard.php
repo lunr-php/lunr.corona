@@ -10,10 +10,13 @@
 namespace Lunr\Corona;
 
 use BackedEnum;
+use Lunr\Corona\Authorization\AuthorizationTypeInterface;
+use Lunr\Corona\Authorization\AuthorizerInterface;
 use Lunr\Corona\Exceptions\BadRequestException;
 use Lunr\Corona\Exceptions\PreconditionFailedException;
 use Lunr\Corona\Parsers\ApiVersion\ApiVersionInterface;
 use Lunr\Corona\Parsers\ApiVersion\ApiVersionValue;
+use RuntimeException;
 
 /**
  * RequestGuard class.
@@ -28,13 +31,20 @@ class RequestGuard
     protected readonly Request $request;
 
     /**
+     * Map of registered authorizers.
+     * @var array<string, AuthorizerInterface>
+     */
+    protected array $authorizers;
+
+    /**
      * Constructor.
      *
      * @param Request $request Shared instance of the Request class
      */
     public function __construct(Request $request)
     {
-        $this->request = $request;
+        $this->request     = $request;
+        $this->authorizers = [];
     }
 
     /**
@@ -42,7 +52,19 @@ class RequestGuard
      */
     public function __destruct()
     {
-        //NO-OP
+        unset($this->authorizers);
+    }
+
+    /**
+     * Register an authorizer.
+     *
+     * @param AuthorizerInterface $authorizer The authorizer to register
+     *
+     * @return void
+     */
+    public function registerAuthorizer(AuthorizerInterface $authorizer): void
+    {
+        $this->authorizers[$authorizer->getAuthorizationType()->value] = $authorizer;
     }
 
     /**
@@ -72,6 +94,24 @@ class RequestGuard
         {
             throw new PreconditionFailedException('API version is no longer supported!');
         }
+    }
+
+    /**
+     * Authorize the passed whitelist to access the resource.
+     *
+     * @param BackedEnum&AuthorizationTypeInterface $type       Type of authorization to use to verify the whitelist
+     * @param string|BackedEnum                     ...$allowed Whitelist
+     *
+     * @return void
+     */
+    public function authorize(BackedEnum&AuthorizationTypeInterface $type, string|BackedEnum ...$allowed): void
+    {
+        if (!array_key_exists($type->value, $this->authorizers))
+        {
+            throw new RuntimeException('No authorizer registered for authorization type "' . $type->value . '"!');
+        }
+
+        $this->authorizers[$type->value]->authorize($allowed);
     }
 
 }
