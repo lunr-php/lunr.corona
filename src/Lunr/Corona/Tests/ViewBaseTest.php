@@ -53,11 +53,12 @@ class ViewBaseTest extends ViewTestCase
                           ->willReturn('962161b27a0141f384c63834ad001adf');
         }
 
-        $class = $this->getMockBuilder(View::class)
-                      ->setConstructorArgs(
-                        [ $this->request, $this->response ]
-                      )
-                      ->getMockForAbstractClass();
+        // Need to instantiate the class to send headers
+        $this->getMockBuilder(View::class)
+             ->setConstructorArgs(
+                [ $this->request, $this->response ]
+             )
+             ->getMockForAbstractClass();
 
         $headers = xdebug_get_headers();
 
