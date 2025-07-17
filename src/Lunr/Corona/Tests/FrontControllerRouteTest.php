@@ -36,7 +36,7 @@ class FrontControllerRouteTest extends FrontControllerTestCase
 
         $value = $this->class->route();
 
-        $this->assertEquals('', $value);
+        $this->assertNull($value);
     }
 
     /**
@@ -55,7 +55,7 @@ class FrontControllerRouteTest extends FrontControllerTestCase
 
         $value = $this->class->route();
 
-        $this->assertEquals('', $value);
+        $this->assertNull($value);
     }
 
     /**
