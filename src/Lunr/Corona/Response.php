@@ -378,19 +378,19 @@ class Response
 
             foreach ($this->resultCode as $identifier => $value)
             {
-                if ($value > $maxCode)
+                if ($value <= $maxCode)
                 {
-                    $maxIdentifier = $identifier;
-                    $maxCode       = $maxCode;
+                    continue;
                 }
+
+                $maxIdentifier = $identifier;
+                $maxCode       = $maxCode;
             }
 
             return $maxIdentifier;
         }
-        else
-        {
-            return array_keys($this->resultCode);
-        }
+
+        return array_keys($this->resultCode);
     }
 
 }
