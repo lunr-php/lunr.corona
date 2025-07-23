@@ -27,6 +27,7 @@
             <directory>../src/Lunr/Corona/Parsers/Generic/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Sapi/Tests</directory>
             <directory>../src/Lunr/Corona/Parsers/TracingInfo/Tests/</directory>
+            <directory>../src/Lunr/Corona/Parsers/Url/Tests</directory>
         </testsuite>
         <testsuite name="Shadow">
             <directory>../src/Lunr/Shadow/Tests/</directory>
@@ -56,6 +57,7 @@
             <directory>../src/Lunr/Corona/Parsers/Generic/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Sapi/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/TracingInfo/Tests/</directory>
+            <directory>../src/Lunr/Corona/Parsers/Url/Tests</directory>
             <directory>../src/Lunr/Shadow/Tests/</directory>
         </exclude>
     </source>
