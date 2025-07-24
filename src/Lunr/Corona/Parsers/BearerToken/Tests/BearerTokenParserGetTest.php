@@ -27,7 +27,7 @@ class BearerTokenParserGetTest extends BearerTokenParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(BearerTokenValue::class, $this->class->getRequestValueType());
     }
@@ -37,7 +37,7 @@ class BearerTokenParserGetTest extends BearerTokenParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -50,7 +50,7 @@ class BearerTokenParserGetTest extends BearerTokenParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenParser::get
      */
-    public function testGetParsedBearerToken()
+    public function testGetParsedBearerToken(): void
     {
         $token = '123456789';
 
@@ -67,7 +67,7 @@ class BearerTokenParserGetTest extends BearerTokenParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenParser::get
      */
-    public function testGetParsedNullBearerToken()
+    public function testGetParsedNullBearerToken(): void
     {
         $this->setReflectionPropertyValue('bearerToken', NULL);
         $this->setReflectionPropertyValue('bearerTokenInitialized', TRUE);
@@ -82,7 +82,7 @@ class BearerTokenParserGetTest extends BearerTokenParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenParser::get
      */
-    public function testGetBearerTokenWithOtherAuthorization()
+    public function testGetBearerTokenWithOtherAuthorization(): void
     {
         $_SERVER['HTTP_AUTHORIZATION'] = 'Token 123456789';
 
@@ -97,7 +97,7 @@ class BearerTokenParserGetTest extends BearerTokenParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenParser::get
      */
-    public function testGetBearerTokenWithInvalidAuthorization()
+    public function testGetBearerTokenWithInvalidAuthorization(): void
     {
         $_SERVER['HTTP_AUTHORIZATION'] = 'Bearer  123456789';
 
@@ -112,7 +112,7 @@ class BearerTokenParserGetTest extends BearerTokenParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenParser::get
      */
-    public function testGetBearerToken()
+    public function testGetBearerToken(): void
     {
         $token = '123456789';
 

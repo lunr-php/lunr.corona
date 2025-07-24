@@ -27,7 +27,7 @@ class BearerTokenCliParserGetTest extends BearerTokenCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenCliParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(BearerTokenValue::class, $this->class->getRequestValueType());
     }
@@ -37,7 +37,7 @@ class BearerTokenCliParserGetTest extends BearerTokenCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenCliParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -50,7 +50,7 @@ class BearerTokenCliParserGetTest extends BearerTokenCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenCliParser::get
      */
-    public function testGetParsedBearerToken()
+    public function testGetParsedBearerToken(): void
     {
         $token = '123456789';
 
@@ -67,7 +67,7 @@ class BearerTokenCliParserGetTest extends BearerTokenCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenCliParser::get
      */
-    public function testGetParsedNullBearerToken()
+    public function testGetParsedNullBearerToken(): void
     {
         $this->setReflectionPropertyValue('bearerToken', NULL);
         $this->setReflectionPropertyValue('bearerTokenInitialized', TRUE);
@@ -82,7 +82,7 @@ class BearerTokenCliParserGetTest extends BearerTokenCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenCliParser::get
      */
-    public function testGetBearerTokenWithMissingCliArgument()
+    public function testGetBearerTokenWithMissingCliArgument(): void
     {
         $class = new BearerTokenCliParser([]);
 
@@ -100,7 +100,7 @@ class BearerTokenCliParserGetTest extends BearerTokenCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\BearerToken\BearerTokenCliParser::get
      */
-    public function testGetBearerToken()
+    public function testGetBearerToken(): void
     {
         $token = '123456789';
 

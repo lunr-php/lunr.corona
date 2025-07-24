@@ -28,7 +28,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ActionValue::class, $this->class->getRequestValueType());
     }
@@ -38,7 +38,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -51,7 +51,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::get
      */
-    public function testGetParsedAction()
+    public function testGetParsedAction(): void
     {
         $action = HttpMethod::Get;
 
@@ -68,7 +68,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::get
      */
-    public function testGetParsedNullAction()
+    public function testGetParsedNullAction(): void
     {
         $this->setReflectionPropertyValue('action', NULL);
         $this->setReflectionPropertyValue('actionInitialized', TRUE);
@@ -83,7 +83,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::get
      */
-    public function testGetActionWithMissingHeader()
+    public function testGetActionWithMissingHeader(): void
     {
         $value = $this->class->get(ActionValue::Action);
 
@@ -96,7 +96,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::get
      */
-    public function testGetAction()
+    public function testGetAction(): void
     {
         $action = HttpMethod::Get;
 
@@ -113,7 +113,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::getAsEnum
      */
-    public function testGetParsedActionAsEnum()
+    public function testGetParsedActionAsEnum(): void
     {
         $action = HttpMethod::Get;
 
@@ -130,7 +130,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::getAsEnum
      */
-    public function testGetParsedNullActionAsEnum()
+    public function testGetParsedNullActionAsEnum(): void
     {
         $this->setReflectionPropertyValue('action', NULL);
         $this->setReflectionPropertyValue('actionInitialized', TRUE);
@@ -145,7 +145,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::getAsEnum
      */
-    public function testGetActionWithMissingHeaderAsEnum()
+    public function testGetActionWithMissingHeaderAsEnum(): void
     {
         $value = $this->class->getAsEnum(ActionValue::Action);
 
@@ -158,7 +158,7 @@ class ActionHttpParserGetTest extends ActionHttpParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionHttpParser::getAsEnum
      */
-    public function testGetActionAsEnum()
+    public function testGetActionAsEnum(): void
     {
         $action = HttpMethod::Get;
 

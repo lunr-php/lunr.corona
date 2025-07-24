@@ -29,7 +29,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ApiVersionValue::class, $this->class->getRequestValueType());
     }
@@ -39,7 +39,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -52,7 +52,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::get
      */
-    public function testGetParsedApiVersion()
+    public function testGetParsedApiVersion(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -69,7 +69,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::get
      */
-    public function testGetParsedNullApiVersion()
+    public function testGetParsedNullApiVersion(): void
     {
         $this->setReflectionPropertyValue('apiVersion', NULL);
         $this->setReflectionPropertyValue('apiVersionInitialized', TRUE);
@@ -84,7 +84,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::get
      */
-    public function testGetApiVersionWithMissingHeader()
+    public function testGetApiVersionWithMissingHeader(): void
     {
         $value = $this->class->get(ApiVersionValue::ApiVersion);
 
@@ -97,7 +97,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::get
      */
-    public function testGetApiVersion()
+    public function testGetApiVersion(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -114,7 +114,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::get
      */
-    public function testGetApiVersionFromCustomHeader()
+    public function testGetApiVersionFromCustomHeader(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -132,7 +132,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::getAsEnum
      */
-    public function testGetParsedApiVersionAsEnum()
+    public function testGetParsedApiVersionAsEnum(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -149,7 +149,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::getAsEnum
      */
-    public function testGetParsedNullApiVersionAsEnum()
+    public function testGetParsedNullApiVersionAsEnum(): void
     {
         $this->setReflectionPropertyValue('apiVersion', NULL);
         $this->setReflectionPropertyValue('apiVersionInitialized', TRUE);
@@ -164,7 +164,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::getAsEnum
      */
-    public function testGetApiVersionWithMissingHeaderAsEnum()
+    public function testGetApiVersionWithMissingHeaderAsEnum(): void
     {
         $value = $this->class->getAsEnum(ApiVersionValue::ApiVersion);
 
@@ -177,7 +177,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::getAsEnum
      */
-    public function testGetApiVersionAsEnum()
+    public function testGetApiVersionAsEnum(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -194,7 +194,7 @@ class ApiVersionHttpHeaderParserGetTest extends ApiVersionHttpHeaderParserTestCa
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionHttpHeaderParser::getAsEnum
      */
-    public function testGetApiVersionFromCustomHeaderAsEnum()
+    public function testGetApiVersionFromCustomHeaderAsEnum(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 

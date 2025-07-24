@@ -261,7 +261,7 @@ class RequestTracingControllerTest extends RequestTestCase
      *
      * @covers Lunr\Corona\Request::getNewSpanId
      */
-    public function testGetNewHexOnlySpanId()
+    public function testGetNewHexOnlySpanId(): void
     {
         $this->mockFunction('uuid_create', fn() => '200c5938-cbe1-4b58-ad36-022ab5c6bcc6');
 
@@ -277,7 +277,7 @@ class RequestTracingControllerTest extends RequestTestCase
      *
      * @covers Lunr\Corona\Request::getNewSpanId
      */
-    public function testGetNewCanonicalSpanId()
+    public function testGetNewCanonicalSpanId(): void
     {
         $parser = $this->getMockBuilder(RequestParserInterface::class)->getMock();
 
@@ -325,7 +325,7 @@ class RequestTracingControllerTest extends RequestTestCase
      *
      * @covers Lunr\Corona\Request::isValidSpanId
      */
-    public function testIsValidSpanIdWhenHexOnly()
+    public function testIsValidSpanIdWhenHexOnly(): void
     {
         $this->assertTrue($this->class->isValidSpanId('200c5938cbe14b58ad36022ab5c6bcc6'));
         $this->assertFalse($this->class->isValidSpanId('200c5938-cbe1-4b58-ad36-022ab5c6bcc6'));
@@ -336,7 +336,7 @@ class RequestTracingControllerTest extends RequestTestCase
      *
      * @covers Lunr\Corona\Request::isValidSpanId
      */
-    public function testIsValidSpanIdWhenCanonical()
+    public function testIsValidSpanIdWhenCanonical(): void
     {
         $parser = $this->getMockBuilder(RequestParserInterface::class)->getMock();
 

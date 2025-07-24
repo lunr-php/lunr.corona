@@ -27,7 +27,7 @@ class ClientVersionCliParserGetTest extends ClientVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionCliParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ClientVersionValue::class, $this->class->getRequestValueType());
     }
@@ -37,7 +37,7 @@ class ClientVersionCliParserGetTest extends ClientVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionCliParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -50,7 +50,7 @@ class ClientVersionCliParserGetTest extends ClientVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionCliParser::get
      */
-    public function testGetParsedClientVersion()
+    public function testGetParsedClientVersion(): void
     {
         $token = '123456789';
 
@@ -67,7 +67,7 @@ class ClientVersionCliParserGetTest extends ClientVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionCliParser::get
      */
-    public function testGetParsedNullClientVersion()
+    public function testGetParsedNullClientVersion(): void
     {
         $this->setReflectionPropertyValue('clientVersion', NULL);
         $this->setReflectionPropertyValue('clientVersionInitialized', TRUE);
@@ -82,7 +82,7 @@ class ClientVersionCliParserGetTest extends ClientVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionCliParser::get
      */
-    public function testGetClientVersionWithMissingCliArgument()
+    public function testGetClientVersionWithMissingCliArgument(): void
     {
         $class = new ClientVersionCliParser([]);
 
@@ -100,7 +100,7 @@ class ClientVersionCliParserGetTest extends ClientVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionCliParser::get
      */
-    public function testGetClientVersion()
+    public function testGetClientVersion(): void
     {
         $version = 'Client 1.2.3/beta 1';
 

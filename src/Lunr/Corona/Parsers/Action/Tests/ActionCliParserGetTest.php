@@ -28,7 +28,7 @@ class ActionCliParserGetTest extends ActionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionCliParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ActionValue::class, $this->class->getRequestValueType());
     }
@@ -38,7 +38,7 @@ class ActionCliParserGetTest extends ActionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionCliParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -51,7 +51,7 @@ class ActionCliParserGetTest extends ActionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionCliParser::get
      */
-    public function testGetParsedAction()
+    public function testGetParsedAction(): void
     {
         $action = HttpMethod::Get;
 
@@ -68,7 +68,7 @@ class ActionCliParserGetTest extends ActionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionCliParser::get
      */
-    public function testGetParsedNullAction()
+    public function testGetParsedNullAction(): void
     {
         $this->setReflectionPropertyValue('action', NULL);
         $this->setReflectionPropertyValue('actionInitialized', TRUE);
@@ -83,7 +83,7 @@ class ActionCliParserGetTest extends ActionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionCliParser::get
      */
-    public function testGetAction()
+    public function testGetAction(): void
     {
         $action = HttpMethod::Get;
 
@@ -98,7 +98,7 @@ class ActionCliParserGetTest extends ActionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionCliParser::getAsEnum
      */
-    public function testGetParsedActionAsEnum()
+    public function testGetParsedActionAsEnum(): void
     {
         $action = HttpMethod::Get;
 
@@ -115,7 +115,7 @@ class ActionCliParserGetTest extends ActionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Action\ActionCliParser::getAsEnum
      */
-    public function testGetParsedNullActionAsEnum()
+    public function testGetParsedNullActionAsEnum(): void
     {
         $this->setReflectionPropertyValue('action', NULL);
         $this->setReflectionPropertyValue('actionInitialized', TRUE);

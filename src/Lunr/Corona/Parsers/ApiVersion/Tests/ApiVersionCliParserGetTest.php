@@ -29,7 +29,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ApiVersionValue::class, $this->class->getRequestValueType());
     }
@@ -39,7 +39,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -52,7 +52,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::get
      */
-    public function testGetParsedApiVersion()
+    public function testGetParsedApiVersion(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -69,7 +69,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::get
      */
-    public function testGetParsedNullApiVersion()
+    public function testGetParsedNullApiVersion(): void
     {
         $this->setReflectionPropertyValue('apiVersion', NULL);
         $this->setReflectionPropertyValue('apiVersionInitialized', TRUE);
@@ -84,7 +84,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::get
      */
-    public function testGetApiVersionWithMissingCliArgument()
+    public function testGetApiVersionWithMissingCliArgument(): void
     {
         $class = new ApiVersionCliParser(MockApiVersionEnum::class, []);
 
@@ -102,7 +102,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::get
      */
-    public function testGetApiVersion()
+    public function testGetApiVersion(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -117,7 +117,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::getAsEnum
      */
-    public function testGetParsedApiVersionAsEnum()
+    public function testGetParsedApiVersionAsEnum(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 
@@ -134,7 +134,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::getAsEnum
      */
-    public function testGetParsedNullApiVersionAsEnum()
+    public function testGetParsedNullApiVersionAsEnum(): void
     {
         $this->setReflectionPropertyValue('apiVersion', NULL);
         $this->setReflectionPropertyValue('apiVersionInitialized', TRUE);
@@ -149,7 +149,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::getAsEnum
      */
-    public function testGetApiVersionWithMissingCliArgumentAsEnum()
+    public function testGetApiVersionWithMissingCliArgumentAsEnum(): void
     {
         $class = new ApiVersionCliParser(MockApiVersionEnum::class, []);
 
@@ -167,7 +167,7 @@ class ApiVersionCliParserGetTest extends ApiVersionCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\ApiVersion\ApiVersionCliParser::getAsEnum
      */
-    public function testGetApiVersionAsEnum()
+    public function testGetApiVersionAsEnum(): void
     {
         $version = MockApiVersionEnum::MOCK_1;
 

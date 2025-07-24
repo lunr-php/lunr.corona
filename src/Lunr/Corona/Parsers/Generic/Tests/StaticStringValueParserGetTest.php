@@ -27,7 +27,7 @@ class StaticStringValueParserGetTest extends StaticStringValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticStringValueParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ClientVersionValue::class, $this->class->getRequestValueType());
     }
@@ -37,7 +37,7 @@ class StaticStringValueParserGetTest extends StaticStringValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticStringValueParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -50,7 +50,7 @@ class StaticStringValueParserGetTest extends StaticStringValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticStringValueParser::get
      */
-    public function testGetParsedValue()
+    public function testGetParsedValue(): void
     {
         $string = '1.2.3';
 
@@ -64,7 +64,7 @@ class StaticStringValueParserGetTest extends StaticStringValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticStringValueParser::get
      */
-    public function testGetParsedNullClient()
+    public function testGetParsedNullClient(): void
     {
         $nullValue = new StaticStringValueParser(ClientVersionValue::ClientVersion, NULL);
 

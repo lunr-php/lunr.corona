@@ -28,7 +28,7 @@ class ClientVersionHttpHeaderParserGetTest extends ClientVersionHttpHeaderParser
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionHttpHeaderParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ClientVersionValue::class, $this->class->getRequestValueType());
     }
@@ -38,7 +38,7 @@ class ClientVersionHttpHeaderParserGetTest extends ClientVersionHttpHeaderParser
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionHttpHeaderParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -51,7 +51,7 @@ class ClientVersionHttpHeaderParserGetTest extends ClientVersionHttpHeaderParser
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionHttpHeaderParser::get
      */
-    public function testGetParsedClientVersion()
+    public function testGetParsedClientVersion(): void
     {
         $version = 'Client 1.2.3/beta 1';
 
@@ -68,7 +68,7 @@ class ClientVersionHttpHeaderParserGetTest extends ClientVersionHttpHeaderParser
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionHttpHeaderParser::get
      */
-    public function testGetParsedNullClientVersion()
+    public function testGetParsedNullClientVersion(): void
     {
         $this->setReflectionPropertyValue('clientVersion', NULL);
         $this->setReflectionPropertyValue('clientVersionInitialized', TRUE);
@@ -83,7 +83,7 @@ class ClientVersionHttpHeaderParserGetTest extends ClientVersionHttpHeaderParser
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionHttpHeaderParser::get
      */
-    public function testGetClientVersionWithMissingHeader()
+    public function testGetClientVersionWithMissingHeader(): void
     {
         $value = $this->class->get(ClientVersionValue::ClientVersion);
 
@@ -96,7 +96,7 @@ class ClientVersionHttpHeaderParserGetTest extends ClientVersionHttpHeaderParser
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionHttpHeaderParser::get
      */
-    public function testGetClientVersion()
+    public function testGetClientVersion(): void
     {
         $version = 'Client 1.2.3/beta 1';
 
@@ -113,7 +113,7 @@ class ClientVersionHttpHeaderParserGetTest extends ClientVersionHttpHeaderParser
      *
      * @covers Lunr\Corona\Parsers\ClientVersion\ClientVersionHttpHeaderParser::get
      */
-    public function testGetClientVersionFromCustomHeader()
+    public function testGetClientVersionFromCustomHeader(): void
     {
         $version = 'Client 1.2.3/beta 1';
 

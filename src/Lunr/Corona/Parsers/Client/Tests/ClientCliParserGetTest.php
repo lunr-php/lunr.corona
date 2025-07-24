@@ -29,7 +29,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ClientValue::class, $this->class->getRequestValueType());
     }
@@ -39,7 +39,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -52,7 +52,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::get
      */
-    public function testGetParsedClient()
+    public function testGetParsedClient(): void
     {
         $client = MockClientEnum::CommandLine;
 
@@ -69,7 +69,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::get
      */
-    public function testGetParsedNullClient()
+    public function testGetParsedNullClient(): void
     {
         $this->setReflectionPropertyValue('client', NULL);
         $this->setReflectionPropertyValue('clientInitialized', TRUE);
@@ -84,7 +84,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::get
      */
-    public function testGetClientWithMissingCliArgument()
+    public function testGetClientWithMissingCliArgument(): void
     {
         $class = new ClientCliParser(MockClientEnum::class, []);
 
@@ -102,7 +102,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::get
      */
-    public function testGetClient()
+    public function testGetClient(): void
     {
         $client = MockClientEnum::CommandLine;
 
@@ -117,7 +117,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::getAsEnum
      */
-    public function testGetParsedClientAsEnum()
+    public function testGetParsedClientAsEnum(): void
     {
         $client = MockClientEnum::CommandLine;
 
@@ -134,7 +134,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::getAsEnum
      */
-    public function testGetParsedNullClientAsEnum()
+    public function testGetParsedNullClientAsEnum(): void
     {
         $this->setReflectionPropertyValue('client', NULL);
         $this->setReflectionPropertyValue('clientInitialized', TRUE);
@@ -149,7 +149,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::getAsEnum
      */
-    public function testGetClientWithMissingCliArgumentAsEnum()
+    public function testGetClientWithMissingCliArgumentAsEnum(): void
     {
         $class = new ClientCliParser(MockClientEnum::class, []);
 
@@ -167,7 +167,7 @@ class ClientCliParserGetTest extends ClientCliParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientCliParser::getAsEnum
      */
-    public function testGetClientAsEnum()
+    public function testGetClientAsEnum(): void
     {
         $client = MockClientEnum::CommandLine;
 

@@ -183,7 +183,7 @@ class FrontControllerGetTest extends FrontControllerTestCase
      *
      * @covers Lunr\Corona\FrontController::get_controller
      */
-    public function testGetControllerForDashesInController()
+    public function testGetControllerForDashesInController(): void
     {
         $dir  = TEST_STATICS . '/Corona/';
         $fqcn = 'Project\\Package1\\AnonymousTapsController';

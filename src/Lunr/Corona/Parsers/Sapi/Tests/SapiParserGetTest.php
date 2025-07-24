@@ -24,7 +24,7 @@ class SapiParserGetTest extends SapiParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Sapi\SapiParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(SapiValue::class, $this->class->getRequestValueType());
     }
@@ -32,7 +32,7 @@ class SapiParserGetTest extends SapiParserTestCase
     /**
      * Test getting a parsed sapi
      */
-    public function testGetSapi()
+    public function testGetSapi(): void
     {
         $key = SapiValue::Sapi;
 

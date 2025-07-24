@@ -28,7 +28,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(TracingInfoValue::class, $this->class->getRequestValueType());
     }
@@ -38,7 +38,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -51,7 +51,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetParsedTraceID()
+    public function testGetParsedTraceID(): void
     {
         $traceID = '2cdfe3157e8649319704b5c6af3d0e80';
 
@@ -67,7 +67,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetTraceIDFromHttpHeader()
+    public function testGetTraceIDFromHttpHeader(): void
     {
         $traceID = '2cdfe3157e8649319704b5c6af3d0e80';
 
@@ -84,7 +84,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetTraceIDGeneratesNewID()
+    public function testGetTraceIDGeneratesNewID(): void
     {
         $traceID = '49f58d6f02244946acf9efcd63896263';
 
@@ -103,7 +103,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetTraceIDGeneratesNewUUID()
+    public function testGetTraceIDGeneratesNewUUID(): void
     {
         $traceID = '49f58d6f-0224-4946-acf9-efcd63896263';
 
@@ -126,7 +126,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetParsedRequestID()
+    public function testGetParsedRequestID(): void
     {
         $traceID = '2cdfe3157e8649319704b5c6af3d0e80';
 
@@ -142,7 +142,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetRequestIDFromHttpHeader()
+    public function testGetRequestIDFromHttpHeader(): void
     {
         $traceID = '2cdfe3157e8649319704b5c6af3d0e80';
 
@@ -159,7 +159,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetRequestIDGeneratesNewID()
+    public function testGetRequestIDGeneratesNewID(): void
     {
         $traceID = '49f58d6f02244946acf9efcd63896263';
 
@@ -178,7 +178,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetRequestIDGeneratesNewUUID()
+    public function testGetRequestIDGeneratesNewUUID(): void
     {
         $traceID = '49f58d6f-0224-4946-acf9-efcd63896263';
 
@@ -201,7 +201,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetParsedSpanID()
+    public function testGetParsedSpanID(): void
     {
         $spanID = '9b00922000f349e6bd688349d2dc2b38';
 
@@ -217,7 +217,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetSpanIDGeneratesNewID()
+    public function testGetSpanIDGeneratesNewID(): void
     {
         $spanID = '49f58d6f02244946acf9efcd63896263';
 
@@ -236,7 +236,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetSpanIDGeneratesNewUUID()
+    public function testGetSpanIDGeneratesNewUUID(): void
     {
         $spanID = '49f58d6f-0224-4946-acf9-efcd63896263';
 
@@ -259,7 +259,7 @@ class TracingInfoParserGetTest extends TracingInfoParserTestCase
      *
      * @covers Lunr\Corona\Parsers\TracingInfo\TracingInfoParser::get
      */
-    public function testGetParentSpanID()
+    public function testGetParentSpanID(): void
     {
         $value = $this->class->get(TracingInfoValue::ParentSpanID);
 

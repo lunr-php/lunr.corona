@@ -28,7 +28,7 @@ class StaticEnumValueParserGetTest extends StaticEnumValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticEnumValueParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ClientValue::class, $this->class->getRequestValueType());
     }
@@ -38,7 +38,7 @@ class StaticEnumValueParserGetTest extends StaticEnumValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticEnumValueParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -51,7 +51,7 @@ class StaticEnumValueParserGetTest extends StaticEnumValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticEnumValueParser::get
      */
-    public function testGetParsedClient()
+    public function testGetParsedClient(): void
     {
         $client = MockClientEnum::CommandLine;
 
@@ -65,7 +65,7 @@ class StaticEnumValueParserGetTest extends StaticEnumValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticEnumValueParser::get
      */
-    public function testGetParsedNullClient()
+    public function testGetParsedNullClient(): void
     {
         $nullValue = new StaticEnumValueParser(ClientValue::Client, NULL);
 
@@ -79,7 +79,7 @@ class StaticEnumValueParserGetTest extends StaticEnumValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticEnumValueParser::getAsEnum
      */
-    public function testGetParsedClientAsEnum()
+    public function testGetParsedClientAsEnum(): void
     {
         $client = MockClientEnum::CommandLine;
 
@@ -93,7 +93,7 @@ class StaticEnumValueParserGetTest extends StaticEnumValueParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Generic\StaticEnumValueParser::getAsEnum
      */
-    public function testGetParsedNullClientAsEnum()
+    public function testGetParsedNullClientAsEnum(): void
     {
         $nullValue = new StaticEnumValueParser(ClientValue::Client, NULL);
 

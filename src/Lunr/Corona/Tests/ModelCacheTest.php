@@ -22,7 +22,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::get_from_cache
      */
-    public function testGetFromCache()
+    public function testGetFromCache(): void
     {
         $this->cache->expects($this->once())
                     ->method('getItem')
@@ -45,7 +45,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::set_in_cache
      */
-    public function testSetInCacheWithNullValue()
+    public function testSetInCacheWithNullValue(): void
     {
         $this->cache->expects($this->never())
                     ->method('getItem');
@@ -65,7 +65,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::set_in_cache
      */
-    public function testSetInCache()
+    public function testSetInCache(): void
     {
         $this->cache->expects($this->once())
                     ->method('getItem')
@@ -96,7 +96,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::set_in_cache
      */
-    public function testSetInCacheWithCustomExpiryTime()
+    public function testSetInCacheWithCustomExpiryTime(): void
     {
         $this->cache->expects($this->once())
                     ->method('getItem')
@@ -127,7 +127,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::cache_if_needed
      */
-    public function testCacheIfNeededReturnsWithoutCache()
+    public function testCacheIfNeededReturnsWithoutCache(): void
     {
         $this->setReflectionPropertyValue('cache', NULL);
 
@@ -149,7 +149,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::cache_if_needed
      */
-    public function testCacheIfNeededReturnsFromCacheIfFound()
+    public function testCacheIfNeededReturnsFromCacheIfFound(): void
     {
         $this->cache->expects($this->once())
                     ->method('getItem')
@@ -176,7 +176,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::cache_if_needed
      */
-    public function testCacheIfNeededCachesWhenNeeded()
+    public function testCacheIfNeededCachesWhenNeeded(): void
     {
         $this->cache->expects($this->exactly(2))
                     ->method('getItem')
@@ -214,7 +214,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::cache_if_needed
      */
-    public function testCacheIfNeededCachesWhenNeededWithArgs()
+    public function testCacheIfNeededCachesWhenNeededWithArgs(): void
     {
         $this->cache->expects($this->exactly(2))
                     ->method('getItem')
@@ -252,7 +252,7 @@ class ModelCacheTest extends ModelTestCase
      *
      * @covers \Lunr\Corona\Model::delete_from_cache
      */
-    public function testDeleteFromCache()
+    public function testDeleteFromCache(): void
     {
         $this->cache->expects($this->once())
                     ->method('deleteItem')

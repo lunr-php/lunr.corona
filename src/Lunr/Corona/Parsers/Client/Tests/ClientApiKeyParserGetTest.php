@@ -30,7 +30,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::getRequestValueType
      */
-    public function testGetRequestValueType()
+    public function testGetRequestValueType(): void
     {
         $this->assertEquals(ClientValue::class, $this->class->getRequestValueType());
     }
@@ -40,7 +40,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetUnsupportedValue()
+    public function testGetUnsupportedValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported request value type "Lunr\Corona\Tests\Helpers\MockRequestValue"');
@@ -53,7 +53,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetParsedClient()
+    public function testGetParsedClient(): void
     {
         $version = MockClientEnum::CommandLine;
 
@@ -70,7 +70,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetParsedNullClient()
+    public function testGetParsedNullClient(): void
     {
         $this->setReflectionPropertyValue('client', NULL);
         $this->setReflectionPropertyValue('clientInitialized', TRUE);
@@ -85,7 +85,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetClientWithMissingHeader()
+    public function testGetClientWithMissingHeader(): void
     {
         $value = $this->class->get(ClientValue::Client);
 
@@ -98,7 +98,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetClient()
+    public function testGetClient(): void
     {
         $version = MockClientEnum::CommandLine;
 
@@ -115,7 +115,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetClientFromCustomHeader()
+    public function testGetClientFromCustomHeader(): void
     {
         $version = MockClientEnum::CommandLine;
 
@@ -133,7 +133,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetClientUsingArrayAccess()
+    public function testGetClientUsingArrayAccess(): void
     {
         $version = MockClientEnum::CommandLine;
 
@@ -153,7 +153,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::getAsEnum
      */
-    public function testGetParsedClientAsEnum()
+    public function testGetParsedClientAsEnum(): void
     {
         $version = MockClientEnum::CommandLine;
 
@@ -170,7 +170,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::getAsEnum
      */
-    public function testGetParsedNullClientAsEnum()
+    public function testGetParsedNullClientAsEnum(): void
     {
         $this->setReflectionPropertyValue('client', NULL);
         $this->setReflectionPropertyValue('clientInitialized', TRUE);
@@ -185,7 +185,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::getAsEnum
      */
-    public function testGetClientWithMissingHeaderAsEnum()
+    public function testGetClientWithMissingHeaderAsEnum(): void
     {
         $value = $this->class->getAsEnum(ClientValue::Client);
 
@@ -198,7 +198,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::getAsEnum
      */
-    public function testGetClientAsEnum()
+    public function testGetClientAsEnum(): void
     {
         $version = MockClientEnum::CommandLine;
 
@@ -215,7 +215,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::getAsEnum
      */
-    public function testGetClientFromCustomHeaderAsEnum()
+    public function testGetClientFromCustomHeaderAsEnum(): void
     {
         $version = MockClientEnum::CommandLine;
 
@@ -233,7 +233,7 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
      */
-    public function testGetClientUsingArrayAccessAsEnum()
+    public function testGetClientUsingArrayAccessAsEnum(): void
     {
         $version = MockClientEnum::CommandLine;
 

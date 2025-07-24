@@ -350,7 +350,7 @@ class RequestGetValueTest extends RequestTestCase
      *
      * @covers Lunr\Corona\Request::getSpanSpecificTags
      */
-    public function testGetSpanSpecificTags()
+    public function testGetSpanSpecificTags(): void
     {
         $expected = [
             'controller' => 'controller',
