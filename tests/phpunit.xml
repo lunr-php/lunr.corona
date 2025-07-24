@@ -25,6 +25,7 @@
             <directory>../src/Lunr/Corona/Parsers/Client/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/ClientVersion/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Generic/Tests/</directory>
+            <directory>../src/Lunr/Corona/Parsers/Host/Tests</directory>
             <directory>../src/Lunr/Corona/Parsers/Sapi/Tests</directory>
             <directory>../src/Lunr/Corona/Parsers/TracingInfo/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Url/Tests</directory>
@@ -55,6 +56,7 @@
             <directory>../src/Lunr/Corona/Parsers/Client/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/ClientVersion/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Generic/Tests/</directory>
+            <directory>../src/Lunr/Corona/Parsers/Host/Tests</directory>
             <directory>../src/Lunr/Corona/Parsers/Sapi/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/TracingInfo/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Url/Tests</directory>
