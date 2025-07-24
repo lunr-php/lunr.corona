@@ -146,6 +146,28 @@ class ResponseGetTest extends ResponseTestCase
     }
 
     /**
+     * Test getting default result message.
+     *
+     * @covers Lunr\Corona\Response::getResultMessage
+     */
+    public function testGetDefaultResultMessage(): void
+    {
+        $this->setReflectionPropertyValue('defaultResultMessage', 'Not implemented!');
+
+        $this->assertEquals('Not implemented!', $this->class->getResultMessage('_lunr_corona_response_default'));
+    }
+
+    /**
+     * Test getting non-existing result message.
+     *
+     * @covers Lunr\Corona\Response::getResultMessage
+     */
+    public function testGetNonExistentDefaultResultMessage(): void
+    {
+        $this->assertNull($this->class->getResultMessage('_lunr_corona_response_default'));
+    }
+
+    /**
      * Test getting existing error message.
      *
      * @covers Lunr\Corona\Response::get_error_message
@@ -227,6 +249,44 @@ class ResponseGetTest extends ResponseTestCase
         $this->setReflectionPropertyValue('resultCode', []);
 
         $this->assertNull($this->class->getResultCode());
+    }
+
+    /**
+     * Test getting result code without identifier with no code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetResultCodeWithoutIdentifierWithEmptyCodesAndDefaultSet(): void
+    {
+        $this->setReflectionPropertyValue('resultCode', []);
+        $this->setReflectionPropertyValue('defaultResultCode', 501);
+
+        $this->assertSame(501, $this->class->getResultCode());
+    }
+
+    /**
+     * Test getting result code without identifier with no code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetResultCodeWithoutIdentifierWithEmptyCodesAndRequestingDefault(): void
+    {
+        $this->setReflectionPropertyValue('resultCode', []);
+        $this->setReflectionPropertyValue('defaultResultCode', 501);
+
+        $this->assertSame(501, $this->class->getResultCode('_lunr_corona_response_default'));
+    }
+
+    /**
+     * Test getting result code without identifier with no code.
+     *
+     * @covers Lunr\Corona\Response::getResultCode
+     */
+    public function testGetResultCodeWithoutIdentifierWithEmptyCodesAndRequestingNonExistentDefault(): void
+    {
+        $this->setReflectionPropertyValue('resultCode', []);
+
+        $this->assertNull($this->class->getResultCode('_lunr_corona_response_default'));
     }
 
     /**
@@ -350,7 +410,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $this->setReflectionPropertyValue('resultCode', []);
 
-        $this->assertArrayEmpty($this->class->getResultCodeIdentifiers());
+        $this->assertEquals([ '_lunr_corona_response_default' ], $this->class->getResultCodeIdentifiers());
     }
 
     /**
@@ -362,7 +422,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $this->setReflectionPropertyValue('resultCode', []);
 
-        $this->assertArrayEmpty($this->class->getResultCodeIdentifiers(TRUE));
+        $this->assertEquals('_lunr_corona_response_default', $this->class->getResultCodeIdentifiers(max: TRUE));
     }
 
     /**
@@ -376,7 +436,7 @@ class ResponseGetTest extends ResponseTestCase
 
         $this->setReflectionPropertyValue('resultCode', $data);
 
-        $this->assertEquals('ID3', $this->class->getResultCodeIdentifiers(TRUE));
+        $this->assertEquals('ID3', $this->class->getResultCodeIdentifiers(max: TRUE));
     }
 
     /**
@@ -402,7 +462,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $this->setReflectionPropertyValue('resultCode', []);
 
-        $this->assertArrayEmpty($this->class->get_return_code_identifiers());
+        $this->assertEquals([ '_lunr_corona_response_default' ], $this->class->get_return_code_identifiers());
     }
 
     /**
@@ -414,7 +474,7 @@ class ResponseGetTest extends ResponseTestCase
     {
         $this->setReflectionPropertyValue('resultCode', []);
 
-        $this->assertArrayEmpty($this->class->get_return_code_identifiers(TRUE));
+        $this->assertEquals('_lunr_corona_response_default', $this->class->get_return_code_identifiers(max: TRUE));
     }
 
     /**
@@ -428,7 +488,7 @@ class ResponseGetTest extends ResponseTestCase
 
         $this->setReflectionPropertyValue('resultCode', $data);
 
-        $this->assertEquals('ID3', $this->class->get_return_code_identifiers(TRUE));
+        $this->assertEquals('ID3', $this->class->get_return_code_identifiers(max: TRUE));
     }
 
     /**

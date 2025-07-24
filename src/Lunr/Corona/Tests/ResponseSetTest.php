@@ -10,6 +10,8 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Corona\HttpCode;
+
 /**
  * This class contains test methods for the Response class.
  *
@@ -43,6 +45,32 @@ class ResponseSetTest extends ResponseTestCase
         $this->class->view = 'TestView';
 
         $this->assertEquals('TestView', $this->getReflectionPropertyValue('view'));
+    }
+
+    /**
+     * Test setting a default result without message.
+     *
+     * @covers Lunr\Corona\Response::setDefaultResult
+     */
+    public function testSetDefaultResult(): void
+    {
+        $this->class->setDefaultResult(HttpCode::NOT_IMPLEMENTED);
+
+        $this->assertPropertySame('defaultResultCode', HttpCode::NOT_IMPLEMENTED);
+        $this->assertPropertySame('defaultResultMessage', NULL);
+    }
+
+    /**
+     * Test setting a default result without message.
+     *
+     * @covers Lunr\Corona\Response::setDefaultResult
+     */
+    public function testSetDefaultResultWithMessage(): void
+    {
+        $this->class->setDefaultResult(HttpCode::NOT_IMPLEMENTED, 'Not implemented!');
+
+        $this->assertPropertySame('defaultResultCode', HttpCode::NOT_IMPLEMENTED);
+        $this->assertPropertySame('defaultResultMessage', 'Not implemented!');
     }
 
     /**
