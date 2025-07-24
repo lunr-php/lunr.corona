@@ -11,6 +11,7 @@
 namespace Lunr\Corona;
 
 use Lunr\Core\Configuration;
+use Lunr\Corona\Parsers\Url\UrlValue;
 
 /**
  * View class used by the Website
@@ -75,7 +76,7 @@ abstract class HTMLView extends View
     protected function statics($path = '')
     {
         $output  = '';
-        $base    = '/' . trim($this->request->base_path, '/');
+        $base    = '/' . trim($this->request->get(UrlValue::BasePath) ?? '', '/');
         $statics = '/' . trim($this->configuration['path']['statics'], '/');
         $path    = '/' . trim($path, '/');
 
@@ -113,7 +114,8 @@ abstract class HTMLView extends View
         {
             if (!$this->is_external($stylesheet))
             {
-                $stylesheet .= '?' . filemtime($this->request->application_path . str_replace($this->request->base_path, '', $stylesheet));
+                $basePath    = str_replace($this->request->get(UrlValue::BasePath) ?? '', '', $stylesheet);
+                $stylesheet .= '?' . filemtime($this->request->application_path . $basePath);
             }
 
             $links .= '<link rel="stylesheet" type="text/css" href="' . $stylesheet . '">' . "\n";
@@ -142,7 +144,8 @@ abstract class HTMLView extends View
         {
             if (!$this->is_external($js))
             {
-                $js .= '?' . filemtime($this->request->application_path . str_replace($this->request->base_path, '', $js));
+                $basePath = str_replace($this->request->get(UrlValue::BasePath) ?? '', '', $js);
+                $js      .= '?' . filemtime($this->request->application_path . $basePath);
             }
 
             $links .= '<script src="' . $js . '"></script>' . "\n";
