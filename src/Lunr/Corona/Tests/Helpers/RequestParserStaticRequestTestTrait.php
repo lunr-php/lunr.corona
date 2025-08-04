@@ -70,13 +70,6 @@ trait RequestParserStaticRequestTestTrait
     abstract protected function cleanup_request_test(): void;
 
     /**
-     * Unit Test Data Provider for possible base_url values and parameters.
-     *
-     * @return array $base Array of base_url parameters and possible values
-     */
-    abstract public static function baseurlProvider(): array;
-
-    /**
      * Test that parse_request() unsets request data in the AST.
      */
     public function testParseRequestSetsDefaultHttpAction(): void
@@ -124,97 +117,6 @@ trait RequestParserStaticRequestTestTrait
         $this->assertIsArray($request);
         $this->assertArrayHasKey('application_path', $request);
         $this->assertEquals('/full/path/to/', $request['application_path']);
-
-        $this->cleanup_request_test();
-    }
-
-    /**
-     * Test that the base_path is constructed and stored correctly.
-     */
-    public function testRequestBasePath(): void
-    {
-        $this->prepare_request_test();
-
-        $this->configuration->expects($this->atLeast(2))
-                            ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
-
-        $request = $this->class->parse_request();
-
-        $this->assertIsArray($request);
-        $this->assertArrayHasKey('base_path', $request);
-        $this->assertEquals('/path/to/', $request['base_path']);
-
-        $this->cleanup_request_test();
-    }
-
-    /**
-     * Test that the domain is stored correctly.
-     */
-    public function testRequestDomain(): void
-    {
-        $this->prepare_request_test();
-
-        $this->configuration->expects($this->atLeast(2))
-                            ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
-
-        $request = $this->class->parse_request();
-
-        $this->assertIsArray($request);
-        $this->assertArrayHasKey('domain', $request);
-        $this->assertEquals('www.domain.com', $request['domain']);
-
-        $this->cleanup_request_test();
-    }
-
-    /**
-     * Test that the port is stored correctly.
-     *
-     * @param string $protocol Protocol name
-     * @param string $port     Expected port value
-     *
-     * @dataProvider baseurlProvider
-     */
-    public function testRequestPort($protocol, $port): void
-    {
-        $this->prepare_request_test($protocol, $port);
-
-        $this->configuration->expects($this->atLeast(2))
-                            ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
-
-        $request = $this->class->parse_request();
-
-        $this->assertIsArray($request);
-        $this->assertArrayHasKey('port', $request);
-        $this->assertEquals($port, $request['port']);
-
-        $this->cleanup_request_test();
-    }
-
-    /**
-     * Test that the protocol is constructed and stored correctly.
-     *
-     * @param string $protocol Protocol name
-     * @param string $port     Expected port value
-     * @param string $baseurl  The expected base_url value
-     *
-     * @dataProvider baseurlProvider
-     */
-    public function testRequestBaseUrl($protocol, $port, $baseurl): void
-    {
-        $this->prepare_request_test($protocol, $port);
-
-        $this->configuration->expects($this->atLeast(2))
-                            ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
-
-        $request = $this->class->parse_request();
-
-        $this->assertIsArray($request);
-        $this->assertArrayHasKey('base_url', $request);
-        $this->assertEquals($baseurl, $request['base_url']);
 
         $this->cleanup_request_test();
     }

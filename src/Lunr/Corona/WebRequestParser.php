@@ -90,31 +90,6 @@ class WebRequestParser implements RequestParserInterface
 
         $request['application_path'] = dirname($_SERVER['SCRIPT_FILENAME']) . '/';
 
-        $request['base_path'] = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
-
-        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']))
-        {
-            $request['protocol'] = $_SERVER['HTTP_X_FORWARDED_PROTO'];
-        }
-        else
-        {
-            $request['protocol'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
-        }
-
-        $request['domain'] = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
-        $request['port']   = $_SERVER['SERVER_PORT'];
-
-        $baseurl = $request['protocol'] . '://' . $request['domain'];
-
-        if ((($request['protocol'] == 'http') && ($request['port'] != 80))
-            || (($request['protocol'] == 'https') && ($request['port'] != 443))
-        )
-        {
-            $baseurl .= ':' . $request['port'];
-        }
-
-        $request['base_url'] = $baseurl . $request['base_path'];
-
         $request['device_useragent'] = NULL;
         $request['useragent']        = NULL;
 
