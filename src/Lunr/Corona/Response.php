@@ -19,6 +19,18 @@ class Response
 {
 
     /**
+     * Default, fallback result code in case no other information is set.
+     * @var int
+     */
+    private readonly int $defaultResultCode;
+
+    /**
+     * Default, fallback result code in case no other information is set.
+     * @var string|null
+     */
+    private readonly ?string $defaultResultMessage;
+
+    /**
      * Data store
      * @var array<string, array<array-key, mixed>|object|scalar|null>
      */
@@ -47,6 +59,12 @@ class Response
      * @var string
      */
     private string $view;
+
+    /**
+     * Identifier value for the default response.
+     * @var string
+     */
+    protected const DEFAULT_IDENTIFIER = '_lunr_corona_response_default';
 
     /**
      * Constructor.
@@ -110,6 +128,22 @@ class Response
             default:
                 return;
         }
+    }
+
+    /**
+     * Set default, fallback response values.
+     *
+     * These will be used when no other response information is set.
+     *
+     * @param int         $code    Result code
+     * @param string|null $message Result message
+     *
+     * @return void
+     */
+    public function setDefaultResult(int $code, ?string $message = NULL): void
+    {
+        $this->defaultResultCode    = $code;
+        $this->defaultResultMessage = $message;
     }
 
     /**
@@ -278,6 +312,11 @@ class Response
      */
     public function getResultMessage(string $identifier): ?string
     {
+        if ($identifier === static::DEFAULT_IDENTIFIER)
+        {
+            return $this->defaultResultMessage ?? NULL;
+        }
+
         return isset($this->resultMessage[$identifier]) ? $this->resultMessage[$identifier] : NULL;
     }
 
@@ -332,6 +371,11 @@ class Response
     {
         if (empty($this->resultCode))
         {
+            if ($identifier === static::DEFAULT_IDENTIFIER || $identifier === NULL)
+            {
+                return $this->defaultResultCode ?? NULL;
+            }
+
             return NULL;
         }
 
@@ -368,7 +412,7 @@ class Response
     {
         if (empty($this->resultCode))
         {
-            return [];
+            return $max ? static::DEFAULT_IDENTIFIER : [ static::DEFAULT_IDENTIFIER ];
         }
 
         if ($max === TRUE)
