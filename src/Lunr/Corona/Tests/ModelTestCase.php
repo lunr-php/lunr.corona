@@ -11,6 +11,7 @@ namespace Lunr\Corona\Tests;
 
 use Lunr\Corona\Model;
 use Lunr\Halo\LunrBaseTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
@@ -24,15 +25,15 @@ abstract class ModelTestCase extends LunrBaseTestCase
 
     /**
      * Shared instance of the cache pool class.
-     * @var CacheItemPoolInterface
+     * @var CacheItemPoolInterface&MockObject
      */
-    protected $cache;
+    protected CacheItemPoolInterface&MockObject $cache;
 
     /**
      * Shared instance of the cache item class.
-     * @var CacheItemInterface
+     * @var CacheItemInterface&MockObject
      */
-    protected $item;
+    protected CacheItemInterface&MockObject $item;
 
     /**
      * Instance of the tested class.
@@ -45,10 +46,10 @@ abstract class ModelTestCase extends LunrBaseTestCase
      */
     public function setUp(): void
     {
-        $this->cache = $this->getMockBuilder('\Psr\Cache\CacheItemPoolInterface')
+        $this->cache = $this->getMockBuilder(CacheItemPoolInterface::class)
                             ->getMock();
 
-        $this->item = $this->getMockBuilder('\Psr\Cache\CacheItemInterface')
+        $this->item = $this->getMockBuilder(CacheItemInterface::class)
                            ->getMock();
 
         $this->class = new Model($this->cache);
