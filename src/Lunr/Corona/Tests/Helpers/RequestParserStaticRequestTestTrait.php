@@ -160,7 +160,7 @@ trait RequestParserStaticRequestTestTrait
     {
         $this->prepare_request_test('HTTP', '80', TRUE);
 
-        $this->configuration->expects($this->exactly(8))
+        $this->configuration->expects($this->exactly(3))
                             ->method('offsetGet')
                             ->willReturnMap(array_values($this->mockedCalls));
 

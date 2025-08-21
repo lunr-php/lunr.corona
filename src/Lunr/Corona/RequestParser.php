@@ -58,12 +58,7 @@ class RequestParser implements RequestParserInterface
 
         $request['application_path'] = $this->config['default_application_path'];
 
-        $request['base_path'] = $this->config['default_webpath'];
-        $request['protocol']  = $this->config['default_protocol'];
-        $request['domain']    = $this->config['default_domain'];
-        $request['port']      = $this->config['default_port'];
-        $request['base_url']  = $this->config['default_url'];
-        $request['action']    = HttpMethod::GET;
+        $request['action'] = HttpMethod::GET;
 
         // Preset with default values:
         $request['controller'] = $this->config['default_controller'];
