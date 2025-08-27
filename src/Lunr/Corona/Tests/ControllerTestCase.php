@@ -15,45 +15,44 @@ use Lunr\Corona\Request;
 use Lunr\Corona\Response;
 use Lunr\Halo\LunrBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * This class contains test methods for the Controller class.
  *
- * @covers     Lunr\Corona\Controller
+ * @covers Lunr\Corona\Controller
  */
 abstract class ControllerTestCase extends LunrBaseTestCase
 {
 
     /**
      * Mock instance of the response class.
-     * @var Response
+     * @var Response&MockObject
      */
-    protected $response;
+    protected Response&MockObject $response;
 
     /**
      * Mock instance of the request class.
-     * @var Request
+     * @var Request&MockObject
      */
-    protected $request;
+    protected Request&MockObject $request;
 
     /**
      * Instance of the tested class.
-     * @var Controller&MockObject&Stub
+     * @var Controller&MockObject
      */
-    protected Controller&MockObject&Stub $class;
+    protected Controller&MockObject $class;
 
     /**
      * TestCase Constructor.
      */
     public function setUp(): void
     {
-        $this->response = $this->getMockBuilder('Lunr\Corona\Response')->getMock();
-        $this->request  = $this->getMockBuilder('Lunr\Corona\Request')
+        $this->response = $this->getMockBuilder(Response::class)->getMock();
+        $this->request  = $this->getMockBuilder(Request::class)
                                ->disableOriginalConstructor()
                                ->getMock();
 
-        $this->class = $this->getMockBuilder('Lunr\Corona\Controller')
+        $this->class = $this->getMockBuilder(Controller::class)
                             ->setConstructorArgs([ $this->request, $this->response ])
                             ->getMockForAbstractClass();
 

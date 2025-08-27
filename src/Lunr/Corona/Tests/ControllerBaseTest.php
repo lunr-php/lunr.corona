@@ -13,7 +13,7 @@ namespace Lunr\Corona\Tests;
 /**
  * This class contains test methods for the Controller class.
  *
- * @covers     Lunr\Corona\Controller
+ * @covers Lunr\Corona\Controller
  */
 class ControllerBaseTest extends ControllerTestCase
 {
@@ -23,7 +23,7 @@ class ControllerBaseTest extends ControllerTestCase
      */
     public function testResponseSetCorrectly(): void
     {
-        $this->assertSame($this->response, $this->getReflectionPropertyValue('response'));
+        $this->assertPropertySame('response', $this->response);
     }
 
     /**
@@ -31,7 +31,7 @@ class ControllerBaseTest extends ControllerTestCase
      */
     public function testRequestSetCorrectly(): void
     {
-        $this->assertSame($this->request, $this->getReflectionPropertyValue('request'));
+        $this->assertPropertySame('request', $this->request);
     }
 
 }
