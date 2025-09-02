@@ -39,8 +39,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(NULL);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(FALSE);
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
@@ -68,8 +68,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(NULL);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(FALSE);
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
@@ -103,8 +103,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                        ->with('controller/method', 400);
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(400);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(TRUE);
 
         $message = 'Bad Request!';
 
@@ -142,8 +142,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                        ->with('controller/method', 500);
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(500);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(TRUE);
 
         $message = 'Error!';
 
@@ -185,8 +185,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                        ->with('controller/method', 500);
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(500);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(TRUE);
 
         $message = 'Fatal Error!';
 
@@ -221,8 +221,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(NULL);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(FALSE);
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
@@ -251,8 +251,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(NULL);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(FALSE);
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
@@ -280,8 +280,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(NULL);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(FALSE);
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
@@ -315,8 +315,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                        ->with('controller/method', 400);
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(400);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(TRUE);
 
         $message = 'Bad Request!';
 
@@ -354,8 +354,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                        ->with('controller/method', 500);
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(500);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(TRUE);
 
         $message = 'Error!';
 
@@ -397,8 +397,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                        ->with('controller/method', 500);
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(500);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(TRUE);
 
         $message = 'Fatal Error!';
 
@@ -433,8 +433,8 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                       ->willReturn('controller/method');
 
         $this->response->expects($this->exactly(1))
-                       ->method('getResultCode')
-                       ->willReturn(NULL);
+                       ->method('hasCustomResultSet')
+                       ->willReturn(FALSE);
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')

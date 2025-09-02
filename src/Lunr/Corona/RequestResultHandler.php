@@ -149,7 +149,7 @@ class RequestResultHandler
         }
 
         // default to 200 if no result was set
-        if ($this->response->getResultCode() !== NULL)
+        if ($this->response->hasCustomResultSet() === TRUE)
         {
             return;
         }
