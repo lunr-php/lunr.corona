@@ -147,6 +147,16 @@ class Response
     }
 
     /**
+     * Check whether there's a result set that isn't the default result.
+     *
+     * @return bool TRUE if a custom result is set, FALSE otherwise
+     */
+    public function hasCustomResultSet(): bool
+    {
+        return !empty($this->resultCode);
+    }
+
+    /**
      * Add response data for later processing by a view.
      *
      * @deprecated Use addResponseData() instead
