@@ -20,6 +20,11 @@ enum AuthorizationType: string implements AuthorizationTypeInterface
      */
     case Client = 'Client';
 
+    /**
+     * Authorization based on the IP used to making the request.
+     */
+    case IP = 'IP';
+
 }
 
 ?>

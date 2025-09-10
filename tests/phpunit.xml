@@ -19,6 +19,7 @@
         <testsuite name="Corona">
             <directory>../src/Lunr/Corona/Tests/</directory>
             <directory>../src/Lunr/Corona/Authorization/Client/Tests/</directory>
+            <directory>../src/Lunr/Corona/Authorization/IP/Tests/</directory>
             <directory>../src/Lunr/Corona/Exceptions/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Action/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Analytics/Tests/</directory>
@@ -53,6 +54,7 @@
         <exclude>
             <directory>../src/Lunr/Corona/Tests/</directory>
             <directory>../src/Lunr/Corona/Authorization/Client/Tests/</directory>
+            <directory>../src/Lunr/Corona/Authorization/IP/Tests/</directory>
             <directory>../src/Lunr/Corona/Exceptions/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Action/Tests/</directory>
             <directory>../src/Lunr/Corona/Parsers/Analytics/Tests/</directory>
