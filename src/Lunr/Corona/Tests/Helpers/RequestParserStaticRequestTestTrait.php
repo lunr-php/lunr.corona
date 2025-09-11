@@ -10,6 +10,7 @@
 
 namespace Lunr\Corona\Tests\Helpers;
 
+use Lunr\Core\Configuration;
 use Lunr\Corona\HttpMethod;
 use Psr\Log\LogLevel;
 
@@ -23,21 +24,25 @@ trait RequestParserStaticRequestTestTrait
      * Parameter key name for the controller.
      * @var string
      */
-    protected $controller = 'controller';
+    protected string $controller = 'controller';
 
     /**
      * Parameter key name for the method.
      * @var string
      */
-    protected $method = 'method';
+    protected string $method = 'method';
 
     /**
      * Parameter key name for the parameters.
      * @var string
      */
-    protected $params = 'param';
+    protected string $params = 'param';
 
-    protected $mockedCalls = [];
+    /**
+     * List of mocked calls.
+     * @var array
+     */
+    protected array $mockedCalls = [];
 
     /**
      * Preparation work for the request tests.
@@ -108,9 +113,25 @@ trait RequestParserStaticRequestTestTrait
     {
         $this->prepare_request_test();
 
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->atLeast(2))
+                          ->method('offsetGet')
+                          ->willReturnMap(array_values($this->mockedCalls));
+
+        $applicationConfig->expects($this->atLeast(2))
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
         $this->configuration->expects($this->atLeast(2))
                             ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->atLeast(2))
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         $request = $this->class->parse_request();
 
@@ -160,9 +181,25 @@ trait RequestParserStaticRequestTestTrait
     {
         $this->prepare_request_test('HTTP', '80', TRUE);
 
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->exactly(3))
+                          ->method('offsetGet')
+                          ->willReturnMap(array_values($this->mockedCalls));
+
+        $applicationConfig->expects($this->atLeast(2))
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
         $this->configuration->expects($this->exactly(3))
                             ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->atLeast(2))
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         $request = $this->class->parse_request();
 
@@ -181,9 +218,25 @@ trait RequestParserStaticRequestTestTrait
         $this->prepare_request_test('HTTP', '80');
         $this->prepare_request_data();
 
-        $this->configuration->expects($this->atLeast(2))
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->atLeast(0))
+                          ->method('offsetGet')
+                          ->willReturnMap(array_values($this->mockedCalls));
+
+        $applicationConfig->expects($this->atLeast(0))
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
+        $this->configuration->expects($this->atLeast(0))
                             ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->atLeast(0))
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         $request = $this->class->parse_request();
 
@@ -202,9 +255,25 @@ trait RequestParserStaticRequestTestTrait
         $this->prepare_request_test('HTTP', '80');
         $this->prepare_request_data();
 
-        $this->configuration->expects($this->atLeast(2))
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->atLeast(0))
+                          ->method('offsetGet')
+                          ->willReturnMap(array_values($this->mockedCalls));
+
+        $applicationConfig->expects($this->atLeast(0))
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
+        $this->configuration->expects($this->atLeast(0))
                             ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->atLeast(0))
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         $request = $this->class->parse_request();
 
@@ -240,9 +309,25 @@ trait RequestParserStaticRequestTestTrait
         $this->prepare_request_test('HTTP', '80');
         $this->prepare_request_data();
 
-        $this->configuration->expects($this->atLeast(2))
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->atLeast(0))
+                          ->method('offsetGet')
+                          ->willReturnMap(array_values($this->mockedCalls));
+
+        $applicationConfig->expects($this->atLeast(0))
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
+        $this->configuration->expects($this->atLeast(0))
                             ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->atLeast(0))
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         $request = $this->class->parse_request();
 
@@ -262,9 +347,25 @@ trait RequestParserStaticRequestTestTrait
 
         unset($this->mockedCalls['default_controller']);
 
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->atLeast(2))
+                          ->method('offsetGet')
+                          ->willReturnMap(array_values($this->mockedCalls));
+
+        $applicationConfig->expects($this->atLeast(2))
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
         $this->configuration->expects($this->atLeast(2))
                             ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->atLeast(2))
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         $request = $this->class->parse_request();
 
@@ -284,9 +385,25 @@ trait RequestParserStaticRequestTestTrait
 
         unset($this->mockedCalls['default_method']);
 
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->atLeast(2))
+                          ->method('offsetGet')
+                          ->willReturnMap(array_values($this->mockedCalls));
+
+        $applicationConfig->expects($this->atLeast(2))
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
         $this->configuration->expects($this->atLeast(2))
                             ->method('offsetGet')
-                            ->willReturnMap(array_values($this->mockedCalls));
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->atLeast(2))
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         $request = $this->class->parse_request();
 

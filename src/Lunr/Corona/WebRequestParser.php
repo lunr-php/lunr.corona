@@ -26,19 +26,19 @@ class WebRequestParser implements RequestParserInterface
      * Shared instance of the Configuration class.
      * @var Configuration
      */
-    protected $config;
+    protected readonly Configuration $config;
 
     /**
      * Shared instance of the Header class.
      * @var Header
      */
-    protected $header;
+    protected readonly Header $header;
 
     /**
      * Whether the request was parsed already or not,
      * @var bool
      */
-    protected $requestParsed;
+    protected bool $requestParsed;
 
     /**
      * Constructor.
@@ -46,7 +46,7 @@ class WebRequestParser implements RequestParserInterface
      * @param Configuration $configuration Shared instance of the Configuration class
      * @param Header        $header        Shared instance of the Header class
      */
-    public function __construct($configuration, $header)
+    public function __construct(Configuration $configuration, Header $header)
     {
         $this->config        = $configuration;
         $this->header        = $header;
@@ -58,8 +58,6 @@ class WebRequestParser implements RequestParserInterface
      */
     public function __destruct()
     {
-        unset($this->config);
-        unset($this->header);
         unset($this->requestParsed);
     }
 
@@ -118,8 +116,8 @@ class WebRequestParser implements RequestParserInterface
         }
 
         // Preset with default values:
-        $request['controller'] = $this->config['default_controller'];
-        $request['method']     = $this->config['default_method'];
+        $request['controller'] = $this->config['application']['default_controller'] ?? NULL;
+        $request['method']     = $this->config['application']['default_method'] ?? NULL;
         $request['params']     = [];
         $request['call']       = NULL;
         $request['verbosity']  = LogLevel::WARNING;

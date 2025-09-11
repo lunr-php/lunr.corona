@@ -98,7 +98,7 @@ trait RequestParserDynamicRequestTestTrait
      *
      * @dataProvider deviceUserAgentKeyProvider
      */
-    public function testRequestDeviceUserAgent($key): void
+    public function testRequestDeviceUserAgent(string $key): void
     {
         $this->prepare_request_test('HTTP', '80', TRUE, $key);
 
@@ -134,7 +134,7 @@ trait RequestParserDynamicRequestTestTrait
      *
      * @dataProvider controllerKeyNameProvider
      */
-    public function testRequestController($key): void
+    public function testRequestController(string $key): void
     {
         $this->controller = $key;
 
@@ -157,7 +157,7 @@ trait RequestParserDynamicRequestTestTrait
      *
      * @dataProvider methodKeyNameProvider
      */
-    public function testRequestMethod($key): void
+    public function testRequestMethod(string $key): void
     {
         $this->method = $key;
 
@@ -180,7 +180,7 @@ trait RequestParserDynamicRequestTestTrait
      *
      * @dataProvider paramsKeyNameProvider
      */
-    public function testRequestParams($key): void
+    public function testRequestParams(string $key): void
     {
         $this->params = $key;
 
@@ -257,7 +257,7 @@ trait RequestParserDynamicRequestTestTrait
      *
      * @dataProvider controllerKeyNameProvider
      */
-    public function testRequestControllerWithSlashes($key): void
+    public function testRequestControllerWithSlashes(string $key): void
     {
         $this->controller = $key;
 
@@ -280,7 +280,7 @@ trait RequestParserDynamicRequestTestTrait
      *
      * @dataProvider methodKeyNameProvider
      */
-    public function testRequestMethodWithSlashes($key): void
+    public function testRequestMethodWithSlashes(string $key): void
     {
         $this->method = $key;
 
@@ -303,7 +303,7 @@ trait RequestParserDynamicRequestTestTrait
      *
      * @dataProvider paramsKeyNameProvider
      */
-    public function testRequestParamsWithSlashes($key): void
+    public function testRequestParamsWithSlashes(string $key): void
     {
         $this->params = $key;
 

@@ -24,12 +24,6 @@ class RequestParserParseRequestTest extends RequestParserTestCase
     use RequestParserStaticRequestTestTrait;
 
     /**
-     * Mocked calls to Configuration
-     * @var array
-     */
-    protected $mockedCalls = [];
-
-    /**
      * Preparation work for the request tests.
      *
      * @param string $protocol  Protocol name

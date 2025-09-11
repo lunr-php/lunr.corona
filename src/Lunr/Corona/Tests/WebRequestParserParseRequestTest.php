@@ -10,6 +10,7 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Core\Configuration;
 use Lunr\Corona\HttpMethod;
 use Lunr\Corona\Tests\Helpers\RequestParserDynamicRequestTestTrait;
 
@@ -86,9 +87,25 @@ class WebRequestParserParseRequestTest extends WebRequestParserTestCase
             $map[] = [ 'default_method', 'default_method' ];
         }
 
+        $applicationConfig = $this->getMockBuilder(Configuration::class)->getMock();
+
+        $applicationConfig->expects($this->any())
+                          ->method('offsetGet')
+                          ->willReturnMap($map);
+
+        $applicationConfig->expects($this->any())
+                          ->method('offsetExists')
+                          ->willReturn(TRUE);
+
         $this->configuration->expects($this->any())
                             ->method('offsetGet')
-                            ->willReturnMap($map);
+                            ->with('application')
+                            ->willReturn($applicationConfig);
+
+        $this->configuration->expects($this->any())
+                            ->method('offsetExists')
+                            ->with('application')
+                            ->willReturn(TRUE);
 
         if ($override === FALSE)
         {

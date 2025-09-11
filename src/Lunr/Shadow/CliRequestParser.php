@@ -28,19 +28,19 @@ class CliRequestParser implements RequestParserInterface
      * Shared instance of the Configuration class.
      * @var Configuration
      */
-    protected $config;
+    protected readonly Configuration $config;
 
     /**
      * Shared instance of the Header class.
      * @var Header
      */
-    protected $header;
+    protected readonly Header $header;
 
     /**
      * "Abstract Syntax Tree" of the passed arguments on the command line
      * @var array
      */
-    protected $ast;
+    protected array $ast;
 
     /**
      * Constructor.
@@ -49,7 +49,7 @@ class CliRequestParser implements RequestParserInterface
      * @param CliParserInterface $parser        The CliParser of this request
      * @param Header             $header        Shared instance of the Header class
      */
-    public function __construct($configuration, $parser, $header)
+    public function __construct(Configuration $configuration, CliParserInterface $parser, Header $header)
     {
         $this->config = $configuration;
         $this->header = $header;
@@ -61,8 +61,6 @@ class CliRequestParser implements RequestParserInterface
      */
     public function __destruct()
     {
-        unset($this->config);
-        unset($this->header);
         unset($this->ast);
     }
 
@@ -82,8 +80,8 @@ class CliRequestParser implements RequestParserInterface
         $request['action'] = HttpMethod::GET;
 
         // Preset with default values:
-        $request['controller'] = $this->config['default_controller'];
-        $request['method']     = $this->config['default_method'];
+        $request['controller'] = $this->config['application']['default_controller'] ?? NULL;
+        $request['method']     = $this->config['application']['default_method'] ?? NULL;
         $request['params']     = [];
 
         $request['device_useragent'] = NULL;

@@ -25,14 +25,14 @@ class RequestParser implements RequestParserInterface
      * Shared instance of the Configuration class.
      * @var Configuration
      */
-    protected $config;
+    protected readonly Configuration $config;
 
     /**
      * Constructor.
      *
      * @param Configuration $configuration Shared instance of the Configuration class
      */
-    public function __construct($configuration)
+    public function __construct(Configuration $configuration)
     {
         $this->config = $configuration;
     }
@@ -42,7 +42,7 @@ class RequestParser implements RequestParserInterface
      */
     public function __destruct()
     {
-        unset($this->config);
+        //NO-OP
     }
 
     /**
@@ -56,13 +56,13 @@ class RequestParser implements RequestParserInterface
 
         $request['host'] = gethostname();
 
-        $request['application_path'] = $this->config['default_application_path'];
+        $request['application_path'] = $this->config['application']['default_application_path'] ?? NULL;
 
         $request['action'] = HttpMethod::GET;
 
         // Preset with default values:
-        $request['controller'] = $this->config['default_controller'];
-        $request['method']     = $this->config['default_method'];
+        $request['controller'] = $this->config['application']['default_controller'] ?? NULL;
+        $request['method']     = $this->config['application']['default_method'] ?? NULL;
         $request['params']     = [];
 
         if (isset($request['controller'], $request['method']) === TRUE)
