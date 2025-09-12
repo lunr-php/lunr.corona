@@ -131,7 +131,7 @@ class ClientApiKeyParser implements RequestEnumValueParserInterface
             $key = $_SERVER[$this->header];
         }
 
-        if (is_object($this->keys) && $this->keys->offsetExists($key) || is_array($this->keys) && array_key_exists($key, $this->keys))
+        if (isset($this->keys[$key]))
         {
             $this->client = $this->keys[$key];
         }
