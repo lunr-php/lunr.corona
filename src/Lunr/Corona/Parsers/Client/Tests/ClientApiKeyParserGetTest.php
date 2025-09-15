@@ -151,6 +151,18 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
     /**
      * Test getting a parsed client.
      *
+     * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::get
+     */
+    public function testGetClientUsingArrayAccessWithoutHeader(): void
+    {
+        $class = new ClientApiKeyParser(MockClientEnum::class, []);
+
+        $this->assertNull($class->get(ClientValue::Client));
+    }
+
+    /**
+     * Test getting a parsed client.
+     *
      * @covers Lunr\Corona\Parsers\Client\ClientApiKeyParser::getAsEnum
      */
     public function testGetParsedClientAsEnum(): void
