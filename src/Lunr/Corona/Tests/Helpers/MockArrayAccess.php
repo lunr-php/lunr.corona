@@ -10,6 +10,7 @@
 namespace Lunr\Corona\Tests\Helpers;
 
 use ArrayAccess;
+use RuntimeException;
 
 /**
  * The MockArrayAccess class.
@@ -50,6 +51,11 @@ class MockArrayAccess implements ArrayAccess
      */
     public function offsetExists(mixed $offset): bool
     {
+        if (is_string($offset) === FALSE && is_int($offset) === FALSE)
+        {
+            throw new RuntimeException('offset must be string or int');
+        }
+
         return array_key_exists($offset, $this->data);
     }
 
@@ -62,6 +68,11 @@ class MockArrayAccess implements ArrayAccess
      */
     public function offsetGet(mixed $offset): mixed
     {
+        if (is_string($offset) === FALSE && is_int($offset) === FALSE)
+        {
+            throw new RuntimeException('offset must be string or int');
+        }
+
         return $this->data[$offset] ?? NULL;
     }
 

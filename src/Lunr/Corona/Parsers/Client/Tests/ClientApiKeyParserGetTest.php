@@ -155,7 +155,9 @@ class ClientApiKeyParserGetTest extends ClientApiKeyParserTestCase
      */
     public function testGetClientUsingArrayAccessWithoutHeader(): void
     {
-        $class = new ClientApiKeyParser(MockClientEnum::class, []);
+        $keys = new MockArrayAccess([]);
+
+        $class = new ClientApiKeyParser(MockClientEnum::class, $keys);
 
         $this->assertNull($class->get(ClientValue::Client));
     }
