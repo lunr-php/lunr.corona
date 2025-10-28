@@ -13,6 +13,8 @@ use Exception;
 
 /**
  * Exception for a client data HTTP result.
+ *
+ * @phpstan-type ArrayReport array<string, string[]>
  */
 abstract class ClientDataHttpException extends HttpException
 {
@@ -82,7 +84,7 @@ abstract class ClientDataHttpException extends HttpException
     /**
      * Set report data about the request.
      *
-     * @param array $failures Failure messages per key
+     * @param ArrayReport $failures Failure messages per key
      *
      * @return void
      */
