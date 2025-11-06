@@ -23,6 +23,13 @@ use RuntimeException;
  * the request URL parameters
  *
  * @phpstan-import-type Tags from EventInterface
+ * @phpstan-type UploadData array{
+ *     name: string|array<string, string>,
+ *     type: string|array<string, string>,
+ *     tmp_name: string|array<string, string>,
+ *     error: int|array<string, int>,
+ *     size: int|array<string, int>,
+ * }
  *
  * @property-read string $action           The HTTP method used for the request
  * @property-read string $protocol         The protocol used for the request
@@ -566,9 +573,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string|null $key Key for the value to retrieve
      *
-     * @return mixed The value of the key, all GET values if no key is provided or NULL if not found.
+     * @return string|string[]|null The value of the key, all GET values if no key is provided or NULL if not found.
      */
-    public function get_get_data(?string $key = NULL): mixed
+    public function get_get_data(?string $key = NULL): string|array|null
     {
         return $this->getGetData($key);
     }
@@ -578,9 +585,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string|null $key Key for the value to retrieve
      *
-     * @return mixed The value of the key, all GET values if no key is provided or NULL if not found.
+     * @return string|string[]|null The value of the key, all GET values if no key is provided or NULL if not found.
      */
-    public function getGetData(?string $key = NULL): mixed
+    public function getGetData(?string $key = NULL): string|array|null
     {
         return $this->getData($key, RequestData::Get);
     }
@@ -592,9 +599,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string|null $key Key for the value to retrieve
      *
-     * @return mixed The value of the key, all POST values if no key is provided or NULL if not found.
+     * @return string|string[]|null The value of the key, all POST values if no key is provided or NULL if not found.
      */
-    public function get_post_data(?string $key = NULL): mixed
+    public function get_post_data(?string $key = NULL): string|array|null
     {
         return $this->getPostData($key);
     }
@@ -604,9 +611,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string|null $key Key for the value to retrieve
      *
-     * @return mixed The value of the key, all POST values if no key is provided or NULL if not found.
+     * @return string|string[]|null The value of the key, all POST values if no key is provided or NULL if not found.
      */
-    public function getPostData(?string $key = NULL): mixed
+    public function getPostData(?string $key = NULL): string|array|null
     {
         return $this->getData($key, RequestData::Post);
     }
@@ -618,9 +625,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return mixed $return The value of the key or NULL if not found
+     * @return int|string|string[]|null The value of the key or NULL if not found
      */
-    public function get_server_data(string $key): mixed
+    public function get_server_data(string $key): int|string|array|null
     {
         return $this->getServerData($key);
     }
@@ -630,9 +637,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return mixed $return The value of the key or NULL if not found
+     * @return int|string|string[]|null The value of the key or NULL if not found
      */
-    public function getServerData(string $key): mixed
+    public function getServerData(string $key): int|string|array|null
     {
         return $this->getData($key, RequestData::Server);
     }
@@ -644,9 +651,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return mixed $return The value of the key or NULL if not found
+     * @return string|null The value of the key or NULL if not found
      */
-    public function get_http_header_data(string $key): mixed
+    public function get_http_header_data(string $key): string|null
     {
         return $this->getHttpHeaderData($key);
     }
@@ -656,9 +663,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return mixed $return The value of the key or NULL if not found
+     * @return string|null The value of the key or NULL if not found
      */
-    public function getHttpHeaderData(string $key): mixed
+    public function getHttpHeaderData(string $key): string|null
     {
         return $this->getData($key, RequestData::Header);
     }
@@ -670,9 +677,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return mixed $return The value of the key or NULL if not found
+     * @return string|string[]|null The value of the key or NULL if not found
      */
-    public function get_cookie_data(string $key): mixed
+    public function get_cookie_data(string $key): string|array|null
     {
         return $this->getCookieData($key);
     }
@@ -682,9 +689,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return mixed $return The value of the key or NULL if not found
+     * @return string|string[]|null The value of the key or NULL if not found
      */
-    public function getCookieData(string $key): mixed
+    public function getCookieData(string $key): string|array|null
     {
         return $this->getData($key, RequestData::Cookie);
     }
@@ -696,7 +703,7 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return array|null $return The value of the key or NULL if not found
+     * @return UploadData|null The value of the key or NULL if not found
      */
     public function get_files_data(string $key): ?array
     {
@@ -708,7 +715,7 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return array|null $return The value of the key or NULL if not found
+     * @return UploadData|null The value of the key or NULL if not found
      */
     public function getFilesData(string $key): ?array
     {
@@ -720,7 +727,7 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @deprecated Use getRawData() instead
      *
-     * @return string $return The raw request data as string
+     * @return string The raw request data as string
      */
     public function get_raw_data(): string
     {
@@ -730,7 +737,7 @@ class Request implements TracingControllerInterface, TracingInfoInterface
     /**
      * Retrieve raw request data.
      *
-     * @return string $return The raw request data as string
+     * @return string The raw request data as string
      */
     public function getRawData(): string
     {
@@ -745,9 +752,15 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      * @param string|null $key  Key for the value to retrieve
      * @param RequestData $type Type of the request data
      *
-     * @return ($type is RequestData::CliOption ? array :
+     * @return ($type is RequestData::CliOption ? string[] :
+     *         ($type is RequestData::CliArgument ? string|null :
+     *         ($type is RequestData::Get ? string|string[] :
+     *         ($type is RequestData::Post ? string|string[] :
+     *         ($type is RequestData::Cookie ? string|string[] :
+     *         ($type is RequestData::Server ? string|int|string[] :
+     *         ($type is RequestData::Header ? string|null :
      *         ($type is RequestData::Raw ? string :
-     *         ($type is RequestData::Upload ? array|null : mixed))) Request data value
+     *         ($type is RequestData::Upload ? UploadData|null : int|string|array|null))))))))) Request data value
      */
     public function get_data(?string $key = NULL, RequestData $type = RequestData::Get): mixed
     {
@@ -760,11 +773,17 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      * @param string|null $key  Key for the value to retrieve
      * @param RequestData $type Type of the request data
      *
-     * @return ($type is RequestData::CliOption ? array :
+     * @return ($type is RequestData::CliOption ? string[] :
+     *         ($type is RequestData::CliArgument ? string|null :
+     *         ($type is RequestData::Get ? string|string[]|null :
+     *         ($type is RequestData::Post ? string|string[]|null :
+     *         ($type is RequestData::Cookie ? string|string[]|null :
+     *         ($type is RequestData::Server ? string|int|string[]|null :
+     *         ($type is RequestData::Header ? string|null :
      *         ($type is RequestData::Raw ? string :
-     *         ($type is RequestData::Upload ? array|null : mixed))) Request data value
+     *         ($type is RequestData::Upload ? UploadData|null : int|string|array|null))))))))) Request data value
      */
-    public function getData(?string $key = NULL, RequestData $type = RequestData::Get): mixed
+    public function getData(?string $key = NULL, RequestData $type = RequestData::Get): int|string|array|null
     {
         $property = $type->value;
 
