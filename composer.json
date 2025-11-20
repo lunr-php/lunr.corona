@@ -6,9 +6,9 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "psr/log": ">=1.1",
+    "psr/log": ">=3.0",
     "php": ">=8.3",
-    "psr/cache": ">=1.0",
+    "psr/cache": ">=3.0",
     "lunr/config": "dev-master",
     "lunr/cliparser": "dev-master",
     "lunr/ticks": "dev-master"
