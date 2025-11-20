@@ -148,6 +148,9 @@ class RequestGetDataFromWrappersTest extends RequestTestCase
     public function testGetServerData(): void
     {
         $this->assertEquals('server_value', $this->class->getServerData('server_key'));
+        $this->assertSame(1763641074.580797, $this->class->getServerData('REQUEST_TIME_FLOAT'));
+        $this->assertSame(1763641074, $this->class->getServerData('REQUEST_TIME'));
+        $this->assertSame([ 'Standard input code' ], $this->class->getServerData('argv'));
     }
 
     /**

@@ -625,9 +625,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return int|string|string[]|null The value of the key or NULL if not found
+     * @return float|int|string|string[]|null The value of the key or NULL if not found
      */
-    public function get_server_data(string $key): int|string|array|null
+    public function get_server_data(string $key): float|int|string|array|null
     {
         return $this->getServerData($key);
     }
@@ -637,9 +637,9 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *
      * @param string $key Key for the value to retrieve
      *
-     * @return int|string|string[]|null The value of the key or NULL if not found
+     * @return float|int|string|string[]|null The value of the key or NULL if not found
      */
-    public function getServerData(string $key): int|string|array|null
+    public function getServerData(string $key): float|int|string|array|null
     {
         return $this->getData($key, RequestData::Server);
     }
@@ -757,10 +757,10 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *         ($type is RequestData::Get ? string|string[] :
      *         ($type is RequestData::Post ? string|string[] :
      *         ($type is RequestData::Cookie ? string|string[] :
-     *         ($type is RequestData::Server ? string|int|string[] :
+     *         ($type is RequestData::Server ? float|int|string|string[] :
      *         ($type is RequestData::Header ? string|null :
      *         ($type is RequestData::Raw ? string :
-     *         ($type is RequestData::Upload ? UploadData|null : int|string|array|null))))))))) Request data value
+     *         ($type is RequestData::Upload ? UploadData|null : float|int|string|array|null))))))))) Request data value
      */
     public function get_data(?string $key = NULL, RequestData $type = RequestData::Get): mixed
     {
@@ -778,12 +778,12 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      *         ($type is RequestData::Get ? string|string[]|null :
      *         ($type is RequestData::Post ? string|string[]|null :
      *         ($type is RequestData::Cookie ? string|string[]|null :
-     *         ($type is RequestData::Server ? string|int|string[]|null :
+     *         ($type is RequestData::Server ? float|int|string|string[]|null :
      *         ($type is RequestData::Header ? string|null :
      *         ($type is RequestData::Raw ? string :
-     *         ($type is RequestData::Upload ? UploadData|null : int|string|array|null))))))))) Request data value
+     *         ($type is RequestData::Upload ? UploadData|null : float|int|string|array|null))))))))) Request data value
      */
-    public function getData(?string $key = NULL, RequestData $type = RequestData::Get): int|string|array|null
+    public function getData(?string $key = NULL, RequestData $type = RequestData::Get): float|int|string|array|null
     {
         $property = $type->value;
 

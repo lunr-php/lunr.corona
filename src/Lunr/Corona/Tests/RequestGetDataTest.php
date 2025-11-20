@@ -150,6 +150,9 @@ class RequestGetDataTest extends RequestTestCase
     public function testGetServerData(): void
     {
         $this->assertEquals('server_value', $this->class->getData('server_key', RequestData::Server));
+        $this->assertSame(1763641074.580797, $this->class->getData('REQUEST_TIME_FLOAT', RequestData::Server));
+        $this->assertSame(1763641074, $this->class->getData('REQUEST_TIME', RequestData::Server));
+        $this->assertSame([ 'Standard input code' ], $this->class->getData('argv', RequestData::Server));
     }
 
     /**

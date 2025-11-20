@@ -34,8 +34,11 @@ class RequestBaseTest extends RequestTestCase
     public function testServer(): void
     {
         $server = [
-            'server_key'      => 'server_value',
-            'HTTP_SERVER_KEY' => 'HTTP_SERVER_VALUE',
+            'server_key'         => 'server_value',
+            'REQUEST_TIME_FLOAT' => 1763641074.580797,
+            'REQUEST_TIME'       => 1763641074,
+            'HTTP_SERVER_KEY'    => 'HTTP_SERVER_VALUE',
+            'argv'               => [ 'Standard input code' ],
         ];
 
         $this->assertEquals($server, $this->getReflectionPropertyValue('server'));
