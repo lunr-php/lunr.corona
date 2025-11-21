@@ -15,8 +15,9 @@ use Lunr\Corona\HTMLView;
 use Lunr\Corona\Request;
 use Lunr\Corona\Response;
 use Lunr\Halo\LunrBaseTestCase;
+use Mockery;
+use Mockery\MockInterface;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 
 /**
  * This class tests the setup of the view class,
@@ -29,33 +30,27 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
 
     /**
      * Mock instance of the request class.
-     * @var Request
+     * @var Request&MockObject
      */
-    protected $request;
+    protected Request&MockObject $request;
 
     /**
      * Mock instance of the response class.
-     * @var Response
+     * @var Response&MockObject
      */
-    protected $response;
+    protected Response&MockObject $response;
 
     /**
-     * Mock instance of the configuration class.
-     * @var Configuration
+     * Mock instance of the Configuration class.
+     * @var Configuration&MockInterface
      */
-    protected $configuration;
-
-    /**
-     * Mock instance of the sub configuration class.
-     * @var Configuration
-     */
-    protected $subConfiguration;
+    protected Configuration&MockInterface $config;
 
     /**
      * Instance of the tested class.
-     * @var HTMLView&MockObject&Stub
+     * @var HTMLView&MockInterface
      */
-    protected HTMLView&MockObject&Stub $class;
+    protected HTMLView&MockInterface $class;
 
     /**
      * TestCase Constructor.
@@ -64,29 +59,17 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
      */
     public function setUp(): void
     {
-        $this->subConfiguration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
+        $this->config = Mockery::mock(Configuration::class);
 
-        $this->configuration = $this->getMockBuilder('Lunr\Core\Configuration')->getMock();
-
-        $map = [
-            [ 'path', $this->subConfiguration ],
-        ];
-
-        $this->configuration->expects($this->any())
-                      ->method('offsetGet')
-                      ->willReturnMap($map);
-
-        $this->request = $this->getMockBuilder('Lunr\Corona\Request')
+        $this->request = $this->getMockBuilder(Request::class)
                               ->disableOriginalConstructor()
                               ->getMock();
 
-        $this->response = $this->getMockBuilder('Lunr\Corona\Response')->getMock();
+        $this->response = $this->getMockBuilder(Response::class)->getMock();
 
         $this->mockFunction('headers_sent', fn() => TRUE);
 
-        $this->class = $this->getMockBuilder('Lunr\Corona\HTMLView')
-                           ->setConstructorArgs([ $this->request, $this->response, $this->configuration ])
-                           ->getMockForAbstractClass();
+        $this->class = Mockery::mock(HTMLView::class, [ $this->request, $this->response, $this->config ]);
 
         $this->unmockFunction('headers_sent');
 
@@ -98,8 +81,7 @@ abstract class HTMLViewTestCase extends LunrBaseTestCase
      */
     public function tearDown(): void
     {
-        unset($this->configuration);
-        unset($this->subConfiguration);
+        unset($this->config);
         unset($this->request);
         unset($this->response);
         unset($this->class);

@@ -13,7 +13,7 @@ namespace Lunr\Corona\Tests;
 /**
  * Base tests for the view class.
  *
- * @covers     Lunr\Corona\HTMLView
+ * @covers Lunr\Corona\HTMLView
  */
 class HTMLViewBaseTest extends HTMLViewTestCase
 {
@@ -39,7 +39,7 @@ class HTMLViewBaseTest extends HTMLViewTestCase
      */
     public function testConfigurationSetCorrectly(): void
     {
-        $this->assertPropertySame('configuration', $this->configuration);
+        $this->assertPropertySame('config', $this->config);
     }
 
     /**

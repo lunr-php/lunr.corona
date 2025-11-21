@@ -20,37 +20,37 @@ abstract class HTMLView extends View
 {
 
     /**
-     * Shared instance of the Configuration class
-     * @var Configuration
+     * Configuration values
+     * @var array<array-key, mixed>|Configuration
      */
-    protected $configuration;
+    protected readonly array|Configuration $config;
 
     /**
      * List of javascript files to include.
-     * @var array
+     * @var string[]
      */
-    protected $javascript;
+    protected array $javascript;
 
     /**
      * List of stylesheets to include.
-     * @var array
+     * @var string[]
      */
-    protected $stylesheets;
+    protected array $stylesheets;
 
     /**
      * Constructor.
      *
-     * @param Request       $request       Shared instance of the Request class
-     * @param Response      $response      Shared instance of the Response class
-     * @param Configuration $configuration Shared instance of the Configuration class
+     * @param Request                               $request  Shared instance of the Request class
+     * @param Response                              $response Shared instance of the Response class
+     * @param array<array-key, mixed>|Configuration $config   Configuration values
      */
-    public function __construct($request, $response, $configuration)
+    public function __construct(Request $request, Response $response, array|Configuration $config)
     {
         parent::__construct($request, $response);
 
-        $this->configuration = $configuration;
-        $this->javascript    = [];
-        $this->stylesheets   = [];
+        $this->config      = $config;
+        $this->javascript  = [];
+        $this->stylesheets = [];
     }
 
     /**
@@ -60,7 +60,6 @@ abstract class HTMLView extends View
     {
         parent::__destruct();
 
-        unset($this->configuration);
         unset($this->javascript);
         unset($this->stylesheets);
     }
@@ -77,7 +76,7 @@ abstract class HTMLView extends View
     {
         $output  = '';
         $base    = '/' . trim($this->request->get(UrlValue::BasePath) ?? '', '/');
-        $statics = '/' . trim($this->configuration['path']['statics'], '/');
+        $statics = '/' . trim($this->config['path']['statics'], '/');
         $path    = '/' . trim($path, '/');
 
         if ($base != '/')
@@ -101,7 +100,7 @@ abstract class HTMLView extends View
      *
      * @return string $links Generated html code for including css stylesheets
      */
-    protected function include_stylesheets($sort = FALSE)
+    protected function includeStylesheets(bool $sort = FALSE): string
     {
         $links = '';
 
@@ -112,7 +111,7 @@ abstract class HTMLView extends View
 
         foreach ($this->stylesheets as $stylesheet)
         {
-            if (!$this->is_external($stylesheet))
+            if (!$this->isExternal($stylesheet))
             {
                 $basePath    = str_replace($this->request->get(UrlValue::BasePath) ?? '', '', $stylesheet);
                 $stylesheet .= '?' . filemtime($this->request->application_path . $basePath);
@@ -131,7 +130,7 @@ abstract class HTMLView extends View
      *
      * @return string $links Generated html code for including javascript
      */
-    protected function include_javascript($sort = FALSE)
+    protected function includeJavascript(bool $sort = FALSE): string
     {
         $links = '';
 
@@ -142,7 +141,7 @@ abstract class HTMLView extends View
 
         foreach ($this->javascript as $js)
         {
-            if (!$this->is_external($js))
+            if (!$this->isExternal($js))
             {
                 $basePath = str_replace($this->request->get(UrlValue::BasePath) ?? '', '', $js);
                 $js      .= '?' . filemtime($this->request->application_path . $basePath);
@@ -161,7 +160,7 @@ abstract class HTMLView extends View
      *
      * @return bool if the URI is external or not
      */
-    private function is_external($uri)
+    private function isExternal(string $uri): bool
     {
         return (strpos($uri, 'http://') === 0 || strpos($uri, 'https://') === 0 || strpos($uri, '//') === 0);
     }
@@ -178,7 +177,7 @@ abstract class HTMLView extends View
      *
      * @return string $return The constructed CSS class name
      */
-    protected function css_alternate($basename, $alternationHint, $suffix = '')
+    protected function cssAlternate(string $basename, int $alternationHint, string $suffix = ''): string
     {
         if ($suffix == '')
         {

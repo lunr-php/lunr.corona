@@ -20,6 +20,7 @@
   },
   "require-dev": {
     "lunr/halo": "dev-master",
+    "mockery/mockery": "~1.6",
     "phpunit/phpunit": ">=10.5 <11.0",
     "ext-xdebug": "~3.1"
   },

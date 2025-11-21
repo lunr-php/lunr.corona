@@ -10,15 +10,18 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Core\Tests\Helpers\ConfigurationAccessMockTrait;
 use Lunr\Corona\Parsers\Url\UrlValue;
 
 /**
  * This class tests the helper methods of the view class.
  *
- * @covers     Lunr\Corona\HTMLView
+ * @covers Lunr\Corona\HTMLView
  */
 class HTMLViewHelpersTest extends HTMLViewTestCase
 {
+
+    use ConfigurationAccessMockTrait;
 
     /**
      * Tests the statics method of the View class.
@@ -31,16 +34,20 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
      * @dataProvider staticsProvider
      * @covers       Lunr\Corona\HTMLView::statics
      */
-    public function testStatics($base, $statics, $path, $result): void
+    public function testStatics(string $base, string $statics, string $path, string $result): void
     {
         $this->request->expects($this->once())
                       ->method('get')
                       ->with(UrlValue::BasePath)
                       ->willReturn($base);
 
-        $this->subConfiguration->expects($this->once())
-                               ->method('offsetGet')
-                               ->willReturn($statics);
+        $config = [
+            'path' => [
+                'statics' => $statics,
+            ],
+        ];
+
+        $this->expectConfigurationAccess($config);
 
         $method = $this->getReflectionMethod('statics');
 
@@ -50,13 +57,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating stylesheet include links for no stylesheets.
      *
-     * @covers Lunr\Corona\HTMLView::include_stylesheets
+     * @covers Lunr\Corona\HTMLView::includeStylesheets
      */
     public function testIncluceStylesheetsWithNoStylesheets(): void
     {
         $this->setReflectionPropertyValue('stylesheets', []);
 
-        $method = $this->getReflectionMethod('include_stylesheets');
+        $method = $this->getReflectionMethod('includeStylesheets');
 
         $this->assertSame('', $method->invoke($this->class));
     }
@@ -64,13 +71,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating stylesheet include links for one stylesheet.
      *
-     * @covers   Lunr\Corona\HTMLView::include_stylesheets
+     * @covers   Lunr\Corona\HTMLView::includeStylesheets
      */
     public function testIncludeStylesheetsWithOneStylesheet(): void
     {
         $this->setReflectionPropertyValue('stylesheets', [ 'style1.css' ]);
 
-        $method = $this->getReflectionMethod('include_stylesheets');
+        $method = $this->getReflectionMethod('includeStylesheets');
 
         $this->request->expects($this->once())
                       ->method('__get')
@@ -93,13 +100,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating stylesheet include links for multiple stylesheets.
      *
-     * @covers   Lunr\Corona\HTMLView::include_stylesheets
+     * @covers   Lunr\Corona\HTMLView::includeStylesheets
      */
     public function testIncludeStylesheetsWithMultipleStylesheets(): void
     {
         $this->setReflectionPropertyValue('stylesheets', [ 'style2.css', 'style1.css' ]);
 
-        $method = $this->getReflectionMethod('include_stylesheets');
+        $method = $this->getReflectionMethod('includeStylesheets');
 
         $this->request->expects($this->exactly(2))
                       ->method('__get')
@@ -122,7 +129,7 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating stylesheet include links for external stylesheets.
      *
-     * @covers   Lunr\Corona\HTMLView::include_stylesheets
+     * @covers   Lunr\Corona\HTMLView::includeStylesheets
      */
     public function testIncludeStylesheetsWithExternalStylesheets(): void
     {
@@ -134,7 +141,7 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
 
         $this->setReflectionPropertyValue('stylesheets', $stylesheets);
 
-        $method = $this->getReflectionMethod('include_stylesheets');
+        $method = $this->getReflectionMethod('includeStylesheets');
 
         $this->request->expects($this->never())
                       ->method('__get');
@@ -148,13 +155,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating stylesheet include links for multiple sorted stylesheets.
      *
-     * @covers   Lunr\Corona\HTMLView::include_stylesheets
+     * @covers   Lunr\Corona\HTMLView::includeStylesheets
      */
     public function testIncludeStylesheetsWithMultipleStylesheetsSorted(): void
     {
         $this->setReflectionPropertyValue('stylesheets', [ 'style2.css', 'style1.css' ]);
 
-        $method = $this->getReflectionMethod('include_stylesheets');
+        $method = $this->getReflectionMethod('includeStylesheets');
 
         $this->request->expects($this->exactly(2))
                       ->method('__get')
@@ -177,13 +184,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating javascript include links for no javascript files.
      *
-     * @covers Lunr\Corona\HTMLView::include_stylesheets
+     * @covers Lunr\Corona\HTMLView::includeStylesheets
      */
     public function testIncluceJavascriptWithNoJSFiles(): void
     {
         $this->setReflectionPropertyValue('javascript', []);
 
-        $method = $this->getReflectionMethod('include_javascript');
+        $method = $this->getReflectionMethod('includeJavascript');
 
         $this->assertSame('', $method->invoke($this->class));
     }
@@ -191,13 +198,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating javascript include links for one javascript file.
      *
-     * @covers   Lunr\Corona\HTMLView::include_javascript
+     * @covers   Lunr\Corona\HTMLView::includeJavascript
      */
     public function testIncludeJavascriptWithOneJSFile(): void
     {
         $this->setReflectionPropertyValue('javascript', [ 'script1.js' ]);
 
-        $method = $this->getReflectionMethod('include_javascript');
+        $method = $this->getReflectionMethod('includeJavascript');
 
         $this->request->expects($this->once())
                       ->method('__get')
@@ -220,13 +227,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating javascript include links for multiple javascript files.
      *
-     * @covers   Lunr\Corona\HTMLView::include_javascript
+     * @covers   Lunr\Corona\HTMLView::includeJavascript
      */
     public function testIncludeJavascriptWithMultipleJSFiles(): void
     {
         $this->setReflectionPropertyValue('javascript', [ 'script2.js', 'script1.js' ]);
 
-        $method = $this->getReflectionMethod('include_javascript');
+        $method = $this->getReflectionMethod('includeJavascript');
 
         $this->request->expects($this->exactly(2))
                       ->method('__get')
@@ -249,7 +256,7 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating javascript include links for external javascript files.
      *
-     * @covers   Lunr\Corona\HTMLView::include_javascript
+     * @covers   Lunr\Corona\HTMLView::includeJavascript
      */
     public function testIncludeJavascriptWithExternalJSFiles(): void
     {
@@ -261,7 +268,7 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
 
         $this->setReflectionPropertyValue('javascript', $javascript);
 
-        $method = $this->getReflectionMethod('include_javascript');
+        $method = $this->getReflectionMethod('includeJavascript');
 
         $this->request->expects($this->never())
                       ->method('__get');
@@ -275,13 +282,13 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     /**
      * Test generating javascript include links for multiple sorted javascript files.
      *
-     * @covers   Lunr\Corona\HTMLView::include_javascript
+     * @covers   Lunr\Corona\HTMLView::includeJavascript
      */
     public function testIncludeJavascriptWithMultipleJSFilesSorted(): void
     {
         $this->setReflectionPropertyValue('javascript', [ 'script2.js', 'script1.js' ]);
 
-        $method = $this->getReflectionMethod('include_javascript');
+        $method = $this->getReflectionMethod('includeJavascript');
 
         $this->request->expects($this->exactly(2))
                       ->method('__get')
@@ -302,19 +309,19 @@ class HTMLViewHelpersTest extends HTMLViewTestCase
     }
 
     /**
-     * Tests the css_alternate method of the View class.
+     * Tests the cssAlternate() method of the View class.
      *
      * @param string $basename        CSS rule basename
-     * @param string $alternationHint Hint on whether to use 'even' or 'odd'
+     * @param int    $alternationHint Hint on whether to use 'even' or 'odd'
      * @param string $suffix          Custom suffix instead of 'even' or 'odd'
      * @param string $result          Expected combined result
      *
      * @dataProvider cssAlternateProvider
-     * @covers       Lunr\Corona\HTMLView::css_alternate
+     * @covers       Lunr\Corona\HTMLView::cssAlternate
      */
-    public function testCssAlternate($basename, $alternationHint, $suffix, $result): void
+    public function testCssAlternate(string $basename, int $alternationHint, string $suffix, string $result): void
     {
-        $method = $this->getReflectionMethod('css_alternate');
+        $method = $this->getReflectionMethod('cssAlternate');
 
         $this->assertEquals($result, $method->invokeArgs($this->class, [ $basename, $alternationHint, $suffix ]));
     }
