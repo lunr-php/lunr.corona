@@ -76,7 +76,7 @@ class MsgpackView extends View
             $msgpack['data'] = new stdClass();
         }
 
-        header('Content-type: application/msgpack');
+        header('Content-Type: application/msgpack');
         http_response_code($code);
 
         // replace StdClass `a8737464436c617373` with empty map msgpack code `80`
@@ -106,7 +106,7 @@ class MsgpackView extends View
         $msgpack['status']['code']    = 500;
         $msgpack['status']['message'] = $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'];
 
-        header('Content-type: application/msgpack');
+        header('Content-Type: application/msgpack');
         http_response_code(500);
 
         // replace StdClass `a8737464436c617373` with empty map msgpack code `80`
@@ -137,7 +137,7 @@ class MsgpackView extends View
             $e->getLine(),
         );
 
-        header('Content-type: application/msgpack');
+        header('Content-Type: application/msgpack');
         http_response_code(500);
 
         // replace StdClass `a8737464436c617373` with empty map msgpack code `80`
