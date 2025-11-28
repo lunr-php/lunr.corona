@@ -77,7 +77,7 @@ class JsonView extends View
             $json['data'] = new stdClass();
         }
 
-        header('Content-type: application/json');
+        header('Content-Type: application/json');
         http_response_code($code);
 
         if ($this->request->get(SapiValue::Sapi) == 'cli')
@@ -112,7 +112,7 @@ class JsonView extends View
         $json['status']['code']    = 500;
         $json['status']['message'] = $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'];
 
-        header('Content-type: application/json');
+        header('Content-Type: application/json');
         http_response_code(500);
 
         if ($this->request->get(SapiValue::Sapi) == 'cli')
@@ -148,7 +148,7 @@ class JsonView extends View
             $e->getLine(),
         );
 
-        header('Content-type: application/json');
+        header('Content-Type: application/json');
         http_response_code(500);
 
         if ($this->request->get(SapiValue::Sapi) == 'cli')

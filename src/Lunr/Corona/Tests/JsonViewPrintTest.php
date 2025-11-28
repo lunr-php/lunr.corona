@@ -325,12 +325,9 @@ class JsonViewPrintTest extends JsonViewTestCase
 
         $headers = xdebug_get_headers();
 
-        $this->assertIsArray($headers);
-        $this->assertNotEmpty($headers);
+        $this->assertArrayNotEmpty($headers);
 
-        $value = strpos($headers[0], 'X-Xdebug-Profile-Filename') !== FALSE ? $headers[1] : $headers[0];
-
-        $this->assertEquals('Content-type: application/json', $value);
+        $this->assertContains('Content-Type: application/json', $headers);
     }
 
 }
