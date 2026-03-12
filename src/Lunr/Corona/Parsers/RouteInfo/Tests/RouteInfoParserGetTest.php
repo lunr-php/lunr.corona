@@ -81,7 +81,7 @@ class RouteInfoParserGetTest extends RouteInfoParserTestCase
      */
     public function testGetDefaultName(): void
     {
-        $string = '/general/pre-routing';
+        $string = 'general.pre-routing';
 
         $value = $this->class->get(RouteInfoValue::Name);
 

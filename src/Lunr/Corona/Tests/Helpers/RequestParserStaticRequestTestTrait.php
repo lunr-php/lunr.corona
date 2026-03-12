@@ -248,7 +248,7 @@ trait RequestParserStaticRequestTestTrait
 
         $this->assertIsArray($request);
         $this->assertArrayHasKey('call', $request);
-        $this->assertEquals('DefaultController/default_method', $request['call']);
+        $this->assertEquals('DefaultController.default_method', $request['call']);
 
         $this->cleanup_request_test();
     }

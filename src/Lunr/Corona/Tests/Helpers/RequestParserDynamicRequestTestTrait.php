@@ -211,7 +211,7 @@ trait RequestParserDynamicRequestTestTrait
 
         $this->assertIsArray($request);
         $this->assertArrayHasKey('call', $request);
-        $this->assertEquals('thecontroller/themethod', $request['call']);
+        $this->assertEquals('thecontroller.themethod', $request['call']);
 
         $this->cleanup_request_test();
     }
@@ -334,7 +334,7 @@ trait RequestParserDynamicRequestTestTrait
 
         $this->assertIsArray($request);
         $this->assertArrayHasKey('call', $request);
-        $this->assertEquals('thecontroller/themethod', $request['call']);
+        $this->assertEquals('thecontroller.themethod', $request['call']);
 
         $this->cleanup_request_test();
     }

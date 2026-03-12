@@ -67,7 +67,7 @@ class RequestParser implements RequestParserInterface
 
         if (isset($request['controller'], $request['method']) === TRUE)
         {
-            $request['call'] = $request['controller'] . '/' . $request['method'];
+            $request['call'] = $request['controller'] . '.' . $request['method'];
         }
         else
         {

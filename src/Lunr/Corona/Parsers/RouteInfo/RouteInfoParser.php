@@ -44,7 +44,7 @@ class RouteInfoParser implements RequestValueParserInterface
      * @param string $defaultGroup Default route group
      * @param string $defaultName  Default route name
      */
-    public function __construct(string $defaultGroup = 'general', string $defaultName = '/general/pre-routing')
+    public function __construct(string $defaultGroup = 'general', string $defaultName = 'general.pre-routing')
     {
         $this->group = $defaultGroup;
         $this->name  = $defaultName;

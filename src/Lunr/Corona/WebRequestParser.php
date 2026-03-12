@@ -128,7 +128,7 @@ class WebRequestParser implements RequestParserInterface
         {
             if (isset($request['controller'], $request['method']) === TRUE)
             {
-                $request['call'] = $request['controller'] . '/' . $request['method'];
+                $request['call'] = $request['controller'] . '.' . $request['method'];
             }
 
             $this->requestParsed = TRUE;
@@ -152,7 +152,7 @@ class WebRequestParser implements RequestParserInterface
 
         if (isset($request['controller'], $request['method']) === TRUE)
         {
-            $request['call'] = $request['controller'] . '/' . $request['method'];
+            $request['call'] = $request['controller'] . '.' . $request['method'];
         }
 
         $this->requestParsed = TRUE;
