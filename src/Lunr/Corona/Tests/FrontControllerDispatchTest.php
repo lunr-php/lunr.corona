@@ -33,12 +33,23 @@ class FrontControllerDispatchTest extends FrontControllerTestCase
                       ->method('handle_request')
                       ->with([ $controller, 'foo' ], [ 1, 2 ]);
 
-        $this->request->expects($this->exactly(2))
+        $this->request->expects($this->exactly(6))
                       ->method('__get')
                       ->willReturnMap([
+                          [ 'controller', 'baz' ],
                           [ 'method', 'foo' ],
                           [ 'params', [ 1, 2 ]],
                       ]);
+
+        $mock = [
+            'name'   => 'baz.foo',
+            'target' => $controller::class . '::foo',
+            'group'  => 'baz',
+        ];
+
+        $this->request->expects($this->once())
+                      ->method('addMockValues')
+                      ->with($mock);
 
         $this->class->dispatch($controller);
     }

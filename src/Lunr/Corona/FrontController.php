@@ -10,6 +10,7 @@
 
 namespace Lunr\Corona;
 
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
@@ -277,6 +278,12 @@ class FrontController
         {
             return;
         }
+
+        $override[RouteInfoValue::Name->value]   = $this->request->controller . '.' . $this->request->method;
+        $override[RouteInfoValue::Target->value] = $controller::class . '::' . $this->request->method;
+        $override[RouteInfoValue::Group->value]  = $this->request->controller;
+
+        $this->request->addMockValues($override);
 
         $this->handler->handle_request($callable, $this->request->params);
     }
