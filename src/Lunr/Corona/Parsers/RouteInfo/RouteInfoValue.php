@@ -28,6 +28,12 @@ enum RouteInfoValue: string implements RequestValueInterface
      */
     case Name = 'name';
 
+    /**
+     * The fully-qualifified class name and method name that handles the route.
+     * Pre-routing this would be the filename of the entrypoint.
+     */
+    case Target = 'target';
+
 }
 
 ?>

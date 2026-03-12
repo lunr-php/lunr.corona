@@ -33,6 +33,12 @@ class RouteInfoParser implements RequestValueParserInterface
     protected readonly string $name;
 
     /**
+     * The fully-qualifified class name and method name that handles the route.
+     * @var string
+     */
+    protected readonly string $target;
+
+    /**
      * Constructor.
      *
      * @param string $defaultGroup Default route group
@@ -73,10 +79,23 @@ class RouteInfoParser implements RequestValueParserInterface
     {
         // Request ID is an alias for Trace ID
         return match ($key) {
-            RouteInfoValue::Group => $this->group,
-            RouteInfoValue::Name  => $this->name,
+            RouteInfoValue::Group  => $this->group,
+            RouteInfoValue::Name   => $this->name,
+            RouteInfoValue::Target => $this->target ?? $this->parseTarget(),
             default               => throw new RuntimeException('Unsupported request value type "' . $key::class . '"'),
         };
+    }
+
+    /**
+     * Parse the target.
+     *
+     * @return string|null The parsed target
+     */
+    protected function parseTarget(): ?string
+    {
+        $this->target = basename($_SERVER['SCRIPT_NAME'] ?? 'unknown');
+
+        return $this->target;
     }
 
 }

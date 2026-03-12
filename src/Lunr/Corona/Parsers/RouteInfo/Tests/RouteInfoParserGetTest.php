@@ -17,7 +17,8 @@ use RuntimeException;
 /**
  * This class contains test methods for the RouteInfoParser class.
  *
- * @covers Lunr\Corona\Parsers\RouteInfo\RouteInfoParser
+ * @backupGlobals enabled
+ * @covers        Lunr\Corona\Parsers\RouteInfo\RouteInfoParser
  */
 class RouteInfoParserGetTest extends RouteInfoParserTestCase
 {
@@ -99,6 +100,60 @@ class RouteInfoParserGetTest extends RouteInfoParserTestCase
         $value = $nullValue->get(RouteInfoValue::Name);
 
         $this->assertEquals('/custom/api', $value);
+    }
+
+    /**
+     * Test getting the target.
+     *
+     * @covers Lunr\Corona\Parsers\RouteInfo\RouteInfoParser::get
+     */
+    public function testGetUnknownTarget(): void
+    {
+        unset($_SERVER['SCRIPT_NAME']);
+
+        $string = 'unknown';
+
+        $value = $this->class->get(RouteInfoValue::Target);
+
+        $this->assertEquals($string, $value);
+    }
+
+    /**
+     * Test getting the target.
+     *
+     * @covers Lunr\Corona\Parsers\RouteInfo\RouteInfoParser::get
+     */
+    public function testGetEntrypointTarget(): void
+    {
+        $_SERVER['SCRIPT_NAME'] = '/app/index.php';
+
+        $string = 'index.php';
+
+        $value = $this->class->get(RouteInfoValue::Target);
+
+        $this->assertEquals($string, $value);
+    }
+
+    /**
+     * Test getting the target.
+     *
+     * @covers Lunr\Corona\Parsers\RouteInfo\RouteInfoParser::get
+     */
+    public function testGetParsedEntrypointTarget(): void
+    {
+        $_SERVER['SCRIPT_NAME'] = '/app/index.php';
+
+        $string = 'index.php';
+
+        $value = $this->class->get(RouteInfoValue::Target);
+
+        $this->assertEquals($string, $value);
+
+        $_SERVER['SCRIPT_NAME'] = '/app/cli.php';
+
+        $value = $this->class->get(RouteInfoValue::Target);
+
+        $this->assertEquals($string, $value);
     }
 
 }
