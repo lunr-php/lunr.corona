@@ -9,6 +9,8 @@
 
 namespace Lunr\Corona\Tests;
 
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoParser;
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 use Lunr\Corona\Parsers\TracingInfo\TracingInfoValue;
 use Lunr\Corona\RequestValueParserInterface;
 use Lunr\Corona\Tests\Helpers\MockRequestValue;
@@ -350,12 +352,46 @@ class RequestGetValueTest extends RequestTestCase
      *
      * @covers Lunr\Corona\Request::getSpanSpecificTags
      */
-    public function testGetSpanSpecificTags(): void
+    public function testGetSpanSpecificTagsWithoutRegisteredParser(): void
     {
+        $expected = [];
+
+        $value = $this->class->getSpanSpecificTags();
+
+        $this->assertEquals($expected, $value);
+    }
+
+    /**
+     * Test getSpanSpecificTags().
+     *
+     * @covers Lunr\Corona\Request::getSpanSpecificTags
+     */
+    public function testGetSpanSpecificTagsWithRegisteredParser(): void
+    {
+        $parser = $this->getMockBuilder(RouteInfoParser::class)
+                       ->disableOriginalConstructor()
+                       ->getMock();
+
+        $parser->expects($this->once())
+               ->method('getRequestValueType')
+               ->willReturn(RouteInfoValue::class);
+
+        $parser->expects($this->exactly(3))
+               ->method('get')
+               ->willReturnMap(
+                   [
+                       [ RouteInfoValue::Name, 'foo.bar' ],
+                       [ RouteInfoValue::Group, 'foo' ],
+                       [ RouteInfoValue::Target, 'FooController::bar' ],
+                   ]
+               );
+
+        $this->class->registerParser($parser);
+
         $expected = [
-            'controller' => 'controller',
-            'method'     => 'method',
-            'call'       => 'controller/method',
+            'controller' => 'FooController::bar',
+            'route'      => 'foo.bar',
+            'routeGroup' => 'foo',
         ];
 
         $value = $this->class->getSpanSpecificTags();

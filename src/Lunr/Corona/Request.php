@@ -11,6 +11,7 @@
 namespace Lunr\Corona;
 
 use BackedEnum;
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 use Lunr\Corona\Parsers\TracingInfo\TracingInfoValue;
 use Lunr\Ticks\EventLogging\EventInterface;
 use Lunr\Ticks\TracingControllerInterface;
@@ -254,10 +255,15 @@ class Request implements TracingControllerInterface, TracingInfoInterface
      */
     public function getSpanSpecificTags(): array
     {
+        if (!isset($this->parsers[RouteInfoValue::class]))
+        {
+            return [];
+        }
+
         return [
-            'controller' => $this->controller,
-            'method'     => $this->method,
-            'call'       => $this->call,
+            'controller' => $this->get(RouteInfoValue::Target),
+            'route'      => $this->get(RouteInfoValue::Name),
+            'routeGroup' => $this->get(RouteInfoValue::Group),
         ];
     }
 
