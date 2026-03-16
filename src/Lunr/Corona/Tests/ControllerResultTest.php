@@ -12,6 +12,7 @@ namespace Lunr\Corona\Tests;
 
 use Lunr\Corona\Exceptions\NotImplementedException;
 use Lunr\Corona\HttpCode;
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 
 /**
  * This class contains test methods for the Controller class.
@@ -42,13 +43,13 @@ class ControllerResultTest extends ControllerTestCase
     public function testSetResultReturnCode(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $method = $this->getReflectionMethod('setResult');
 
@@ -63,13 +64,13 @@ class ControllerResultTest extends ControllerTestCase
     public function testSetResultErrorMessageNull(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->never())
                        ->method('setResultMessage');
@@ -87,17 +88,17 @@ class ControllerResultTest extends ControllerTestCase
     public function testSetResultErrorMessage(): void
     {
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', 'errmsg');
+                       ->with('controller.method', 'errmsg');
 
         $method = $this->getReflectionMethod('setResult');
 
@@ -112,13 +113,13 @@ class ControllerResultTest extends ControllerTestCase
     public function testSetResultErrorInfoNull(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->never())
                        ->method('setResultInfoCode');
@@ -136,17 +137,17 @@ class ControllerResultTest extends ControllerTestCase
     public function testSetResultErrorInfoNotNull(): void
     {
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->once())
                        ->method('setResultInfoCode')
-                       ->with('controller/method', 2060);
+                       ->with('controller.method', 2060);
 
         $method = $this->getReflectionMethod('setResult');
 
@@ -161,13 +162,13 @@ class ControllerResultTest extends ControllerTestCase
     public function testDeprecatedSetResultReturnCode(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $method = $this->getReflectionMethod('set_result');
 
@@ -182,13 +183,13 @@ class ControllerResultTest extends ControllerTestCase
     public function testDeprecatedSetResultErrorMessageNull(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->never())
                        ->method('setResultMessage');
@@ -206,17 +207,17 @@ class ControllerResultTest extends ControllerTestCase
     public function testDeprecatedSetResultErrorMessage(): void
     {
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', 'errmsg');
+                       ->with('controller.method', 'errmsg');
 
         $method = $this->getReflectionMethod('set_result');
 
@@ -231,13 +232,13 @@ class ControllerResultTest extends ControllerTestCase
     public function testDeprecatedSetResultErrorInfoNull(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->never())
                        ->method('setResultInfoCode');
@@ -255,17 +256,17 @@ class ControllerResultTest extends ControllerTestCase
     public function testDeprecatedSetResultErrorInfoNotNull(): void
     {
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::PARTIAL_CONTENT);
+                       ->with('controller.method', HttpCode::PARTIAL_CONTENT);
 
         $this->response->expects($this->once())
                        ->method('setResultInfoCode')
-                       ->with('controller/method', 2060);
+                       ->with('controller.method', 2060);
 
         $method = $this->getReflectionMethod('set_result');
 

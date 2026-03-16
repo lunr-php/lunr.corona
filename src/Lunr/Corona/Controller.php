@@ -11,6 +11,7 @@
 namespace Lunr\Corona;
 
 use Lunr\Corona\Exceptions\NotImplementedException;
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 
 /**
  * Controller class
@@ -92,11 +93,11 @@ abstract class Controller
      */
     protected function setResult(int $code, ?string $message = NULL, ?int $info = NULL): void
     {
-        $this->response->setResultCode($this->request->call, $code);
+        $this->response->setResultCode($this->request->get(RouteInfoValue::Name), $code);
 
         if ($message !== NULL)
         {
-            $this->response->setResultMessage($this->request->call, $message);
+            $this->response->setResultMessage($this->request->get(RouteInfoValue::Name), $message);
         }
 
         if ($info === NULL)
@@ -104,7 +105,7 @@ abstract class Controller
             return;
         }
 
-        $this->response->setResultInfoCode($this->request->call, $info);
+        $this->response->setResultInfoCode($this->request->get(RouteInfoValue::Name), $info);
     }
 
 }
