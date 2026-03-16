@@ -195,7 +195,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
 
         $this->request->expects($this->once())
                       ->method('getSpanSpecificTags')
-                      ->willReturn([ 'call' => 'controller/method' ]);
+                      ->willReturn([ 'name' => 'controller.method' ]);
 
         $this->eventLogger->expects($this->once())
                           ->method('newEvent')
@@ -217,7 +217,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
                     ->method('setParentSpanId');
 
         $tags = [
-            'call' => 'controller/method',
+            'name' => 'controller.method',
         ];
 
         $this->event->expects($this->once())
@@ -271,7 +271,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
 
         $this->request->expects($this->once())
                       ->method('getSpanSpecificTags')
-                      ->willReturn([ 'call' => 'controller/method' ]);
+                      ->willReturn([ 'name' => 'controller.method' ]);
 
         $this->eventLogger->expects($this->once())
                           ->method('newEvent')
@@ -294,7 +294,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
                     ->with($parentSpanID);
 
         $tags = [
-            'call' => 'controller/method',
+            'name' => 'controller.method',
         ];
 
         $this->event->expects($this->once())
@@ -348,7 +348,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
 
         $this->request->expects($this->once())
                       ->method('getSpanSpecificTags')
-                      ->willReturn([ 'call' => 'controller/method' ]);
+                      ->willReturn([ 'name' => 'controller.method' ]);
 
         $this->request->expects($this->once())
                       ->method('get')
@@ -376,7 +376,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
                     ->with($parentSpanID);
 
         $tags = [
-            'call'   => 'controller/method',
+            'name'   => 'controller.method',
             'client' => 'Command Line',
         ];
 
@@ -433,7 +433,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
 
         $this->request->expects($this->once())
                       ->method('getSpanSpecificTags')
-                      ->willReturn([ 'call' => 'controller/method' ]);
+                      ->willReturn([ 'name' => 'controller.method' ]);
 
         $this->eventLogger->expects($this->once())
                           ->method('newEvent')
@@ -455,7 +455,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
                     ->with($parentSpanID);
 
         $tags = [
-            'call'     => 'controller/method',
+            'name'     => 'controller.method',
             'inputKey' => 'input-key',
         ];
 
@@ -513,7 +513,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
 
         $this->request->expects($this->once())
                       ->method('getSpanSpecificTags')
-                      ->willReturn([ 'call' => 'controller/method' ]);
+                      ->willReturn([ 'name' => 'controller.method' ]);
 
         $this->eventLogger->expects($this->once())
                           ->method('newEvent')
@@ -535,7 +535,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
                     ->with($parentSpanID);
 
         $tags = [
-            'call' => 'controller/method',
+            'name' => 'controller.method',
         ];
 
         $this->event->expects($this->once())
@@ -592,7 +592,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
 
         $this->request->expects($this->once())
                       ->method('getSpanSpecificTags')
-                      ->willReturn([ 'call' => 'controller/method' ]);
+                      ->willReturn([ 'name' => 'controller.method' ]);
 
         $this->request->expects($this->once())
                       ->method('get')
@@ -619,7 +619,7 @@ class RequestResultHandlerLogRequestResultTest extends RequestResultHandlerTestC
                     ->with($parentSpanID);
 
         $tags = [
-            'call'     => 'controller/method',
+            'name'     => 'controller.method',
             'client'   => 'Command Line',
             'inputKey' => 'input-key',
         ];

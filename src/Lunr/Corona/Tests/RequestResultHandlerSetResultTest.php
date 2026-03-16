@@ -11,6 +11,7 @@
 namespace Lunr\Corona\Tests;
 
 use Lunr\Corona\HttpCode;
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 
 /**
  * This class contains test methods for the RequestResultHandler class.
@@ -28,13 +29,13 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     public function testSetResultReturnCode(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
+                       ->with('controller.method', HttpCode::NOT_IMPLEMENTED);
 
         $method = $this->getReflectionMethod('setResult');
 
@@ -49,13 +50,13 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     public function testSetResultErrorMessageNull(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
+                       ->with('controller.method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->never())
                        ->method('setResultMessage');
@@ -73,17 +74,17 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     public function testSetResultErrorMessage(): void
     {
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
+                       ->with('controller.method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', 'errmsg');
+                       ->with('controller.method', 'errmsg');
 
         $method = $this->getReflectionMethod('setResult');
 
@@ -98,13 +99,13 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     public function testSetResultErrorInfoNull(): void
     {
         $this->request->expects($this->once())
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
+                       ->with('controller.method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->never())
                        ->method('setResultInfoCode');
@@ -122,17 +123,17 @@ class RequestResultHandlerSetResultTest extends RequestResultHandlerTestCase
     public function testSetResultErrorInfoNotNull(): void
     {
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->once())
                        ->method('setResultCode')
-                       ->with('controller/method', HttpCode::NOT_IMPLEMENTED);
+                       ->with('controller.method', HttpCode::NOT_IMPLEMENTED);
 
         $this->response->expects($this->once())
                        ->method('setResultInfoCode')
-                       ->with('controller/method', 9999);
+                       ->with('controller.method', 9999);
 
         $method = $this->getReflectionMethod('setResult');
 

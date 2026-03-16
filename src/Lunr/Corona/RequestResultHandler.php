@@ -14,6 +14,7 @@ namespace Lunr\Corona;
 use BackedEnum;
 use Lunr\Corona\Exceptions\ClientDataHttpException;
 use Lunr\Corona\Exceptions\HttpException;
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 use Lunr\Ticks\EventLogging\EventLoggerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -168,11 +169,11 @@ class RequestResultHandler
      */
     private function setResult(int $code, ?string $message = NULL, ?int $info = NULL): void
     {
-        $this->response->setResultCode($this->request->call, $code);
+        $this->response->setResultCode($this->request->get(RouteInfoValue::Name), $code);
 
         if ($message !== NULL)
         {
-            $this->response->setResultMessage($this->request->call, $message);
+            $this->response->setResultMessage($this->request->get(RouteInfoValue::Name), $message);
         }
 
         if ($info === NULL)
@@ -180,7 +181,7 @@ class RequestResultHandler
             return;
         }
 
-        $this->response->setResultInfoCode($this->request->call, $info);
+        $this->response->setResultInfoCode($this->request->get(RouteInfoValue::Name), $info);
     }
 
     /**

@@ -13,6 +13,7 @@ namespace Lunr\Corona\Tests;
 use Error;
 use Exception;
 use Lunr\Corona\Exceptions\BadRequestException;
+use Lunr\Corona\Parsers\RouteInfo\RouteInfoValue;
 
 /**
  * This class contains test methods for the RequestResultHandler class.
@@ -33,10 +34,10 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                            ->disableOriginalConstructor()
                            ->getMock();
 
-        $this->request->expects($this->exactly(1))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+        $this->request->expects($this->once())
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -44,7 +45,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 200);
+                       ->with('controller.method', 200);
 
         $controller->expects($this->once())
                    ->method('foo')
@@ -62,10 +63,10 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
     {
         $controller = 'Lunr\Corona\Tests\MockController';
 
-        $this->request->expects($this->exactly(1))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+        $this->request->expects($this->once())
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -73,7 +74,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 200);
+                       ->with('controller.method', 200);
 
         $this->class->handleRequest([ $controller, 'bar' ], [ 1, 2 ]);
     }
@@ -94,13 +95,13 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                    ->will($this->throwException(new BadRequestException('Bad Request!')));
 
         $this->request->expects($this->exactly(3))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 400);
+                       ->with('controller.method', 400);
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -110,7 +111,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', $message);
+                       ->with('controller.method', $message);
 
         $this->class->handleRequest([ $controller, 'foo' ], []);
     }
@@ -133,13 +134,13 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                    ->will($this->throwException($exception));
 
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 500);
+                       ->with('controller.method', 500);
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -149,7 +150,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', $message);
+                       ->with('controller.method', $message);
 
         $this->logger->expects($this->once())
                      ->method('error')
@@ -176,13 +177,13 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                    ->will($this->throwException($exception));
 
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 500);
+                       ->with('controller.method', 500);
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -192,7 +193,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', $message);
+                       ->with('controller.method', $message);
 
         $this->logger->expects($this->once())
                      ->method('error')
@@ -215,10 +216,10 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
         $controller->expects($this->once())
                    ->method('foo');
 
-        $this->request->expects($this->exactly(1))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+        $this->request->expects($this->once())
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -226,7 +227,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 200);
+                       ->with('controller.method', 200);
 
         $this->response->expects($this->never())
                        ->method('setResultMessage');
@@ -245,10 +246,10 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                            ->disableOriginalConstructor()
                            ->getMock();
 
-        $this->request->expects($this->exactly(1))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+        $this->request->expects($this->once())
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -256,7 +257,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 200);
+                       ->with('controller.method', 200);
 
         $controller->expects($this->once())
                    ->method('foo')
@@ -274,10 +275,10 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
     {
         $controller = 'Lunr\Corona\Tests\MockController';
 
-        $this->request->expects($this->exactly(1))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+        $this->request->expects($this->once())
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -285,7 +286,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 200);
+                       ->with('controller.method', 200);
 
         $this->class->handle_request([ $controller, 'bar' ], [ 1, 2 ]);
     }
@@ -306,13 +307,13 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                    ->will($this->throwException(new BadRequestException('Bad Request!')));
 
         $this->request->expects($this->exactly(3))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 400);
+                       ->with('controller.method', 400);
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -322,7 +323,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', $message);
+                       ->with('controller.method', $message);
 
         $this->class->handle_request([ $controller, 'foo' ], []);
     }
@@ -345,13 +346,13 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                    ->will($this->throwException($exception));
 
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 500);
+                       ->with('controller.method', 500);
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -361,7 +362,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', $message);
+                       ->with('controller.method', $message);
 
         $this->logger->expects($this->once())
                      ->method('error')
@@ -388,13 +389,13 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
                    ->will($this->throwException($exception));
 
         $this->request->expects($this->exactly(2))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 500);
+                       ->with('controller.method', 500);
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -404,7 +405,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->once())
                        ->method('setResultMessage')
-                       ->with('controller/method', $message);
+                       ->with('controller.method', $message);
 
         $this->logger->expects($this->once())
                      ->method('error')
@@ -427,10 +428,10 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
         $controller->expects($this->once())
                    ->method('foo');
 
-        $this->request->expects($this->exactly(1))
-                      ->method('__get')
-                      ->with('call')
-                      ->willReturn('controller/method');
+        $this->request->expects($this->once())
+                      ->method('get')
+                      ->with(RouteInfoValue::Name)
+                      ->willReturn('controller.method');
 
         $this->response->expects($this->exactly(1))
                        ->method('hasCustomResultSet')
@@ -438,7 +439,7 @@ class RequestResultHandlerHandleRequestTest extends RequestResultHandlerTestCase
 
         $this->response->expects($this->exactly(1))
                        ->method('setResultCode')
-                       ->with('controller/method', 200);
+                       ->with('controller.method', 200);
 
         $this->response->expects($this->never())
                        ->method('setResultMessage');
